@@ -211,7 +211,7 @@ public class C1SimpleStrategyTest {
 		SignedFormulaCreator sfc = new SignedFormulaCreator("satlfiinconsdef");
 
 		Problem p = sfc
-				.parseFile("/home/adolfo/Software/KEMS_eclipse_workspace_3.4/kems.problems/problems/"
+				.parseFile("../kems.problems/problems/"
 						+ problemFileName);
 
 		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.C1));
@@ -222,16 +222,16 @@ public class C1SimpleStrategyTest {
 
 		Proof result = prover.prove(p);
 
-//		System.out.println("Problem:" + result.getProblem().getFilename());
-//		System.out.println("Problem s-formulas:" + result.getProblem().getFormulas());
-//		System.out.println(result.getProofTree());
+		System.out.println("Problem:" + result.getProblem().getFilename());
+		System.out.println("Problem s-formulas:" + result.getProblem().getFormulas());
+		System.out.println(result.getProofTree());
 
-		// System.out.println(result);
+		 System.out.println(result);
 		if (expected) {
 			if (!result.isClosed()) {
-//				System.out.println("Problem:" + result.getProblem().getFilename());
-//				System.out.println("Problem s-formulas:" + result.getProblem().getFormulas());
-//				System.out.println(result.getProofTree());
+				System.out.println("Problem:" + result.getProblem().getFilename());
+				System.out.println("Problem s-formulas:" + result.getProblem().getFormulas());
+				System.out.println(result.getProofTree());
 			}
 			assertTrue(result.isClosed());
 		} else {
@@ -240,9 +240,8 @@ public class C1SimpleStrategyTest {
 		if (expectedNumberOfNodes != -1) {
 			assertTrue(result.getProofTree().getNumberOfNodes() == expectedNumberOfNodes);
 		} else {
-//			System.out.print("Size of proof of " + problemFileName + ": ");
-//			System.out.println(result.getProofTree().getNumberOfNodes());
-
+			System.out.print("Size of proof of " + problemFileName + ": ");
+			System.out.println(result.getProofTree().getNumberOfNodes());
 		}
 
 	}

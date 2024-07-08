@@ -18,7 +18,7 @@ import main.proofTree.iterator.ProofTreeGlobalIterator;
 import main.proofTree.iterator.ProofTreeLocalIterator;
 import main.proofTree.iterator.ProofTreeTopDownGlobalIterator;
 
-// import org.jdom.Element;
+// import org.jdom2.Element;
 
 /**
  * Class that represents proof trees that are built by a tableau method when

@@ -331,7 +331,7 @@ public class ProverInterface extends JFrame implements ActionListener {
 	 * Loads a properties file.
 	 */
 	private void loadProperties() {
-		String propertiesFilename = "application.properties";
+		String propertiesFilename = "kems.prover/application.properties";
 
 		properties = new Properties();
 		try {
@@ -784,7 +784,7 @@ public class ProverInterface extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) throws Throwable {
 
-		File f = new File("log4j.properties");
+		File f = new File("kems.prover/log4j.properties");
 
 		if (f.exists()) {
 			// System.err.println("log4j.properties exists");

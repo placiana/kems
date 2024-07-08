@@ -4,7 +4,7 @@
  */
 package main.proofTree;
 
-//import org.jdom.Element;
+//import org.jdom2.Element;
 
 /**
  * @author Adolfo Gustavo Serra Seca Neto

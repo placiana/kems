@@ -148,7 +148,7 @@ public class ProofViewer extends JFrame implements ActionListener,
 	 * Initialize attributes
 	 */
 	private void initialize() {
-		fontSize = 25;
+		fontSize = 16;
 		textFont = new Font("Roman", Font.BOLD, fontSize);
 		maxStringLength = 80;
 		paneSize = new Dimension(300, 1600);
@@ -158,7 +158,7 @@ public class ProofViewer extends JFrame implements ActionListener,
 		// TODO make structuredProofPane also use it
 		// PESSIMA PROGRAMACAO: a ordem importa!!!
 		mouseListener = new ProofViewerMouseListener(this);
-		fullViewProofPane = new FullViewProofPane(this, 200, 400);
+		fullViewProofPane = new FullViewProofPane(this, 800, 400);
 		mouseListener.setCheckBoxesInitialState();
 		parametersPanel = new ParametersPanel(this);
 	}

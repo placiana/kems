@@ -8,7 +8,7 @@ import logic.signedFormulas.SignedFormula;
 import main.proofTree.origin.IOrigin;
 import main.proofTree.origin.NamedOrigin;
 
-//import org.jdom.Element;
+//import org.jdom2.Element;
 
 /**
  * @author Adolfo Gustavo Serra Seca Neto

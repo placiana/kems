@@ -78,7 +78,7 @@ public class C1RuleStructures {
 		_rules.add(ONE_PREMISE_RULES, onePremiseRules);
 		_rules.add(TWO_PREMISE_RULES, twoPremiseRules);
 		_rules.add(THREE_PREMISE_RULES, threePremiseRules);
-		// _rules.add(SPECIAL_TWO_PREMISE_RULES, specialTwoPremiseRules);
+		_rules.add(SPECIAL_TWO_PREMISE_RULES, specialTwoPremiseRules);
 		_rules.add(PB_RULES, PBRules);
 		_rules.add(SPECIAL_PB_RULES, specialPBRules);
 		_rules.add(THIRD_PB_RULES, thirdPBRules);

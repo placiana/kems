@@ -8,7 +8,7 @@ import logic.problem.Problem;
 import main.proofTree.IProofTree;
 import main.proofTree.ProofTree;
 
-//import org.jdom.Element;
+//import org.jdom2.Element;
 
 /**
  * 

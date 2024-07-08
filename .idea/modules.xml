@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/kems.bin.iml" filepath="$PROJECT_DIR$/kems.bin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kems.export.iml" filepath="$PROJECT_DIR$/kems.export.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kems.ext.lib.iml" filepath="$PROJECT_DIR$/kems.ext.lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kems.generated.lib.iml" filepath="$PROJECT_DIR$/kems.generated.lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kems.problems.iml" filepath="$PROJECT_DIR$/kems.problems.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kems.prover.iml" filepath="$PROJECT_DIR$/kems.prover.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kems.tests.iml" filepath="$PROJECT_DIR$/kems.tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/old.kems.iml" filepath="$PROJECT_DIR$/old.kems.iml" />
+    </modules>
+  </component>
+</project>

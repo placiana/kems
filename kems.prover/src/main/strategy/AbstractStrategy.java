@@ -23,7 +23,7 @@ import main.proofTree.ProofTree;
 import main.proofTree.SignedFormulaNode;
 import main.proofTree.SignedFormulaNodeState;
 import main.proofTree.iterator.ProofTreeGlobalIterator;
-import main.proofTree.origin.Origin;
+import main.proofTree.origin.IOrigin;
 import main.strategy.memorySaver.ReferenceFinder;
 import main.tableau.Method;
 import rules.KERuleRole;
@@ -34,7 +34,6 @@ import rules.structures.ConnectiveRoleSignRuleList;
 import rules.structures.OnePremiseRuleList;
 import rules.structures.PBRuleList;
 import rules.structures.TopBottomRoleRuleList;
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 import main.exceptions.KEMSException;
 
 /**
@@ -104,7 +103,7 @@ public abstract class AbstractStrategy extends Strategy {
 	 * @param auxiliary
 	 * @return the origin object
 	 */
-	protected abstract Origin createOrigin(Rule rule, SignedFormulaNode main,
+	protected abstract IOrigin createOrigin(Rule rule, SignedFormulaNode main,
 			SignedFormulaNode auxiliary);
 
 	/**
@@ -118,8 +117,8 @@ public abstract class AbstractStrategy extends Strategy {
 	 */
 	protected final void initialPBCandidatesActions(
 			ClassicalProofTree thisProofTree) {
-		thisProofTree.removeFromPBCandidates(0);
-		thisProofTree.removeFromPBCandidates(0);
+//		thisProofTree.removeFromPBCandidates(0);
+//		thisProofTree.removeFromPBCandidates(0);
 	}
 
 	/**
@@ -338,7 +337,6 @@ public abstract class AbstractStrategy extends Strategy {
 	/**
 	 * @param s
 	 * @param sfb
-	 * @param PBRules
 	 * @param candidates
 	 * @return
 	 */
@@ -384,7 +382,7 @@ public abstract class AbstractStrategy extends Strategy {
 								.getFormula());
 
 //				System.err.println("cand opp "+auxOpposite);
-		// TODO verificar se conclusão já está na ProofTree
+		// TODO verificar se conclusï¿½o jï¿½ estï¿½ na ProofTree
 		SignedFormulaList sfl = new SignedFormulaList(candidateChosen);
 		sfl.add(aux);
 		SignedFormula conclusion = r.getPossibleConclusions(

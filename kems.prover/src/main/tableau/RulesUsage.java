@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 import rules.Rule;
 

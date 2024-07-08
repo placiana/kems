@@ -9,7 +9,7 @@ import main.proofTree.iterator.IProofTreeBackwardNodeIterator;
 import main.proofTree.iterator.IProofTreeBasicIterator;
 import main.proofTree.iterator.IProofTreeVeryBasicIterator;
 
-//import org.jdom.Element;
+//import org.jdom2.Element;
 
 /**
  * [CLASS_DESCRIPTION] 
