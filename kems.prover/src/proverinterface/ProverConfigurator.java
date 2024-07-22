@@ -99,13 +99,15 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 
 	private JComboBox timeLimitCombo;
 
-	private static final String CPL_LOGIC = "Classical Propositional Logic";
+	private static final String CPL_LOGIC = "CPL - Classical Propositional Logic";
 
 	private static final String MBC_LOGIC = "mbC - A Propositional Logic of Formal Inconcistency";
 
 	private static final String MCI_LOGIC = "mCi - Another Propositional Logic of Formal Inconcistency";
 
 	private static final String C1_LOGIC = "C1 - A Propositional Paraconsistent Logic";
+
+	private static final String IPL_LOGIC = "IPL - Intuitionistic Propositional Logic";
 
 	private static final String SATS5_PARSER = "sats5";
 
@@ -114,6 +116,8 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 	private static final String SATCNF_PARSER = "satcnf2";
 
 	private static final String SATLFIINCONSDEF_PARSER = "satlfiinconsdef";
+
+	private static final String IPL_PARSER = "ipl";
 
 	private static final String[] EMPTY_LIST = new String[] { "Empty prover configuration list" };
 
@@ -144,8 +148,12 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 	private static final String[] C1_STRATEGY_NAMES = new String[] { C1SimpleStrategy.class
 			.getName() };
 
-	private static final String[] LOGIC_NAMES = new String[] { CPL_LOGIC,
-			MBC_LOGIC, MCI_LOGIC, C1_LOGIC };
+	private static final String[] IPL_STRATEGY_NAMES = new String[] {
+			SimpleStrategy.class.getName(),
+	};
+
+	private static final String[] LOGIC_NAMES = new String[] { CPL_LOGIC, IPL_LOGIC };
+//			MBC_LOGIC, MCI_LOGIC, C1_LOGIC, IPL_LOGIC };
 
 	private final Map<String, String> strategyMap;
 
@@ -594,13 +602,12 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 				setCPLAsCurrentLogicOption();
 			} else if (logicNameCombo.getSelectedItem().equals(MBC_LOGIC)) {
 				setMBCAsCurrentLogicOption();
-			} else {
-				if (logicNameCombo.getSelectedItem().equals(MCI_LOGIC)) {
-					setMCIAsCurrentLogicOption();
-				} else if (logicNameCombo.getSelectedItem().equals(C1_LOGIC)) {
-					setC1AsCurrentLogicOption();
-				}
-
+			} if (logicNameCombo.getSelectedItem().equals(MCI_LOGIC)) {
+				setMCIAsCurrentLogicOption();
+			} else if (logicNameCombo.getSelectedItem().equals(C1_LOGIC)) {
+				setC1AsCurrentLogicOption();
+			} else if (logicNameCombo.getSelectedItem().equals(IPL_LOGIC)) {
+				setIPLAsCurrentLogicOption();
 			}
 		}
 	}
@@ -614,6 +621,17 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 				getSimpleNames(CPL_STRATEGY_NAMES)));
 		rulesStructureNameCombo
 				.setSelectedItem(RuleStructureFactory.CPL_CONFIGURABLE);
+	}
+
+	private void setIPLAsCurrentLogicOption() {
+		parsingLibNameCombo.setModel(new DefaultComboBoxModel(new String[] {
+				IPL_PARSER }));
+		parsingLibNameCombo.setSelectedItem(IPL_PARSER);
+		strategyNameCombo.invalidate();
+		strategyNameCombo.setModel(new DefaultComboBoxModel(
+				getSimpleNames(IPL_STRATEGY_NAMES)));
+		rulesStructureNameCombo
+				.setSelectedItem(RuleStructureFactory.IPL);
 	}
 
 	private void setMBCAsCurrentLogicOption() {
@@ -650,10 +668,8 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 		String[] newStrategyNames = new String[strategyNames.length];
 
 		for (int i = 0; i < strategyNames.length; i++) {
-
 			newStrategyNames[i] = getSimpleName(strategyNames[i].toString());
 			strategyMap.put(newStrategyNames[i], strategyNames[i]);
-
 		}
 
 		return newStrategyNames;
