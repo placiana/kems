@@ -1,5 +1,5 @@
 *.class 
 kems.prover/bin/
-kems.prover/log.txt
-*~
 .metadata/*
+log.txt
+.DS_Store
