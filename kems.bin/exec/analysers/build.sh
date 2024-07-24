@@ -5,10 +5,10 @@ echo "KEMS Prover Build System"
 echo "---------------------------"
 echo
 
-if [ "$JAVA_HOME" = "" ] ; then
-  echo "ERROR: JAVA_HOME not found in your environment."
+if [ "$JAVA_HOME_KEMS" = "" ] ; then
+  echo "ERROR: JAVA_HOME_KEMS not found in your environment."
   echo
-  echo "Please, set the JAVA_HOME variable in your environment to match the"
+  echo "Please, set the JAVA_HOME_KEMS variable in your environment to match the"
   echo "location of the Java Virtual Machine you want to use."
   exit 1
 fi
@@ -29,7 +29,7 @@ else
   PS=":"
 fi
 
-LOCALCLASSPATH=${JAVA_HOME}/lib/tools.jar${PS}$KEMS_HOME/kems.bin/lib/ant.jar${PS}$KEMS_HOME/kems.bin/lib/optional.jar${PS}
+LOCALCLASSPATH=${JAVA_HOME_KEMS}/lib/tools.jar${PS}$KEMS_HOME/kems.bin/lib/ant.jar${PS}$KEMS_HOME/kems.bin/lib/optional.jar${PS}
 ANT_HOME=$KEMS_HOME/kems.bin/lib
 
 
@@ -39,4 +39,4 @@ echo
 echo Starting Ant...
 echo
 
-$JAVA_HOME/bin/java -Dant.home=$ANT_HOME -classpath $LOCALCLASSPATH${PS} org.apache.tools.ant.Main $*
+$JAVA_HOME_KEMS -Dant.home=$ANT_HOME -classpath $LOCALCLASSPATH${PS} org.apache.tools.ant.Main $*

@@ -614,7 +614,7 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 
 	private void setCPLAsCurrentLogicOption() {
 		parsingLibNameCombo.setModel(new DefaultComboBoxModel(new String[] {
-				SATS5_PARSER, SATCNF_PARSER }));
+				SATS5_PARSER, SATCNF_PARSER, IPL_PARSER }));
 		parsingLibNameCombo.setSelectedItem(SATS5_PARSER);
 		strategyNameCombo.invalidate();
 		strategyNameCombo.setModel(new DefaultComboBoxModel(
@@ -761,10 +761,10 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 		pc.setStrategyFullClassName(findClassName(getStrategyName()));
 		pc.setFirstParsingLibName(getFirstParsingLibName());
 
-		if (getFirstParsingLibName().equals(SATCNF_PARSER)) {
-			pc.setTwoPhasesParserOption(false);
-		} else {
+		if (getFirstParsingLibName().equals(SATS5_PARSER)) {
 			pc.setTwoPhasesParserOption(true);
+		} else {
+			pc.setTwoPhasesParserOption(false);
 		}
 
 		pc.setRulesStructureName(getRulesStructureName());

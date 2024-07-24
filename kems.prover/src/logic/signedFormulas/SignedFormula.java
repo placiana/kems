@@ -19,9 +19,18 @@ public class SignedFormula implements  Comparable<SignedFormula>{
 
     Formula _formula;
 
+    FormulaLabel _label;
+
     protected SignedFormula(FormulaSign sign, Formula formula) {
         _sign = sign;
         _formula = formula;
+        _label = FormulaLabel.empty();
+    }
+
+    protected SignedFormula(FormulaSign sign, Formula formula, FormulaLabel label) {
+        _sign = sign;
+        _formula = formula;
+        _label = label;
     }
 
     /**
@@ -44,8 +53,8 @@ public class SignedFormula implements  Comparable<SignedFormula>{
      * @param f
      * @return
      */
-    public static String toString(FormulaSign fs, Formula f) {
-        return fs.toString() + " " + f.toString();
+    public static String toString(FormulaSign fs, Formula f, FormulaLabel fl) {
+        return fs.toString() + " " + f.toString() + " " + fl.toString();
     }
 
     /*
@@ -54,7 +63,7 @@ public class SignedFormula implements  Comparable<SignedFormula>{
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return toString(_sign, _formula);
+        return toString(_sign, _formula, _label);
     }
 
     /* (non-Javadoc)
@@ -79,7 +88,8 @@ public class SignedFormula implements  Comparable<SignedFormula>{
 
         // now a proper field-by-field evaluation can be made
         return EqualsUtil.areEqual(this._sign, that._sign)
-                && EqualsUtil.areEqual(this._formula, that._formula);
+                && EqualsUtil.areEqual(this._formula, that._formula)
+                && EqualsUtil.areEqual(this._label, that._label);
     }
     
     
@@ -112,4 +122,7 @@ public class SignedFormula implements  Comparable<SignedFormula>{
 	}
 
 
+    public FormulaLabel getLabel() {
+        return _label;
+    }
 }

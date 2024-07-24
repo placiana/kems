@@ -73,8 +73,10 @@ public class CommandLineRunner {
 	private static final String COMPARATORS_KEYWORD = "comparators";
 
 	private static final String RUN_KEYWORD = "run";
+	private static final String SATS5 = "sats5";
+//	private static final String SATCNF2 = "satcnf2";
 
-	private static final String SATCNF2 = "satcnf2";
+//	private static final String IPL = "ipl";
 
 	public static final long TIME_LIMIT_INCREASE = 1000l;
 
@@ -278,10 +280,10 @@ public class CommandLineRunner {
 				if (command.startsWith(PARSER_KEYWORD)) {
 					pc.setFirstParsingLibName(getValueFor(command,
 							PARSER_KEYWORD));
-					if (pc.getFirstParsingLibName().equals(SATCNF2)) {
-						pc.setTwoPhasesParserOption(false);
-					} else {
+					if (pc.getFirstParsingLibName().equals(SATS5)) {
 						pc.setTwoPhasesParserOption(true);
+					} else {
+						pc.setTwoPhasesParserOption(false);
 					}
 				} else if (command.startsWith(SAVE_ORIGIN_KEYWORD)) {
 					pc.setSaveOrigin(Boolean.parseBoolean(getValueFor(command,
@@ -611,10 +613,10 @@ public class CommandLineRunner {
 				+ TIME_LIMIT_INCREASE);
 		it.remove();
 
-		if (pc.getFirstParsingLibName().equals(SATCNF2)) {
-			pc.setTwoPhasesParserOption(false);
-		} else {
+		if (pc.getFirstParsingLibName().equals(SATS5)) {
 			pc.setTwoPhasesParserOption(true);
+		} else {
+			pc.setTwoPhasesParserOption(false);
 		}
 
 		return pc;

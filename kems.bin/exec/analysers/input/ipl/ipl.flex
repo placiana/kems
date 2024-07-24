@@ -1,4 +1,4 @@
-package sats5;
+package ipl;
 import java_cup.runtime.*;
 
 %%
@@ -14,7 +14,7 @@ import java_cup.runtime.*;
 
   What to change (in case you want to change the file format):
 	name of the parser and of the symbols class
-	  - sats5Lexer, sats5sym (several references!)
+	  - iplLexer, iplsym (several references!)
       productions and states (obviously)
 
   How to produce the lexer:
@@ -25,14 +25,14 @@ import java_cup.runtime.*;
 
   	which will create the following file:
 
-	  	sats5Lexer.java
+	  	iplLexer.java
 
 
 
 */
 
 /* Name of the parser class to be generated */
-%class sats5Lexer
+%class iplLexer
 %public
 %line
 %column
@@ -54,7 +54,7 @@ import java_cup.runtime.*;
 
 
 %eofval{
-  return symbol(sats5sym.EOF);
+  return symbol(iplsym.EOF);
 %eofval}
 
 LineTerminator = \r|\n|\r\n
@@ -79,7 +79,7 @@ Inconsistency = "#"
 
 	{Sign}  			{
 	  						yybegin(FORMULA);
-						   	return symbol(sats5sym.SIGN, yytext());
+						   	return symbol(iplsym.SIGN, yytext());
 						}
 
 }
@@ -87,24 +87,24 @@ Inconsistency = "#"
 
     {LineTerminator}      {
     						yybegin(YYINITIAL);
-    						return symbol(sats5sym.EOL);
+    						return symbol(iplsym.EOL);
 	    				   }
 
-    {Biimplies}        { return symbol(sats5sym.BIIMPLIES); }
-    {Implies}          { return symbol(sats5sym.IMPLIES); }
-    {Xor}              { return symbol(sats5sym.XOR); }
-    "-"                { return symbol(sats5sym.NEG); }
-    "*"                { return symbol(sats5sym.AND); }
-    "+"                { return symbol(sats5sym.OR); }
-    "("                { return symbol(sats5sym.LPAREN); }
-    ")"                { return symbol(sats5sym.RPAREN); }
-    {Top}              { return symbol(sats5sym.TOP); }
-    {Bottom}           { return symbol(sats5sym.BOTTOM); }
-    {Consistency}      { return symbol(sats5sym.CONSISTENCY); }
-    {Inconsistency}      { return symbol(sats5sym.INCONSISTENCY); }
+    {Biimplies}        { return symbol(iplsym.BIIMPLIES); }
+    {Implies}          { return symbol(iplsym.IMPLIES); }
+    {Xor}              { return symbol(iplsym.XOR); }
+    "-"                { return symbol(iplsym.NEG); }
+    "*"                { return symbol(iplsym.AND); }
+    "+"                { return symbol(iplsym.OR); }
+    "("                { return symbol(iplsym.LPAREN); }
+    ")"                { return symbol(iplsym.RPAREN); }
+    {Top}              { return symbol(iplsym.TOP); }
+    {Bottom}           { return symbol(iplsym.BOTTOM); }
+    {Consistency}      { return symbol(iplsym.CONSISTENCY); }
+    {Inconsistency}      { return symbol(iplsym.INCONSISTENCY); }
     
 
-    {String}           { return symbol (sats5sym.STRING, yytext());}
+    {String}           { return symbol (iplsym.STRING, yytext());}
 
     {WhiteSpace}       { /* just skip what was found, do nothing */ }
 

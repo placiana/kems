@@ -22,7 +22,7 @@ import proverinterface.proofviewer.CloseSignedFormula;
  */
 public class SignedFormulaFactory {
 
-    Map<String,SignedFormula> _signedFormulas;
+    Map<String, SignedFormula> _signedFormulas;
 
     SignedFormula _lastSignedFormulaAdded = null;
 
@@ -42,18 +42,19 @@ public class SignedFormulaFactory {
     }
 
     public SignedFormula createSignedFormula(FormulaSign sign, Formula formula) {
-        if (_signedFormulas.containsKey(SignedFormula.toString(sign, formula))) {
-            return (SignedFormula) _signedFormulas.get(SignedFormula.toString(
-                    sign, formula));
+        return createSignedFormula(sign, formula, FormulaLabel.empty());
+    }
+
+    public SignedFormula createSignedFormula(FormulaSign sign, Formula formula, FormulaLabel formulaLabel) {
+        if (_signedFormulas.containsKey(SignedFormula.toString(sign, formula, formulaLabel))) {
+            return _signedFormulas.get(SignedFormula.toString(sign, formula, formulaLabel));
         }
 
         SignedFormula sf;
-        _signedFormulas.put(SignedFormula.toString(sign, formula),
-                sf = new SignedFormula(sign, formula));
+        _signedFormulas.put(SignedFormula.toString(sign, formula, formulaLabel),
+        sf = new SignedFormula(sign, formula));
 
         _lastSignedFormulaAdded = sf;
-
-        //        formula.addSignedCounterpart(sf);
 
         return sf;
     }
@@ -65,10 +66,9 @@ public class SignedFormulaFactory {
             return this.createSignedFormula(sf.getSign(), sf.getFormula());
     }
 
-    public SignedFormula cloneSignedFormula(FormulaSign fs, Formula f) {
-        if (this.getSignedFormulas().containsKey(SignedFormula.toString(fs, f))) {
-            return (SignedFormula) this.getSignedFormulas().get(
-                    SignedFormula.toString(fs, f));
+    public SignedFormula cloneSignedFormula(FormulaSign fs, Formula f, FormulaLabel fl) {
+        if (this.getSignedFormulas().containsKey(SignedFormula.toString(fs, f, fl))) {
+            return this.getSignedFormulas().get(SignedFormula.toString(fs, f, fl));
         } else
             return this.createSignedFormula(fs, f);
     }
@@ -82,10 +82,11 @@ public class SignedFormulaFactory {
             if (!this.getSignedFormulas().containsKey(l.get(i))) {
                 this.getSignedFormulas().put(
                         l.get(i).toString(),
-                        this.cloneSignedFormula(((SignedFormula) (sff
-                                .getSignedFormulas().get(l.get(i)))).getSign(),
-                                ((SignedFormula) (sff.getSignedFormulas().get(l
-                                        .get(i)))).getFormula().clone(ff)));
+                        this.cloneSignedFormula(
+                            sff.getSignedFormulas().get(l.get(i)).getSign(),
+                            sff.getSignedFormulas().get(l.get(i)).getFormula().clone(ff),
+                            sff.getSignedFormulas().get(l.get(i)).getLabel()
+                        ));
             }
         }
     }
@@ -117,14 +118,13 @@ public class SignedFormulaFactory {
      * @return
      */
     public SignedFormula createCloseSignedFormula(FormulaSign sign, Formula formula) {
-            if (_signedFormulas.containsKey(SignedFormula.toString(sign, formula))) {
-                return (SignedFormula) _signedFormulas.get(SignedFormula.toString(
-                        sign, formula));
+            if (_signedFormulas.containsKey(SignedFormula.toString(sign, formula, FormulaLabel.empty()))) {
+                return _signedFormulas.get(SignedFormula.toString(sign, formula, FormulaLabel.empty()));
             }
 
             SignedFormula sf;
-            _signedFormulas.put(SignedFormula.toString(sign, formula),
-                    sf = new CloseSignedFormula(sign, formula));
+            _signedFormulas.put(SignedFormula.toString(sign, formula, FormulaLabel.empty()),
+            sf = new CloseSignedFormula(sign, formula));
 
             _lastSignedFormulaAdded = sf;
 

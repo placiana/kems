@@ -8,6 +8,7 @@
     <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/satcnf2.jar!/" />
     <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/satlfiinconsdef.jar!/" />
     <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/sats5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/ipl.jar!/" />
     <conelement value="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER" />
     <src_description expected_position="0">
       <src_folder value="file://$MODULE_DIR$/kems.prover/src" expected_position="0" />
@@ -83,6 +84,15 @@
       <library name="sats5.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/kems.generated.lib/generated/sats5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ipl.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/kems.generated.lib/generated/ipl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

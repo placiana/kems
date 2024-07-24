@@ -1,31 +1,12 @@
 /*
-
-  Adolfo Gustavo Serra Seca Neto, December 2004
-  Syntactical analyser for classical propositional logic formulas
+  Syntactical analyser for intuitionistic propositional logic formulas
   SATLIB format with signs, implication, biimplication and without headers
 
-  This is sats for the new formula and signed formula classes.
-
-  What to change (in case you want to change the file format):
-	name of the parser and of the symbols class
-	  - sats5Lexer, sats5sym (several references!)
-      productions and states (obviously)
-
   How to produce the parser:
-
-  - Run the command:
-
-  	java java_cup.Main -parser sats5Parser -symbols sats5sym satlib-sat-s5.cup
-
-  	which will create the following files:
-
-	  	sats5Parser.java
-  		sats5sym.java
-
+  - Run the command: kems.bin/exec/analysers/bin/ipl.sh
 */
 
-
-package sats5;
+package ipl;
 import logic.formulas.*;
 import logic.signedFormulas.*;
 import logicalSystems.classicalLogic.*;
@@ -134,20 +115,16 @@ action code {:
     }
 
 
-	public SignedFormula createSignedFormula (SignedFormulaFactory sff,
-			String sign, Formula f){
-
+	public SignedFormula createSignedFormula (SignedFormulaFactory sff,String sign, Formula f) {
     	FormulaSign fs;
 
     	if (sign.equals("T")){
     		fs = ClassicalSigns.TRUE;
-    	}
-    	else if (sign.equals("F")){
+    	} else if (sign.equals("F")){
     		fs = ClassicalSigns.FALSE;
-    	}
-    	else { 	// Error
-	    		fs = ClassicalSigns.FALSE;
-   		        System.exit(1);
+    	} else { 	// Error
+            fs = ClassicalSigns.FALSE;
+            System.exit(1);
     	}
 
 		return sff.createSignedFormula (fs, f);
