@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
-    <libelement value="jar://$MODULE_DIR$/kems.ext.lib/ext/log4j-1.2.12.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/kems.ext.lib/ext/java_cup.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/kems.ext.lib/ext/JFlex.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/cw.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/satcnf2.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/satlfiinconsdef.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/sats5.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/kems.generated.lib/generated/ipl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/ext/log4j-1.2.12.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/ext/java_cup.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/ext/JFlex.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/generated/cw.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/generated/satcnf2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/generated/satlfiinconsdef.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/generated/sats5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/kems.export/lib/generated/ipl.jar!/" />
     <conelement value="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER" />
     <src_description expected_position="0">
       <src_folder value="file://$MODULE_DIR$/kems.prover/src" expected_position="0" />
@@ -29,7 +29,7 @@
     <orderEntry type="module-library">
       <library name="log4j-1.2.12.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.ext.lib/ext/log4j-1.2.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/ext/log4j-1.2.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -38,7 +38,7 @@
     <orderEntry type="module-library">
       <library name="java_cup.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.ext.lib/ext/java_cup.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/ext/java_cup.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -47,7 +47,7 @@
     <orderEntry type="module-library">
       <library name="JFlex.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.ext.lib/ext/JFlex.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/ext/JFlex.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -56,7 +56,7 @@
     <orderEntry type="module-library">
       <library name="cw.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.generated.lib/generated/cw.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/generated/cw.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -65,7 +65,7 @@
     <orderEntry type="module-library">
       <library name="satcnf2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.generated.lib/generated/satcnf2.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/generated/satcnf2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -74,7 +74,7 @@
     <orderEntry type="module-library">
       <library name="satlfiinconsdef.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.generated.lib/generated/satlfiinconsdef.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/generated/satlfiinconsdef.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -83,7 +83,7 @@
     <orderEntry type="module-library">
       <library name="sats5.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.generated.lib/generated/sats5.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/generated/sats5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -92,7 +92,7 @@
     <orderEntry type="module-library">
       <library name="ipl.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/kems.generated.lib/generated/ipl.jar!/" />
+          <root url="jar://$MODULE_DIR$/kems.export/lib/generated/ipl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

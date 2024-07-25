@@ -68,6 +68,7 @@ Top = "TOP"
 Bottom = "BOT"
 Consistency = "@"
 Inconsistency = "#"
+Label = ("c"|"x")[0-9]+
 
 
 %state FORMULA
@@ -101,7 +102,8 @@ Inconsistency = "#"
     {Top}              { return symbol(iplsym.TOP); }
     {Bottom}           { return symbol(iplsym.BOTTOM); }
     {Consistency}      { return symbol(iplsym.CONSISTENCY); }
-    {Inconsistency}      { return symbol(iplsym.INCONSISTENCY); }
+    {Inconsistency}    { return symbol(iplsym.INCONSISTENCY); }
+    {Label}            { return symbol(iplsym.LABEL, yytext()); }
     
 
     {String}           { return symbol (iplsym.STRING, yytext());}

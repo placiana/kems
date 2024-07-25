@@ -3,3 +3,4 @@ kems.prover/bin/
 .metadata/*
 log.txt
 .DS_Store
+/kems.bin/exec/analysers/output/

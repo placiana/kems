@@ -16,3 +16,4 @@ cd $KEMS_HOME/kems.bin/exec/analysers/
 
 ./build.sh makejar -Danalyser.dir=ipl -Djar.file=ipl.jar -Danalyser.files=ipl
 
+cp $KEMS_HOME/kems.bin/exec/analysers/output.jars/ipl.jar $KEMS_HOME/kems.export/lib/generated/ipl.jar

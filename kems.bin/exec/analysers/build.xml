@@ -18,7 +18,7 @@
   <property name="ext.lib.dir" value="${KEMS_HOME.dir}/kems.ext.lib/ext"/>
   <property name="jflex.jar" value="${ext.lib.dir}/JFlex.jar"/>
   <property name="cup.jar" value="${ext.lib.dir}/java_cup.jar"/>
-  <property name="logicJarName" value="logic"/>
+  <property name="logicJarName" value="logic-new"/>
   <property name="logic.jar" value="${lib.dir}/${logicJarName}.jar"/>
   <property name="output.jars.dir" value="${KEMS_HOME.dir}/kems.bin/exec/analysers/output.jars"/>
 
@@ -66,14 +66,12 @@
 
          <javac srcdir="${analysers.input.dir}/${analyser.dir}"
                     includes="${analyser.files}*.java"
-               destdir="${analysers.output.dir}/${analyser.dir}"
-    >          
+               destdir="${analysers.output.dir}/${analyser.dir}">
        <classpath refid="compile.class.path"/>
   </javac>
          <javac srcdir="${analysers.output.dir}/${analyser.dir}"
                     includes="${analyser.files}*.java"
-               destdir="${analysers.output.dir}/${analyser.dir}"
-  >
+               destdir="${analysers.output.dir}/${analyser.dir}">
        <classpath refid="compile.class.path"/>
        </javac>
 

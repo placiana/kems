@@ -152,7 +152,7 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 			SimpleStrategy.class.getName(),
 	};
 
-	private static final String[] LOGIC_NAMES = new String[] { CPL_LOGIC, IPL_LOGIC };
+	private static final String[] LOGIC_NAMES = new String[] { IPL_LOGIC, CPL_LOGIC };
 //			MBC_LOGIC, MCI_LOGIC, C1_LOGIC, IPL_LOGIC };
 
 	private final Map<String, String> strategyMap;
@@ -202,7 +202,7 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 
 		createSelectionListAreaAndEnvolvingPanel(panel);
 
-		setCPLAsCurrentLogicOption();
+		setIPLAsCurrentLogicOption(); //setCPLAsCurrentLogicOption();
 
 		this.pack();
 	}

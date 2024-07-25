@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="logic-new">
+    <output-path>$PROJECT_DIR$/kems.bin/lib</output-path>
+    <root id="archive" name="logic-new.jar">
+      <element id="module-output" name="kems.prover" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/ext/java_cup.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/generated/sats5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/generated/cw.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/generated/satlfiinconsdef.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/ext/log4j-1.2.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/ext/JFlex.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jdom/jdom2/2.0.6.1/jdom2-2.0.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/aspectj/aspectjrt/1.9.22.1/aspectjrt-1.9.22.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/generated/ipl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/junit/junit/4.13.1/junit-4.13.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/aspectj/aspectjtools/1.9.22.1/aspectjtools-1.9.22.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/kems.export/lib/generated/satcnf2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
