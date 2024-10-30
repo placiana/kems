@@ -19,11 +19,11 @@ import util.Messages;
  */
 public final class MBCConnectives {
 
-	// Não podem ser diferentes senão dá problema nas regras iguais
+	// Nï¿½o podem ser diferentes senï¿½o dï¿½ problema nas regras iguais
 //    public static Connective NOT = new Connective(
 //            Messages.getString("MBCConnectives.Not"), Arity.UNARY); //$NON-NLS-1$
 //
-//    public static Connective AND = new Connective(
+//    public static Connective AND = new Connective( 
 //            Messages.getString("MBCConnectives.And"), Arity.BINARY); //$NON-NLS-1$
 //
 //    public static Connective OR = new Connective(

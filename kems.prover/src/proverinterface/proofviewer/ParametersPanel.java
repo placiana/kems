@@ -151,7 +151,7 @@ public class ParametersPanel extends JPanel implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
 
-        // por enquanto só um
+        // por enquanto sï¿½ um
         try {
             proofViewer.actionPerformed(e);
             int possibleStep = Integer.parseInt(stepTextField.getText());

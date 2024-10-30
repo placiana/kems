@@ -64,9 +64,9 @@ public class ConfigurableTwoPremiseRuleApplicator implements IRuleApplicator {
 	 */
 	public boolean applyAll(ClassicalProofTree current, SignedFormulaBuilder sfb) {
 		// faz o seguinte:
-		// para cada main, procurar referências a um dos dois possíveis
+		// para cada main, procurar referï¿½ncias a um dos dois possï¿½veis
 		// auxiliary candidates
-		// se encontrar, então aplicar
+		// se encontrar, entï¿½o aplicar
 		boolean hasApplied = false;
 
 		ConnectiveRoleSignRuleList twoPremiseRules = (ConnectiveRoleSignRuleList) strategy
@@ -80,7 +80,7 @@ public class ConfigurableTwoPremiseRuleApplicator implements IRuleApplicator {
 
 		SignedFormula mainCandidate;
 
-		// TODO É ISSO MESMO?
+		// TODO ï¿½ ISSO MESMO?
 		initializeMainCandidates(current, null);
 
 		while ((mainCandidate = nextMainCandidate(strategy.getProofTree(), null)) != null) {
@@ -208,7 +208,7 @@ public class ConfigurableTwoPremiseRuleApplicator implements IRuleApplicator {
 	//
 	// System.err.println(aRule + " " + mainCandidate + " " + sfl);
 	//
-	// // TODO apenas considera uma conclusão
+	// // TODO apenas considera uma conclusï¿½o
 	// if (sfl.get(0) == auxCandidate) {
 	// applyTwoPremiseRule(proofTree, sfb, mainCandidate, aRule, sfl,
 	// auxCandidate);
@@ -270,7 +270,7 @@ public class ConfigurableTwoPremiseRuleApplicator implements IRuleApplicator {
 		SignedFormulaList conclusion = (aRule.getPossibleConclusions(sfb
 				.getSignedFormulaFactory(), sfb.getFormulaFactory(), sfl));
 
-		// TODO supõe apenas uma conclusão
+		// TODO supï¿½e apenas uma conclusï¿½o
 		if (proofTree.getNode(conclusion.get(0)) == null) {
 			proofTree.addLast(new SignedFormulaNode((SignedFormula) conclusion
 					.get(0), SignedFormulaNodeState.NOT_ANALYSED, strategy

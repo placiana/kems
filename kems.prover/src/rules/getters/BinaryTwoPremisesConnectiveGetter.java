@@ -40,7 +40,7 @@ public class BinaryTwoPremisesConnectiveGetter implements KESignedFormulaGetter{
 //     * @param sfAux
 //     * @return
 //     */
-//    // TODO esse é para ser excluído
+//    // TODO esse ï¿½ para ser excluï¿½do
 //    public SignedFormula getSignedFormula(SignedFormulaFactory sff,
 //            SignedFormula sfMain, SignedFormula sfAux) {
 //        

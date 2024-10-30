@@ -86,7 +86,7 @@ public class PictureMover extends JPanel {
 //     */
 //    public void actionPerformed(ActionEvent e) {
 //
-//        // por enquanto só um
+//        // por enquanto sï¿½ um
 //        try {
 //            int possibleStep = Integer.parseInt(stepTextField.getText());
 //            setStep(possibleStep);
