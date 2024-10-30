@@ -288,4 +288,13 @@ public class CompositeFormula extends Formula {
         return _connective;
     }
 
+    public int getComplexity() {
+        int complexity = 1;
+        for (int i = 0; i < getImmediateSubformulas().size(); i++) {
+            complexity = complexity
+                    + ((Formula) getImmediateSubformulas().get(i))
+                            .getComplexity();
+        }
+        return complexity;
+    }
 }

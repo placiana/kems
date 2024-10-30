@@ -71,5 +71,7 @@ public abstract class Formula {
     public int hashCode() {
     	return this.toString().hashCode();
     }
+    
+    public abstract int getComplexity();
 
 }

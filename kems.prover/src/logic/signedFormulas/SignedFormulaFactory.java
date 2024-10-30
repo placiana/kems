@@ -133,4 +133,14 @@ public class SignedFormulaFactory {
             return sf;
     }
 
+    
+    public int getComplexity() {
+        int complexity = 0;
+        List<SignedFormula> signedFormulas = new ArrayList<SignedFormula>(getSignedFormulas().values());
+        for (int i = 0; i < signedFormulas.size(); i++) {
+            complexity += ((SignedFormula) signedFormulas.get(i))
+                    .getComplexity();
+        }
+        return complexity;
+    }
 }

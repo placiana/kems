@@ -125,4 +125,8 @@ public class SignedFormula implements  Comparable<SignedFormula>{
     public FormulaLabel getLabel() {
         return _label;
     }
+    
+    public int getComplexity() {
+        return getFormula().getComplexity();
+    }
 }

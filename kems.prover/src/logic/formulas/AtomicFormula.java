@@ -99,4 +99,8 @@ public class AtomicFormula extends Formula {
         return ff.createAtomicFormula(this._name);
     }
 
+    public int getComplexity() {
+        return 1;
+    }
+    
 }

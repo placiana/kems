@@ -106,4 +106,12 @@ public class FormulaList {
     public void remove(Formula value) {
         _formulas.remove(value);
     }
+    
+    public int getComplexity() {
+        int complexity = 0;
+        for (int i = 0; i < this.size(); i++) {
+            complexity += this.get(i).getComplexity();
+        }
+        return complexity;
+    }
 }

@@ -37,6 +37,17 @@ public abstract class ProofTree implements IProofTree {
 
 	protected INode _root, _last, _current;
 
+    // attributes for measuring size
+    private int _leftHeight;
+
+    private int _rightHeight;
+
+    private int _branches;
+
+    private int _nodes;	
+	
+	
+	
 	protected ProofTree() {
 	};
 
@@ -475,5 +486,54 @@ public abstract class ProofTree implements IProofTree {
 		_last = node;
 
 	}
+
+    /**
+     * @return the height of the proof tree
+     */
+    public int getHeight() {
+        if (getLeft() == null) {
+            return 0;
+        } else {
+            int leftHeight = getLeftHeight();
+            int rightHeight = getRightHeight();
+            return ((leftHeight > rightHeight) ? leftHeight : rightHeight);
+        }
+    }
+    /**
+     * @return the height of the left branch of teh proof tree
+     */
+    public int getLeftHeight() {
+        return 1 + ((ProofTree)getLeft()).getHeight();
+    }
+
+    /**
+     * @return the height of the right branch of teh proof tree
+     */
+    public int getRightHeight() {
+        return 1 + ((ProofTree)getRight()).getHeight();
+    }
+
+    
+    /**
+     * @return a string showing information about the size of the proof tree
+     */
+    public String showSize() {
+        String result = "";
+        result = result + "Nodes : " + this.getNumberOfNodes()
+                + System.getProperty("line.separator");
+        result = result + "Branches : " + this.getBranches()
+                + System.getProperty("line.separator");
+        result = result + "Height : " + (this.getHeight())
+                + System.getProperty("line.separator");
+        return result;
+    }
+
+    /**
+     * @return the number of branches in the proof tree
+     */
+    public int getBranches() {
+        return _branches + (getLeft() == null ? 0 : ((ProofTree)getLeft()).getBranches())
+                + (getRight() == null ? 0 : ((ProofTree)getRight()).getBranches());
+    }
 
 }

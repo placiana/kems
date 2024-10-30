@@ -363,4 +363,19 @@ public class FormulaFactory {
                 + " Composite formulas: " + _compositeFormulas.toString();
     }
 
+    /**
+     * returns the complexity of the formula factory.
+     * 
+     * @return the complexity of the formula factory
+     */
+    public int getComplexity() {
+        int complexity = getAtomicFormulas().size();
+        List<Formula> compositeFormulas = new ArrayList<Formula>
+        (getCompositeFormulas().values());
+        for (int i = 0; i < getCompositeFormulas().size(); i++) {
+            complexity = complexity
+                    + ((Formula) compositeFormulas.get(i)).getComplexity();
+        }
+        return complexity;
+    }
 }
