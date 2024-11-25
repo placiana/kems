@@ -34,34 +34,31 @@ public class C1ThreePremiseRuleApplicatorTest {
 
 	@Before
 	public final void setUp() {
-		
+
 		sfc = new SignedFormulaCreator("sats5");
 		sfl = new SignedFormulaList();
 
-		Method method = new Method(RuleStructureFactory
-				.createRulesStructure("C1"));
+		Method method = new Method(RuleStructureFactory.createRulesStructure("C1"));
 		mockStrategy = new MockSimpleStrategy(method);
-		
-		tTopFormula = sfc.getSignedFormulaFactory().createSignedFormula(
-				ClassicalSigns.TRUE,
-				sfc.getFormulaFactory().createCompositeFormula(
-						ClassicalConnectives.TOP));
-		cpt = new FormulaReferenceClassicalProofTree(new SignedFormulaNode(
-				tTopFormula, SignedFormulaNodeState.FULFILLED,
-				NamedOrigin.DEFINITION));
-		
+
+		tTopFormula = sfc.getSignedFormulaFactory().createSignedFormula(ClassicalSigns.TRUE,
+				sfc.getFormulaFactory().createCompositeFormula(ClassicalConnectives.TOP));
+		cpt = new FormulaReferenceClassicalProofTree(
+				new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
 		mockStrategy.setProofTree(cpt);
 		mockStrategy.setCurrent(cpt);
-		
-		tpra = new C1ThreePremiseRuleApplicator(mockStrategy,
-				C1RuleStructures.THREE_PREMISE_RULES);
 
-		sfb = new SignedFormulaBuilder(sfc.getSignedFormulaFactory(), sfc
-				.getFormulaFactory());
+		tpra = new C1ThreePremiseRuleApplicator(mockStrategy, C1RuleStructures.THREE_PREMISE_RULES);
+
+		sfb = new SignedFormulaBuilder(sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
 	}
 
 	@Test
 	public final void testThreePremiseRuleApplicator() {
+		//sfl.add(sfc.parseString("T!(A1&B1) c1"));
+		
+		
 		// test for T_NOT_AND_LEFT
 		sfl.add(sfc.parseString("T!(A1&B1)"));
 		sfl.add(sfc.parseString("T(A1&B1)"));
@@ -95,16 +92,14 @@ public class C1ThreePremiseRuleApplicatorTest {
 		Iterator<SignedFormula> it = sfl.iterator();
 
 		while (it.hasNext()) {
-			SignedFormula sf=it.next();
-			cpt.addLast(new SignedFormulaNode(sf,
-					SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+			SignedFormula sf = it.next();
+			cpt.addLast(new SignedFormulaNode(sf, SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
 		}
 
-
 		tpra.applyAll(cpt, sfb);
-		
+
 //		System.out.println("Final cpt:"+cpt);
 //		System.out.println("Final cpt size:"+cpt.getNumberOfNodes());
-		assertTrue(cpt.getNumberOfNodes()==25);
+		assertTrue(cpt.getNumberOfNodes() == 25);
 	}
 }

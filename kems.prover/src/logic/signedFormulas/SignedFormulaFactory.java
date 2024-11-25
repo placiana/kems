@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.FormulaLabel;
 import proverinterface.proofviewer.CloseSignedFormula;
 
 /**

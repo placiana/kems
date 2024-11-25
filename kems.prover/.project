@@ -16,4 +16,16 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>ipl</name>
+			<type>2</type>
+			<location>/home/placiana/workspace/kems/kems.bin/exec/analysers/output/ipl</location>
+		</link>
+		<link>
+			<name>output</name>
+			<type>2</type>
+			<location>/home/placiana/workspace/kems/kems.bin/exec/analysers/output</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -5,6 +5,7 @@
 package logic.signedFormulas;
 
 import logic.formulas.Formula;
+import logic.labelledFormulas.FormulaLabel;
 import util.EqualsUtil;
 
 /**

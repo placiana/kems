@@ -137,13 +137,13 @@ public class C1SimpleStrategyTest {
 	@Test
 	public final void testSeveralFiles() {
 		// CCM example
-		String base = "created/lfi/lfi_samples/C1/";
+		String base = "created/lfi/lfi_samples/c1/";
 		testOneFile(base + "valid/C1_sample_01.prove", true, 9);
 		// my (wrong) example
 		testOneFile(base + "invalid/C1_sample_02.prove", false, 19); // 19 //23
 		// other order
 		// two #3 instances from families 5 and 6
-		testOneFile(base + "valid/C1_sample_03.prove", true, 44);
+		testOneFile(base + "valid/C1_sample_03.prove", true, 44); // falla, es 46
 		testOneFile(base + "valid/C1_sample_04.prove", true, 54);
 		// four Krause based examples
 		testOneFile(base + "valid/C1_sample_05.prove", true, 16);
@@ -190,9 +190,9 @@ public class C1SimpleStrategyTest {
 		testOneFile(base + "family6/family6_02.prove", true, 37);
 		testOneFile(base + "family6/family6_03.prove", true, 54);
 
-		testOneFile(base + "family7/C1/family7_01.prove", true, 11); // 10 111
-		testOneFile(base + "family7/C1/family7_02.prove", true, 40); // 10 111
-		testOneFile(base + "family7/C1/family7_03.prove", true, 169); // 10 111
+		testOneFile(base + "family7/c1/family7_01.prove", true, 11); // 10 111
+		testOneFile(base + "family7/c1/family7_02.prove", true, 40); // 10 111
+		testOneFile(base + "family7/c1/family7_03.prove", true, 169); // 10 111
 
 		testOneFile(base + "family8/C1/family8_01.prove", true, 13);
 		testOneFile(base + "family8/C1/family8_02.prove", true, 30);

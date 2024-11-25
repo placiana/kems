@@ -6,12 +6,12 @@ import logic.signedFormulas.SignedFormula;
 
 public class LabelledFormula {
 
-	private Context context;
+	private FormulaLabel context;
 	private SignedFormula signedFormula;
 
-	public LabelledFormula(Context aContext, SignedFormula aSignedFormula) {
+	public LabelledFormula(FormulaLabel aLabel, SignedFormula aSignedFormula) {
 		this.signedFormula = aSignedFormula;
-		this.context = aContext;
+		this.context = aLabel;
 	}
 
 	@Override

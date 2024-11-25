@@ -1,4 +1,4 @@
-package logic.signedFormulas;
+package logic.labelledFormulas;
 
 public class FormulaLabel {
 	private enum LabelType {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="logic/aspects/Complexity.aj|logic/aspects/FormulaParentsAspect.aj|logic/aspects/FormulaParentsAspectIntroductions.aj|logic/aspects/FormulaParentsOnTimeAspect.aj|main/proofTree/aspects/ProofTreeSize.aj|proverinterface/aspects/MemoryUsageTracker.aj|proverinterface/aspects/ProverThreadAspect.aj" kind="src" path="src"/>
+	<classpathentry kind="src" path="output"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="src" path="/kems.ext.lib"/>
 	<classpathentry kind="src" path="/kems.generated.lib"/>
