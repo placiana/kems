@@ -1,30 +1,23 @@
 package logic.labelledFormulas;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class Context {
 
-	private int ordinal;
+	private LinkedList<FormulaLabel> labels;
 
-	public Context(int i) {
-		ordinal = i;
+	public Context() {
+		labels = new LinkedList<FormulaLabel>();
+	}
+	
+	public FormulaLabel getNewFormulaLabel() {
+		FormulaLabel newLabel = this.labels.getLast().getNextFormulaLabel();
+		this.labels.addLast(newLabel);
+		return newLabel;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(ordinal);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Context other = (Context) obj;
-		return ordinal == other.ordinal;
-	}
 
 }

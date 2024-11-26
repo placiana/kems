@@ -1,6 +1,6 @@
 package logic.labelledFormulas;
 
-public class FormulaLabel {
+public class FormulaLabel implements Comparable<FormulaLabel>{
 	private enum LabelType {
 		CONSTANT, VARIABLE, NONE
 	}
@@ -40,10 +40,20 @@ public class FormulaLabel {
 	public boolean isEmpty() {
 		return this.type == LabelType.NONE;
 	}
+	
+	public FormulaLabel getNextFormulaLabel() {
+		
+		return new FormulaLabel(LabelType.CONSTANT, this.index + 1);
+	}
 
 	@Override
 	public String toString() {
 		if (isEmpty()) return "";
 		return (isConstant() ? "c" : "x") + this.index;
+	}
+
+	@Override
+	public int compareTo(FormulaLabel o) {
+		return this.index - o.getIndex();
 	}
 }

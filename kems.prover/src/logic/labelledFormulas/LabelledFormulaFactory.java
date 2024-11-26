@@ -1,5 +1,6 @@
 package logic.labelledFormulas;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -44,7 +45,7 @@ public class LabelledFormulaFactory {
 
 	public Map<String,LabelledFormula> getLabelledFormulas() {
 		// TODO Auto-generated method stub
-		return _signedFormulas;
+		return new HashMap<String,LabelledFormula>();
 	}
 
 }
