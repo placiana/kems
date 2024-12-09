@@ -18,7 +18,10 @@ public class LabelledFormulaFactory {
         _signedFormulas = new TreeMap<String, SignedFormula>();
     }
 
-
+	public LabelledFormula createLabelledFormula(FormulaLabel aFormulaLabel, SignedFormula aSignedFormula) {
+		return new LabelledFormula(aFormulaLabel, aSignedFormula);
+	}
+    
 	public LabelledFormula createLabelledFormula(String aLabelString, SignedFormula aSignedFormula) {
 		FormulaLabel aLabel = FormulaLabel.constant(0);
 		if (aLabelString == "c") {
@@ -46,6 +49,10 @@ public class LabelledFormulaFactory {
 	public Map<String,LabelledFormula> getLabelledFormulas() {
 		// TODO Auto-generated method stub
 		return new HashMap<String,LabelledFormula>();
+	}
+
+	public LabelledFormula createLabelledFormula(Context aContext, SignedFormula aSignedFormula) {
+		return new LabelledFormula(aContext.getNewFormulaLabel(), aSignedFormula);
 	}
 
 }

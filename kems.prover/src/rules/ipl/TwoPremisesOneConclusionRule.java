@@ -2,7 +2,7 @@
  * Created on 10/11/2004
  *
  */
-package rules;
+package rules.ipl;
 
 import logic.formulas.CompositeFormula;
 import logic.formulas.FormulaFactory;

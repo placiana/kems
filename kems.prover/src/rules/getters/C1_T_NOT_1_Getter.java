@@ -1,6 +1,8 @@
 package rules.getters;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
@@ -20,5 +22,11 @@ public class C1_T_NOT_1_Getter implements KESignedFormulaGetter {
 		// base is !(X&!X)
 		return sff.createSignedFormula(_sign, C1_Sign_T_NOT_1_Pattern
 				.getFormulaOfConsistency(sfl.get(0).getFormula()));
+	}
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		return sff.createSignedFormula(_sign, C1_Sign_T_NOT_1_Pattern
+				.getFormulaOfConsistency(sfl.get(0).getSignedFormula().getFormula()));
 	}
 }

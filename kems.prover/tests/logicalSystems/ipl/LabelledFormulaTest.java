@@ -38,6 +38,7 @@ public class LabelledFormulaTest {
 	public void setUp() {
 		sff = new SignedFormulaFactory();
 		ff = new FormulaFactory();
+		lff = new LabelledFormulaFactory();
 
 		x = ff.createAtomicFormula("X");
 		CX = ff.createCompositeFormula(C1Connectives.AND, ff
@@ -81,7 +82,7 @@ public class LabelledFormulaTest {
 
 	@Test
 	public void testLabelledFormulaWithDifferentConstructorsAreEqual() {
-		lff = new LabelledFormulaFactory();
+		
 		ContextFactory cf = new ContextFactory();
 		
 		LabelledFormula  lf = lff.createLabelledFormula(cf.getNewContext(), auxiliaryPremise);
@@ -90,5 +91,18 @@ public class LabelledFormulaTest {
 		assertEquals(lf, lfd);
 	
 	}
+	
+	@Test
+	public void testToString() {
+		String repr = auxiliaryPremise.toString();
+		System.out.println(repr);
+		
+		ContextFactory cf = new ContextFactory();
+		LabelledFormula  lf = lff.createLabelledFormula(cf.getNewContext(), auxiliaryPremise);
+		
+		assertEquals(repr, "T !X ");
+		assertEquals(lf.toString(), "T !X  c0");
+	}
+	
 	
 }

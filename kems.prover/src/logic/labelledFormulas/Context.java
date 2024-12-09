@@ -14,7 +14,13 @@ public class Context {
 	}
 	
 	public FormulaLabel getNewFormulaLabel() {
-		FormulaLabel newLabel = this.labels.getLast().getNextFormulaLabel();
+		FormulaLabel newLabel;
+		if (this.labels.isEmpty()) {
+			newLabel = FormulaLabel.constant(0);
+			
+		} else {
+			newLabel = this.labels.getLast().getNextFormulaLabel();
+		}
 		this.labels.addLast(newLabel);
 		return newLabel;
 	}

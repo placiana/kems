@@ -1,5 +1,7 @@
 package logic.labelledFormulas;
 
+import java.util.Objects;
+
 public class FormulaLabel implements Comparable<FormulaLabel>{
 	private enum LabelType {
 		CONSTANT, VARIABLE, NONE
@@ -55,5 +57,26 @@ public class FormulaLabel implements Comparable<FormulaLabel>{
 	@Override
 	public int compareTo(FormulaLabel o) {
 		return this.index - o.getIndex();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(index, type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FormulaLabel other = (FormulaLabel) obj;
+		return index == other.index && type == other.type;
+	}
+
+	public boolean lowerOrEqualThan(FormulaLabel aux) {
+		return this.index <= aux.getIndex();
 	}
 }

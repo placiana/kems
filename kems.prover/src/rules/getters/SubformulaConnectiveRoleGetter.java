@@ -8,6 +8,8 @@ package rules.getters;
 import logic.formulas.Connective;
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -80,5 +82,11 @@ public class SubformulaConnectiveRoleGetter implements KESignedFormulaGetter, Su
                 .createFormulaBySubstitution(sfl.get(0).getFormula(),
                         substituted, replacement));
     }
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -9,6 +9,8 @@ import java.util.List;
 import logic.formulas.Connective;
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -114,6 +116,12 @@ public class SubformulaConnectiveForTestRoleGetter implements KESignedFormulaGet
 
         
     }
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

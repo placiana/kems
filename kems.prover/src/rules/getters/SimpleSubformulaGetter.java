@@ -8,6 +8,8 @@ import logic.formulas.Arity;
 import logic.formulas.Connective;
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -83,6 +85,12 @@ public class SimpleSubformulaGetter implements KESignedFormulaGetter, Subformula
                         substituted, ff.createCompositeFormula(_replacement)));
         
     }
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

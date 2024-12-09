@@ -2,6 +2,8 @@ package rules.getters;
 
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
@@ -37,6 +39,12 @@ public class C1_F_CONS_ANY_Getter implements KESignedFormulaGetter {
 				f_and_not_f);
 
 		return not__f_and_not_f;
+	}
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

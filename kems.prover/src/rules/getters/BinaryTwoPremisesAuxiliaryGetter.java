@@ -6,6 +6,8 @@ package rules.getters;
 
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
@@ -41,6 +43,12 @@ public class BinaryTwoPremisesAuxiliaryGetter implements KESignedFormulaGetter {
 
 		return sff.createSignedFormula(_sign, result);
 
+	}
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

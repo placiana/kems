@@ -5,6 +5,8 @@
 package rules.getters;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -40,6 +42,12 @@ public class TrueBottomGetter implements KESignedFormulaGetter {
 		return sff
 				.createSignedFormula(ClassicalSigns.TRUE, 
 						ff.createCompositeFormula(ClassicalConnectives.BOTTOM));
+	}
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -6,6 +6,8 @@ package rules.getters;
 
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
@@ -40,7 +42,7 @@ public class BinaryTwoPremisesConnectiveGetter implements KESignedFormulaGetter{
 //     * @param sfAux
 //     * @return
 //     */
-//    // TODO esse é para ser excluído
+//    // TODO esse ï¿½ para ser excluï¿½do
 //    public SignedFormula getSignedFormula(SignedFormulaFactory sff,
 //            SignedFormula sfMain, SignedFormula sfAux) {
 //        
@@ -71,6 +73,12 @@ public class BinaryTwoPremisesConnectiveGetter implements KESignedFormulaGetter{
         }
             
     }
+
+	@Override
+	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 //    public SignedFormula getSignedFormula(SignedFormulaFactory sff,
 //    		SignedFormulaList sfl ) {

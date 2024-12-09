@@ -5,6 +5,8 @@
 package rules.getters;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -16,6 +18,8 @@ import logic.signedFormulas.SignedFormulaList;
 public interface KESignedFormulaGetter {
 	
 	public SignedFormula getSignedFormula (SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl);
+
+	public LabelledFormula getLabelledFormula (SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl);
 
 
 }
