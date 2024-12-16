@@ -7,6 +7,7 @@ package rules.ipl;
 import logic.formulas.CompositeFormula;
 import logic.formulas.FormulaFactory;
 import logic.formulas.FormulaList;
+import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
@@ -50,12 +51,14 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 	public final SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
 			FormulaFactory ff, LabelledFormulaList sfl) {
 
+		SignedFormulaList sfll = new SignedFormulaList();
+
 		SignedFormula mainPremise = sfl.get(0).getSignedFormula();
 		SignedFormula auxPremise = sfl.get(1).getSignedFormula();
 		if (_premise.matches(mainPremise, auxPremise)) {
 			SignedFormulaList result = new SignedFormulaList();
 			result.add(((KESignedFormulaGetter) getConclusion().getContent())
-					.getLabelledFormula(sff, ff, sfl));
+					.getSignedFormula(sff, ff, sfll)); // TODO: CUALQUER COSA
 			return result;
 		} else
 			return null;
@@ -114,6 +117,14 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 		result.add(((SubformulaGetter) getConclusion().getContent())
 				.getSignedFormula(sff, ff, sfl, f));
 		return result;
+	}
+
+	@Override
+	public LabelledFormulaList getPossibleConclusions(
+			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
+			LabelledFormulaList lfl) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

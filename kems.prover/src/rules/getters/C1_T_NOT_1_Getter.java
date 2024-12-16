@@ -26,7 +26,8 @@ public class C1_T_NOT_1_Getter implements KESignedFormulaGetter {
 
 	@Override
 	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
-		return sff.createSignedFormula(_sign, C1_Sign_T_NOT_1_Pattern
-				.getFormulaOfConsistency(sfl.get(0).getSignedFormula().getFormula()));
+		//return (LabelledFormula) sff.createSignedFormula(_sign, C1_Sign_T_NOT_1_Pattern
+		//		.getFormulaOfConsistency(sfl.get(0).getSignedFormula().getFormula()));
+		return new LabelledFormula(null, null);
 	}
 }

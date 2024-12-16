@@ -5,6 +5,8 @@
 package rules.ipl;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormulaFactory;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 
@@ -28,7 +30,7 @@ public abstract class Rule implements IRule {
 		return _name;
 	}
 
-	abstract public SignedFormulaList getPossibleConclusions(
-			SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl);
+	abstract public LabelledFormulaList getPossibleConclusions(
+			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl);
 
 }

@@ -17,6 +17,7 @@ import logicalSystems.c1.C1Signs;
 import org.junit.Before;
 import org.junit.Test;
 
+import rules.OnePremissTwoConclusionsRule;
 import rules.TwoPremisesOneConclusionRule;
 import rules.patterns.C1ConsistencyAnyBinaryConnectivePattern;
 import rules.patterns.C1ConsistencyPattern;
@@ -190,80 +191,32 @@ public class C1_T_NOT_1_RuleTest {
 	}
 
 	@Test
-	public void test_T_NOT_1() {
+	public void test_F_OR() {
+		rules.ipl.OnePremissTwoConclusionsRule falseOrRule = IPLRulesPablo.F_OR;
 
-		// Variation of MBCRules.T_NOT_1
-		TwoPremisesOneConclusionRule T_NOT_1 = C1Rules.T_NOT_2;
-			
-//			new TwoPremisesOneConclusionRule(
-//				"T_NOT_1", new C1_Sign_T_NOT_1_Pattern(MBCSigns.TRUE),
-//				new KEAction(ActionType.ADD_NODE, UnaryConnectiveGetter.FALSE));
+		x = ff.createAtomicFormula("X");
+		Formula y = ff.createAtomicFormula("Y");
+		Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, 
+				x, y);
 
-		// Input:
-		// Main: T !X
-		// Auxiliary: T !(X & !X) (that is, T o X)
-
-		// Output: F X
-
-		// PRIMEIRO TESTE
-		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE,
-				not__x_and_not_x));
+		
+		
+		
+		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE,
+				x_or_y));
 		LabelledFormulaList lfl = new LabelledFormulaList();
 		lfl.add(main);
-		lfl.add(zero_not_x);
+		
+		LabelledFormulaList conclusions;
+		conclusions = falseOrRule.getPossibleConclusions(lff, sff, ff, lfl);
+		assertTrue(conclusions.size() == 2);
+		
+		assertTrue(conclusions.get(0).getLabel().equals(main.getLabel()));
 
-		SignedFormulaList conclusions;
-		conclusions = T_NOT_1.getPossibleConclusions(sff, ff, lfl);
-		SignedFormula conc = sff.createSignedFormula(C1Signs.FALSE, x);
-		assertTrue(conclusions.size() == 1);
-		assertTrue(conclusions.contains(conc));
-
-		// SEGUNDO TESTE
-		SignedFormulaList sfl = new SignedFormulaList();
-		SignedFormula mainPremise = sff.createSignedFormula(C1Signs.TRUE,
-				not__x_and_not_x);
-		sfl.add(auxiliaryPremise);
-		sfl.add(mainPremise);
-		conclusions = T_NOT_1.getPossibleConclusions(sff, ff, sfl);
-		assertTrue(conclusions == null);
-
-		// TERCEIRO TESTE
-		sfl = new SignedFormulaList();
-		sfl.add(sff.createSignedFormula(C1Signs.TRUE, not__CX_and_not_CX));
-		sfl.add(sff.createSignedFormula(C1Signs.TRUE, not_CX));
-		conclusions = T_NOT_1.getPossibleConclusions(sff, ff, sfl);
-		assertTrue(conclusions.size() == 1);
-		assertTrue(conclusions.contains(sff.createSignedFormula(C1Signs.FALSE,
-				CX)));
-
-		// QUARTO TESTE
-		sfl = new SignedFormulaList();
-		sfl.add(sff.createSignedFormula(C1Signs.TRUE, not__CX_and_not_CX));
-		sfl.add(sff.createSignedFormula(C1Signs.FALSE, not_CX));
-		conclusions = T_NOT_1.getPossibleConclusions(sff, ff, sfl);
-		assertTrue(conclusions==null);
-
-		// QUINTO TESTE
-		sfl = new SignedFormulaList();
-		sfl.add(sff.createSignedFormula(C1Signs.FALSE, not__CX_and_not_CX));
-		sfl.add(sff.createSignedFormula(C1Signs.TRUE, not_CX));
-		conclusions = T_NOT_1.getPossibleConclusions(sff, ff, sfl);
-		assertTrue(conclusions==null);
-
-		// SEXTO TESTE
-		sfl = new SignedFormulaList();
-		sfl.add(sff.createSignedFormula(C1Signs.FALSE, not__CX_and_not_CX));
-		sfl.add(sff.createSignedFormula(C1Signs.FALSE, not_CX));
-		conclusions = T_NOT_1.getPossibleConclusions(sff, ff, sfl);
-		assertTrue(conclusions==null);
-
-		// SETIMO TESTE
-		sfl = new SignedFormulaList();
-		sfl.add(sff.createSignedFormula(C1Signs.FALSE, not__CX_and_not_CX));
-		sfl.add(sff.createSignedFormula(C1Signs.FALSE, not_x));
-		conclusions = T_NOT_1.getPossibleConclusions(sff, ff, sfl);
-		assertTrue(conclusions==null);
-
+		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.FALSE));
+		assertTrue(conclusions.get(1).getSignedFormula().getSign().equals(C1Signs.FALSE));
+			
 	}
+	
 
 }

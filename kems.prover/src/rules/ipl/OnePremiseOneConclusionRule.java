@@ -5,6 +5,8 @@
 package rules.ipl;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormulaFactory;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -37,5 +39,13 @@ public class OnePremiseOneConclusionRule extends OneConclusionRule {
             return null;
         }
     }
+
+	@Override
+	public LabelledFormulaList getPossibleConclusions(
+			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
+			LabelledFormulaList lfl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

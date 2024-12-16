@@ -5,11 +5,15 @@
 package rules;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaFactory;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.getters.KESignedFormulaGetter;
 import rules.patterns.IUnarySignedFormulaPattern;
+import rules.patterns.ipl.IUnaryLabelledFormulaPattern;
 
 /**
  * @author Adolfo Gustavo Serra Seca Neto
@@ -19,6 +23,7 @@ import rules.patterns.IUnarySignedFormulaPattern;
 public class OnePremissTwoConclusionsRule extends Rule {
 
     IUnarySignedFormulaPattern _premise;
+	//IUnaryLabelledFormulaPattern _premise;
 
     KEAction _conclusion1, _conclusion2;
 
@@ -31,6 +36,15 @@ public class OnePremissTwoConclusionsRule extends Rule {
         _conclusion2 = conclusion2;
     }
 
+    public OnePremissTwoConclusionsRule(String name,
+            IUnaryLabelledFormulaPattern premise, KEAction conclusion1,
+            KEAction conclusion2) {
+    	super(name);
+        _premise = premise;
+        _conclusion1 = conclusion1;
+        _conclusion2 = conclusion2;
+    }
+    
     public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
             FormulaFactory ff, SignedFormulaList sfl) {
         SignedFormula premise = sfl.get(0);

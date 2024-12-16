@@ -5,11 +5,16 @@
 package rules.ipl;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaFactory;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.getters.KESignedFormulaGetter;
 import rules.patterns.IUnarySignedFormulaPattern;
+import rules.patterns.SignConnectivePattern;
+import rules.patterns.ipl.IUnaryLabelledFormulaPattern;
 
 /**
  * @author Adolfo Gustavo Serra Seca Neto
@@ -18,12 +23,13 @@ import rules.patterns.IUnarySignedFormulaPattern;
  */
 public class OnePremissTwoConclusionsRule extends Rule {
 
-    IUnarySignedFormulaPattern _premise;
+	IUnaryLabelledFormulaPattern _premise;
 
     KEAction _conclusion1, _conclusion2;
 
     public OnePremissTwoConclusionsRule(String name,
-            IUnarySignedFormulaPattern premise, KEAction conclusion1,
+    		IUnaryLabelledFormulaPattern premise, 
+    		KEAction conclusion1,
             KEAction conclusion2) {
     	super(name);
         _premise = premise;
@@ -31,19 +37,29 @@ public class OnePremissTwoConclusionsRule extends Rule {
         _conclusion2 = conclusion2;
     }
 
-    public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
-            FormulaFactory ff, SignedFormulaList sfl) {
-        SignedFormula premise = sfl.get(0);
+
+	@Override
+	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff,
+			SignedFormulaList sfl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LabelledFormulaList getPossibleConclusions(
+			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
+			LabelledFormulaList lfl) {
+        LabelledFormula premise = lfl.get(0);
         if (_premise.matches(premise)) {
-            SignedFormulaList l = new SignedFormulaList();
-            l.add(((KESignedFormulaGetter) _conclusion1.getContent())
-                    .getSignedFormula(sff, ff, sfl));
-            l.add(((KESignedFormulaGetter) _conclusion2.getContent())
-                    .getSignedFormula(sff, ff, sfl));
+            LabelledFormulaList l = new LabelledFormulaList();
+            l.add(((KELabelledFormulaGetter) _conclusion1.getContent())
+                    .getLabelledFormula(lff, sff, ff, lfl));
+            l.add(((KELabelledFormulaGetter) _conclusion2.getContent())
+                    .getLabelledFormula(lff, sff, ff, lfl));
             return l;
         } else
             return null;
-    }
+	}
 
 
 }

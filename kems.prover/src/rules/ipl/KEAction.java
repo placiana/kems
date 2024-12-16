@@ -4,6 +4,7 @@
  */
 package rules.ipl;
 
+import rules.getters.BinaryConnectiveGetter;
 import rules.getters.KESignedFormulaGetter;
 
 /**
@@ -13,11 +14,15 @@ import rules.getters.KESignedFormulaGetter;
 public class KEAction implements Action {
 
 	ActionType _at;
-	KESignedFormulaGetter _content;
+	KELabelledFormulaGetter _content;
 
-	public KEAction(ActionType at, KESignedFormulaGetter content) {
+	public KEAction(ActionType at, KELabelledFormulaGetter content) {
 		_at = at;
 		_content = content;
+	}
+
+	public KEAction(rules.ActionType addNode, BinaryConnectiveGetter falseLeft) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -34,7 +39,7 @@ public class KEAction implements Action {
 	 * 
 	 * @see rulesNew.Action#getContent()
 	 */
-	public KESignedFormulaGetter getContent() {
+	public KELabelledFormulaGetter getContent() {
 		return _content;
 	}
 

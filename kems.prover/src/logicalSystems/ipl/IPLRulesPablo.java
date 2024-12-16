@@ -20,6 +20,7 @@ import rules.getters.SubformulaConnectiveRoleGetter;
 import rules.getters.SubformulaRoleGetter;
 import rules.getters.UnaryConnectiveGetter;
 import rules.ipl.ContextSubformulaRoleGetter;
+
 import rules.patterns.SignConnectivePattern;
 import rules.patterns.SignConnectiveRoleSubformulaPattern;
 import rules.patterns.TwoConnectivesRoleSubformulaPattern;
@@ -40,18 +41,19 @@ public class IPLRulesPablo {
 	public static final NamedRule CLOSE = new NamedRule("CLOSE");
 
 	// 1
-	public static final OnePremissTwoConclusionsRule F_OR = new OnePremissTwoConclusionsRule(
+
+	public static final rules.ipl.OnePremissTwoConclusionsRule F_OR = new rules.ipl.OnePremissTwoConclusionsRule(
 			"F_OR",
-			new SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.OR), 
-			new KEAction(ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_LEFT), 
-			new KEAction(ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_RIGHT));	
+			new rules.patterns.ipl.SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.OR), 
+			new rules.ipl.KEAction(rules.ipl.ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_LEFT), 
+			new rules.ipl.KEAction(rules.ipl.ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_RIGHT));	
 
 	// 2
-	public static final OnePremissTwoConclusionsRule T_AND = new OnePremissTwoConclusionsRule(
+	public static final rules.ipl.OnePremissTwoConclusionsRule T_AND = new rules.ipl.OnePremissTwoConclusionsRule(
 		"T_AND", 
-		new SignConnectivePattern(IPLSigns.TRUE, IPLConnectives.AND),
-		new KEAction(ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_LEFT), 
-		new KEAction(ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_RIGHT));
+		new rules.patterns.ipl.SignConnectivePattern(IPLSigns.TRUE, IPLConnectives.AND),
+		new rules.ipl.KEAction(rules.ipl.ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.TRUE_LEFT), 
+		new rules.ipl.KEAction(rules.ipl.ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.TRUE_RIGHT));
 
 	// 3 ? 
 	public static final TwoPremisesOneConclusionRule T_OR_LEFT = new TwoPremisesOneConclusionRule(
@@ -315,8 +317,11 @@ public class IPLRulesPablo {
 
 	// rules with implies
 	public static final OnePremissTwoConclusionsRule F_IMPLIES = new OnePremissTwoConclusionsRule(
-			"F_IMPLIES", new SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.IMPLIES),
-			new KEAction(ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_LEFT), new KEAction(
+			"F_IMPLIES", 
+			new SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.IMPLIES),
+			new KEAction(
+					ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_LEFT), 
+			new KEAction(
 					ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_RIGHT));
 
 
