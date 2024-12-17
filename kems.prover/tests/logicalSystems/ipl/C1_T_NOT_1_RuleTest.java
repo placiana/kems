@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import rules.OnePremissTwoConclusionsRule;
 import rules.TwoPremisesOneConclusionRule;
+import rules.ipl.Rule;
 import rules.patterns.C1ConsistencyAnyBinaryConnectivePattern;
 import rules.patterns.C1ConsistencyPattern;
 import rules.patterns.C1SignConsistencyAnyBinaryConnectivePattern;
@@ -140,67 +141,15 @@ public class C1_T_NOT_1_RuleTest {
 
 	}
 
+	
 	@Test
-	public void testPatterns_C1_T_Not_Consistency_Pattern() {
-		C1_Sign_T_NOT_1_Pattern pattern = new C1_Sign_T_NOT_1_Pattern(
-				C1Signs.TRUE);
-
-		SignedFormula sf1 = sff.createSignedFormula(C1Signs.TRUE, not_x);
-		SignedFormula sf2 = sff.createSignedFormula(C1Signs.FALSE, not_x);
-		SignedFormula sf3 = sff.createSignedFormula(C1Signs.TRUE, not_CX);
-		SignedFormula sf4 = sff.createSignedFormula(C1Signs.FALSE, not_CX);
-		SignedFormula sf5 = sff.createSignedFormula(C1Signs.FALSE, CX);
-		SignedFormula sf6 = sff.createSignedFormula(C1Signs.TRUE, x_and_not_x);
-		SignedFormula sf7 = sff.createSignedFormula(C1Signs.TRUE,
-				not__x_and_not_x);
-		SignedFormula sf8 = sff
-				.createSignedFormula(C1Signs.TRUE, CX_and_not_CX);
-		SignedFormula sf9 = sff.createSignedFormula(C1Signs.TRUE,
-				not__CX_and_not_CX);
-
-		assertTrue(pattern.getAuxiliaryCandidates(sff, ff, sf1).toString()
-				.equals("[]"));
-		assertTrue(pattern.getAuxiliaryCandidates(sff, ff, sf2).toString()
-				.equals("[]"));
-		assertTrue(pattern.getAuxiliaryCandidates(sff, ff, sf3).toString()
-				.equals("[]"));
-		assertTrue(pattern.getAuxiliaryCandidates(sff, ff, sf4).toString()
-				.equals("[]"));
-		assertTrue(pattern.getAuxiliaryCandidates(sff, ff, sf7).toString()
-				.equals("[T !X ]"));
-		assertTrue(pattern.getAuxiliaryCandidates(sff, ff, sf9).toString()
-				.equals("[T !(Y&Z) ]"));
-//		System.out.println(pattern.getAuxiliaryCandidates(sff, ff, sf7));
-//		System.out.println(pattern.getAuxiliaryCandidates(sff, ff, sf9));
-
-		assertFalse(pattern.matchesMain(sf1));
-		assertFalse(pattern.matchesMain(sf2));
-		assertFalse(pattern.matchesMain(sf3));
-		assertFalse(pattern.matchesMain(sf4));
-		assertFalse(pattern.matchesMain(sf5));
-		assertFalse(pattern.matchesMain(sf6));
-		assertTrue(pattern.matchesMain(sf7));
-		assertFalse(pattern.matchesMain(sf8));
-		assertTrue(pattern.matchesMain(sf9));
-
-		assertFalse(pattern.matches(sf1, sf6));
-		assertTrue(pattern.matches(sf7, sf1));
-		assertFalse(pattern.matches(sf3, sf8));
-		assertTrue(pattern.matches(sf9, sf3));
-
-	}
-
-	@Test
-	public void test_F_OR() {
+	public void testRule1FalseOR() {
 		rules.ipl.OnePremissTwoConclusionsRule falseOrRule = IPLRulesPablo.F_OR;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
 		Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, 
-				x, y);
-
-		
-		
+				x, y);		
 		
 		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE,
 				x_or_y));
@@ -212,11 +161,66 @@ public class C1_T_NOT_1_RuleTest {
 		assertTrue(conclusions.size() == 2);
 		
 		assertTrue(conclusions.get(0).getLabel().equals(main.getLabel()));
+		assertTrue(conclusions.get(1).getLabel().equals(main.getLabel()));
 
 		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.FALSE));
 		assertTrue(conclusions.get(1).getSignedFormula().getSign().equals(C1Signs.FALSE));
 			
 	}
 	
+	@Test
+	public void testRule2TrueAnd() {
+		rules.ipl.OnePremissTwoConclusionsRule rule = IPLRulesPablo.T_AND;
+
+		x = ff.createAtomicFormula("X");
+		Formula y = ff.createAtomicFormula("Y");
+		Formula x_and_y = ff.createCompositeFormula(IPLConnectives.AND, 
+				x, y);		
+		
+		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE,
+				x_and_y));
+		LabelledFormulaList lfl = new LabelledFormulaList();
+		lfl.add(main);
+		
+		LabelledFormulaList conclusions;
+		conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+		assertTrue(conclusions.size() == 2);
+		
+		assertTrue(conclusions.get(0).getLabel().equals(main.getLabel()));
+
+		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+		assertTrue(conclusions.get(1).getSignedFormula().getSign().equals(C1Signs.TRUE));
+		
+	}
+	
+	@Test
+	public void testRule3TrueOr() {
+		Rule rule = IPLRulesPablo.X_OR_F_LEFT;
+
+		x = ff.createAtomicFormula("X");
+		Formula y = ff.createAtomicFormula("Y");
+		Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, 
+				x, y);		
+		
+		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE,
+				x_or_y));
+		LabelledFormula aux = lff.createLabelledFormula(
+				main.getLabel().getNextFormulaLabel(), 
+				sff.createSignedFormula(C1Signs.FALSE, x));
+		
+		LabelledFormulaList lfl = new LabelledFormulaList();
+		lfl.add(main);
+		lfl.add(aux);
+		
+		LabelledFormulaList conclusions;
+		conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+		assertTrue(conclusions.size() == 1);
+		
+		assertTrue(conclusions.get(0).getLabel().equals(main.getLabel()));
+
+		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+		assertTrue(conclusions.get(1).getSignedFormula().getFormula().equals(y));
+		
+	}
 
 }

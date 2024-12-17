@@ -126,8 +126,10 @@ public class ClassicalRules {
 	// rules with or
 
 	public static final OnePremissTwoConclusionsRule F_OR = new OnePremissTwoConclusionsRule("F_OR",
-			new SignConnectivePattern(ClassicalSigns.FALSE, ClassicalConnectives.OR), new KEAction(
-					ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_LEFT), new KEAction(
+			new SignConnectivePattern(ClassicalSigns.FALSE, ClassicalConnectives.OR), 
+			new KEAction(
+					ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_LEFT), 
+			new KEAction(
 					ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_RIGHT));
 
 	public static final TwoPremisesOneConclusionRule T_OR_LEFT = new TwoPremisesOneConclusionRule(

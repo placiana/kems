@@ -7,6 +7,7 @@ package rules.ipl;
 import logic.formulas.CompositeFormula;
 import logic.formulas.FormulaFactory;
 import logic.formulas.FormulaList;
+import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
@@ -14,8 +15,9 @@ import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.getters.KESignedFormulaGetter;
 import rules.getters.SubformulaGetter;
-import rules.patterns.IBinarySignedFormulaPattern;
 import rules.patterns.ISubformulaPattern;
+import rules.patterns.ipl.IBinarySignedFormulaPattern;
+
 
 /**
  * @author Adolfo Gustavo Serra Seca Neto
@@ -32,39 +34,8 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 		_premise = premise;
 	}
 
-	public final SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
-			FormulaFactory ff, SignedFormulaList sfl) {
-
-		SignedFormula mainPremise = sfl.get(0);
-		SignedFormula auxPremise = sfl.get(1);
-		if (_premise.matches(mainPremise, auxPremise)) {
-			SignedFormulaList result = new SignedFormulaList();
-			result.add(((KESignedFormulaGetter) getConclusion().getContent())
-					.getSignedFormula(sff, ff, sfl));
-			return result;
-		} else
-			return null;
-	}
 
 
-	
-	public final SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
-			FormulaFactory ff, LabelledFormulaList sfl) {
-
-		SignedFormulaList sfll = new SignedFormulaList();
-
-		SignedFormula mainPremise = sfl.get(0).getSignedFormula();
-		SignedFormula auxPremise = sfl.get(1).getSignedFormula();
-		if (_premise.matches(mainPremise, auxPremise)) {
-			SignedFormulaList result = new SignedFormulaList();
-			result.add(((KESignedFormulaGetter) getConclusion().getContent())
-					.getSignedFormula(sff, ff, sfll)); // TODO: CUALQUER COSA
-			return result;
-		} else
-			return null;
-	}
-
-	
 	
 	/**
 	 * @param sff
@@ -72,16 +43,16 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 	 * @param sfMain
 	 * @return
 	 */
-	public SignedFormulaList getAuxiliaryCandidates(SignedFormulaFactory sff,
+	public LabelledFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
 			FormulaFactory ff, SignedFormula sfMain) {
-		return _premise.getAuxiliaryCandidates(sff, ff, sfMain);
+		return _premise.getAuxiliaryCandidates(lff, sff, ff, sfMain);
 	}
 
 	/**
 	 * @param sfMain
 	 * @return
 	 */
-	public boolean matchesMain(SignedFormula sfMain) {
+	public boolean matchesMain(LabelledFormula sfMain) {
 		return _premise.matchesMain(sfMain);
 	}
 
@@ -123,8 +94,29 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 	public LabelledFormulaList getPossibleConclusions(
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
 			LabelledFormulaList lfl) {
+
+		LabelledFormula mainPremise = lfl.get(0);
+		LabelledFormula auxPremise = lfl.get(1);
+		if (_premise.matches(mainPremise, auxPremise)) {
+			LabelledFormulaList result = new LabelledFormulaList();
+			result.add(((KELabelledFormulaGetter) getConclusion().getContent())
+					.getLabelledFormula(lff, sff, ff, lfl));
+			return result;
+		} else
+			return null;
+		}
+
+
+
+
+	@Override
+	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff,
+			SignedFormulaList sfl) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
+
+	
 }

@@ -55,6 +55,23 @@ public class IPLRulesPablo {
 		new rules.ipl.KEAction(rules.ipl.ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.TRUE_LEFT), 
 		new rules.ipl.KEAction(rules.ipl.ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.TRUE_RIGHT));
 
+
+	// 3?
+	static final rules.patterns.ipl.SignConnectiveRoleSubformulaPattern pattern_X_OR_F_LEFT = new rules.patterns.ipl.SignConnectiveRoleSubformulaPattern(
+		IPLConnectives.OR, 	// connective that may appear in any subformula of the main formula.
+		IPLSigns.FALSE, 	// sign of the auxiliary formula.
+		KERuleRole.LEFT);	// role of the auxiliary formula in the subformula of the main formula 
+							// where the _mainConnective was found.
+
+	public static final rules.ipl.TwoPremisesOneConclusionRule X_OR_F_LEFT = new rules.ipl.TwoPremisesOneConclusionRule(
+			"X_OR_F_LEFT", 
+			pattern_X_OR_F_LEFT,
+			new rules.ipl.KEAction(
+					rules.ipl.ActionType.ADD_NODE,
+				new rules.ipl.SubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT)
+			));
+
+	
 	// 3 ? 
 	public static final TwoPremisesOneConclusionRule T_OR_LEFT = new TwoPremisesOneConclusionRule(
 		"T_OR_LEFT",
@@ -67,35 +84,21 @@ public class IPLRulesPablo {
 		new KEAction(ActionType.ADD_NODE,
 			BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));	
 	
-	// 3?
-	static final SignConnectiveRoleSubformulaPattern pattern_X_OR_F_LEFT = new SignConnectiveRoleSubformulaPattern(
-		IPLConnectives.OR, 	// connective that may appear in any subformula of the main formula.
-		IPLSigns.FALSE, 	// sign of the auxiliary formula.
-		KERuleRole.LEFT);	// role of the auxiliary formula in the subformula of the main formula 
-							// where the _mainConnective was found.
-
-	public static final TwoPremisesOneConclusionRule X_OR_F_LEFT = new TwoPremisesOneConclusionRule(
-			"X_OR_F_LEFT", 
-			pattern_X_OR_F_LEFT,
-			new KEAction(
-				ActionType.ADD_NODE,
-				new SubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT)
-			));
-
+	
 	// 3 a lo pablo
-	public static final TwoPremisesOneConclusionRule PABLO_T_OR_LEFT = new TwoPremisesOneConclusionRule(
-			"T_OR_LEFT",
-			new TwoSignsWithContextConnectiveRolePattern(
-				IPLSigns.TRUE, 		// main sign
-				IPLConnectives.OR,	// main connective
-				IPLSigns.FALSE, 	// auxiliary sign
-				new LowerOrEqualCondition(), // main context condition
-				KERuleRole.LEFT		// auxiliary role
-			), 
-			new KEAction(ActionType.ADD_NODE,
-					new ContextSubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT, "MAIN"))
-	);	
-		
+//	public static final TwoPremisesOneConclusionRule PABLO_T_OR_LEFT = new TwoPremisesOneConclusionRule(
+//			"T_OR_LEFT",
+//			new TwoSignsWithContextConnectiveRolePattern(
+//				IPLSigns.TRUE, 		// main sign
+//				IPLConnectives.OR,	// main connective
+//				IPLSigns.FALSE, 	// auxiliary sign
+//				new LowerOrEqualCondition(), // main context condition
+//				KERuleRole.LEFT		// auxiliary role
+//			), 
+//			new KEAction(ActionType.ADD_NODE,
+//					new ContextSubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT, "MAIN"))
+//	);	
+//		
 	
 	// 4
 	static final SignConnectiveRoleSubformulaPattern pattern_X_OR_F_RIGHT = new SignConnectiveRoleSubformulaPattern(
