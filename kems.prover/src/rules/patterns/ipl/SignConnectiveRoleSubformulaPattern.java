@@ -99,7 +99,61 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
 	@Override
 	public Formula getMatchedSubformula(LabelledFormulaList sfl) {
 		// TODO Auto-generated method stub
-		return null;
+		return getMatchedSubformula(sfl.get(0), sfl.get(1));
+	}
+
+	private Formula getMatchedSubformula(LabelledFormula main, LabelledFormula auxiliary) {
+		 if (!(auxiliary.getSignedFormula().getSign().equals(_auxiliarySign))) {
+	            return null;
+	        } else {
+	            return recursivelyGetMatchedSubformula(main.getSignedFormula().getFormula(), auxiliary);
+
+	        }
+	}
+
+	private Formula recursivelyGetMatchedSubformula(Formula main, LabelledFormula auxiliary) {
+        Formula tryMatch = getMatchedSubformula(main, auxiliary);
+        if (tryMatch != null) {
+
+            //			System.err.println(tryMatch + " aqui � tryMatch");
+            return tryMatch;
+        } else {
+            for (int i = 0; i < main.getImmediateSubformulas().size(); i++) {
+                tryMatch = recursivelyGetMatchedSubformula((Formula) main
+                        .getImmediateSubformulas().get(i), auxiliary);
+                if (tryMatch != null) {
+                    //					System.err.println(main.getImmediateSubformulas().get(i)
+                    // + " aqui � ...");
+                    return tryMatch;
+                    //					(Formula)main.getImmediateSubformulas().get(i);
+                }
+            }
+        }
+        return null;
+
+	}
+
+	private Formula getMatchedSubformula(Formula main, LabelledFormula auxiliary) {
+
+        boolean mainMatch = matchesConnective(main);
+
+        if (mainMatch) {
+        	List<Formula> l = _auxiliaryRole.getFormulas(main);
+
+            for (int i = 0; i < l.size(); i++) {
+                Formula f1 = (Formula) l.get(i);
+                //				System.err.println(f1);
+                //				System.err.println(auxiliary);
+                if (f1.equals(auxiliary.getSignedFormula().getFormula())) {
+                    //					System.err.println(main + " aqui");
+                    return main;
+                }
+
+            }
+        }
+
+        return null;
+
 	}
 
 	@Override

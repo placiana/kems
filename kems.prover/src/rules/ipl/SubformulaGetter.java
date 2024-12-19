@@ -8,6 +8,7 @@ import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
+import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -17,11 +18,9 @@ import logic.signedFormulas.SignedFormulaList;
  *
  */
 public interface SubformulaGetter {
-    
-    public LabelledFormula getSignedFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl, Formula substituted);
-    
+        
     public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff,
-            FormulaFactory ff, SignedFormulaList sfl);
+            FormulaFactory ff, LabelledFormulaList sfl);
 
 
 }

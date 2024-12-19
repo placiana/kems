@@ -26,11 +26,11 @@ import rules.patterns.C1SignConsistencyAnyBinaryConnectivePattern;
 import rules.patterns.C1SignConsistencyPattern;
 import rules.patterns.C1_Sign_T_NOT_1_Pattern;
 
-public class C1_T_NOT_1_RuleTest {
+public class IPLRuleSetTest {
 
 	SignedFormulaFactory sff;
 	FormulaFactory ff;
-	
+
 	LabelledFormulaFactory lff;
 
 	Formula x;
@@ -43,7 +43,7 @@ public class C1_T_NOT_1_RuleTest {
 	Formula CX_and_not_CX;
 	Formula not__x_and_not_x;
 	Formula not__CX_and_not_CX;
-	
+
 	LabelledFormula zero_not_x;
 
 	@Before
@@ -66,78 +66,8 @@ public class C1_T_NOT_1_RuleTest {
 				x_and_not_x);
 		not__CX_and_not_CX = ff.createCompositeFormula(C1Connectives.NOT,
 				CX_and_not_CX);
-		
+
 		zero_not_x = lff.createLabelledFormula("c", auxiliaryPremise);
-
-	}
-
-	@Test
-	public void testPatterns_C1ConsistencyPattern() {
-
-		C1ConsistencyPattern pattern = new C1ConsistencyPattern(
-				C1Connectives.NOT, C1Connectives.AND);
-		assertFalse(pattern.matches(x_and_not_x));
-		// System.out.println(not__x_and_not_x);
-		assertTrue(pattern.matches(not__x_and_not_x));
-		assertFalse(pattern.matches(CX_and_not_CX));
-		assertTrue(pattern.matches(not__CX_and_not_CX));
-	}
-
-	@Test
-	public void testPatterns_T_C1ConsistencyPattern() {
-
-		C1SignConsistencyPattern pattern = new C1SignConsistencyPattern(
-				C1Signs.TRUE);
-
-		assertFalse(pattern.matches(lff.createLabelledFormula("c", 
-				sff.createSignedFormula(C1Signs.TRUE, x_and_not_x)).getSignedFormula()));
-		
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				x_and_not_x)));
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.FALSE,
-				not__x_and_not_x)));
-		assertTrue(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				not__x_and_not_x)));
-
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				CX_and_not_CX)));
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.FALSE,
-				not__CX_and_not_CX)));
-		assertTrue(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				not__CX_and_not_CX)));
-	}
-
-	@Test
-	public void testPatterns_Consistency_Any_Pattern() {
-
-		C1ConsistencyAnyBinaryConnectivePattern pattern = new C1ConsistencyAnyBinaryConnectivePattern(
-				C1Connectives.AND);
-
-		assertFalse(pattern.matches(x_and_not_x));
-		assertFalse(pattern.matches(not__x_and_not_x));
-		assertFalse(pattern.matches(CX_and_not_CX));
-		assertTrue(pattern.matches(not__CX_and_not_CX));
-	}
-
-	@Test
-	public void testPatterns_Sign_Consistency_Any_Pattern() {
-
-		C1SignConsistencyAnyBinaryConnectivePattern pattern = new C1SignConsistencyAnyBinaryConnectivePattern(
-				C1Signs.TRUE, C1Connectives.AND);
-
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				x_and_not_x)));
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.FALSE,
-				not__x_and_not_x)));
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				not__x_and_not_x)));
-
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				CX_and_not_CX)));
-		assertFalse(pattern.matches(sff.createSignedFormula(C1Signs.FALSE,
-				not__CX_and_not_CX)));
-		assertTrue(pattern.matches(sff.createSignedFormula(C1Signs.TRUE,
-				not__CX_and_not_CX)));
 
 	}
 
@@ -219,8 +149,40 @@ public class C1_T_NOT_1_RuleTest {
 		assertTrue(conclusions.get(0).getLabel().equals(main.getLabel()));
 
 		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
-		assertTrue(conclusions.get(1).getSignedFormula().getFormula().equals(y));
-		
+		assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(y));
+
 	}
 
+	@Test
+	public void testRule4TrueOrFalseRight() {
+		Rule rule = IPLRulesPablo.T_OR_F_RIGHT;
+
+		x = ff.createAtomicFormula("X");
+		Formula y = ff.createAtomicFormula("Y");
+		Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, 
+				x, y);		
+		
+		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE,
+				x_or_y));
+		LabelledFormula aux = lff.createLabelledFormula(
+				main.getLabel().getNextFormulaLabel(), 
+				sff.createSignedFormula(C1Signs.FALSE, x));
+		
+		LabelledFormulaList lfl = new LabelledFormulaList();
+		lfl.add(main);
+		lfl.add(aux);
+		
+		LabelledFormulaList conclusions;
+		conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+		assertTrue(conclusions.size() == 1);
+		
+		assertTrue(conclusions.get(0).getLabel().equals(main.getLabel()));
+
+		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+		assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
+
+
+	}
+	
+	
 }

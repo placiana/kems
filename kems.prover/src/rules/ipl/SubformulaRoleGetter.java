@@ -36,23 +36,43 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
 	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
 			LabelledFormulaList lfl) {
 		System.out.println("Hola");
-        //return getLabelledFormula(lff, sff, ff, lfl, _pattern.getMatchedSubformula(lfl));
-		return null;
+		Formula matchedSubformula = _pattern.getMatchedSubformula(lfl);
+        return getLabelledFormula(lff, sff, ff, lfl, matchedSubformula);
+		
 	}
 
-	@Override
-	public LabelledFormula getSignedFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			SignedFormulaList sfl, Formula substituted) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, 
+			SignedFormulaFactory sff, FormulaFactory ff,
+			LabelledFormulaList sfl, Formula f) {
+    	List<Formula> l = f.getImmediateSubformulas();
+
+        if (_role.equals(KERuleRole.OTHER)) {
+            Formula auxFormula = sfl.get(1).getSignedFormula().getFormula();
+            Formula left = (Formula) l.get(0);
+            Formula right = (Formula) l.get(1);
+
+            if (auxFormula.equals(left)) {
+                return substitute(lff, sff, ff, sfl, f, right);
+            } else {
+                if (auxFormula.equals(right)) {
+                    return substitute(lff, sff, ff, sfl, f, left);
+                }
+            }
+
+        } else {
+            //            System.err.println("LR");
+
+            Formula substitution = (Formula) _role.getFormulas(f).get(0);
+            //            System.out.println(substitution + " " + f + " " + sfl.get(0) + "
+            // " + substitute(sff, ff, sfl, f, substitution));
+            return substitute(lff, sff, ff, sfl, f, substitution);
+        }
+
+        return null;
+
 	}
 
-	@Override
-	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			SignedFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	@Override
@@ -73,10 +93,10 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
             Formula right = (Formula) l.get(1);
 
             if (auxFormula.equals(left)) {
-                return substitute(sff, ff, sfl, f, right);
+                return substitute(lff, sff, ff, sfl, f, right);
             } else {
                 if (auxFormula.equals(right)) {
-                    return substitute(sff, ff, sfl, f, left);
+                    return substitute(lff, sff, ff, sfl, f, left);
                 }
             }
 
@@ -86,7 +106,7 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
             Formula substitution = (Formula) _role.getFormulas(f).get(0);
             //            System.out.println(substitution + " " + f + " " + sfl.get(0) + "
             // " + substitute(sff, ff, sfl, f, substitution));
-            return substitute(sff, ff, sfl, f, substitution);
+            return substitute(lff, sff, ff, sfl, f, substitution);
         }
 
         return null;
@@ -101,10 +121,17 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
                         substituted, replacement));
     }
     
-	private LabelledFormula substitute(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl, Formula f,
-			Formula right) {
-		// TODO Auto-generated method stub
-		return null;
+	private LabelledFormula substitute(LabelledFormulaFactory lff, 
+			SignedFormulaFactory sff, FormulaFactory ff, 
+			LabelledFormulaList sfl, Formula substituted,
+			Formula replacement) {
+        SignedFormula sf = sff.createSignedFormula(
+        		sfl.get(0).getSignedFormula().getSign(), ff
+                .createFormulaBySubstitution(
+                		sfl.get(0).getSignedFormula().getFormula(),
+                        substituted, replacement));
+
+        return lff.createLabelledFormula("c", sf);
 	}
 	
 	

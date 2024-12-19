@@ -4,7 +4,6 @@
  */
 package rules.ipl;
 
-import rules.Action;
 import rules.ActionType;
 import rules.getters.BinaryConnectiveGetter;
 import rules.getters.KESignedFormulaGetter;
@@ -14,16 +13,18 @@ import rules.ipl.labels.LabelGetter;
  * @author Adolfo Gustavo Serra Seca Neto
  * 
  */
-public class KEAction implements Action {
+public class KELabelledAction extends KEAction {
 
 	ActionType _at;
 	KELabelledFormulaGetter _content;
+	LabelGetter labelGetter;
 
-	public KEAction(ActionType at, KELabelledFormulaGetter content) {
-		_at = at;
-		_content = content;
-	}
 	
+	public KELabelledAction(ActionType at, KELabelledFormulaGetter content, LabelGetter labelGetter) {
+		super(at, content);
+		this.labelGetter = labelGetter;
+	}
+
 
 	/*
 	 * (non-Javadoc)
