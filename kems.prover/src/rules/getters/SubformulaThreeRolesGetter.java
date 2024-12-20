@@ -100,10 +100,5 @@ public class SubformulaThreeRolesGetter implements KESignedFormulaGetter , Subfo
                         substituted, replacement));
     }
 
-	@Override
-	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

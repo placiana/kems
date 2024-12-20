@@ -29,7 +29,7 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 	IBinarySignedFormulaPattern _premise;
 
 	public TwoPremisesOneConclusionRule(String name,
-			IBinarySignedFormulaPattern premise, KEAction conclusion) {
+			IBinarySignedFormulaPattern premise, KELabelledAction conclusion) {
 		super(name, conclusion);
 		_premise = premise;
 	}
@@ -99,8 +99,8 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 		LabelledFormula auxPremise = lfl.get(1);
 		if (_premise.matches(mainPremise, auxPremise)) {
 			LabelledFormulaList result = new LabelledFormulaList();
-			result.add(((KELabelledFormulaGetter) getConclusion().getContent())
-					.getLabelledFormula(lff, sff, ff, lfl));
+			result.add(( getConclusion().getLabelledFormula(lff, sff, ff, lfl)))
+					;
 			return result;
 		} else
 			return null;

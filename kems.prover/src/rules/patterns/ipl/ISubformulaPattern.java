@@ -15,7 +15,7 @@ import logic.signedFormulas.SignedFormulaList;
  * @author adolfo
  * 
  */
-public interface ISubformulaPattern {
+public interface ISubformulaPattern extends rules.patterns.ISubformulaPattern {
 
 	public Formula getMatchedSubformula(LabelledFormulaList sfl);
 

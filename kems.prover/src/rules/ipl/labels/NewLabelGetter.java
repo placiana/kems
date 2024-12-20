@@ -7,8 +7,7 @@ public class NewLabelGetter extends LabelGetter {
 
 	@Override
 	public FormulaLabel getLabel(LabelledFormulaList lfl) {
-		// TODO Auto-generated method stub
-		return null;
+		return lfl.get(0).getLabel().getNextFormulaLabel();
 	}
 
 }

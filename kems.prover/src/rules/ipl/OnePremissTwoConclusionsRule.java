@@ -25,12 +25,12 @@ public class OnePremissTwoConclusionsRule extends Rule {
 
 	IUnaryLabelledFormulaPattern _premise;
 
-    KEAction _conclusion1, _conclusion2;
+	KELabelledAction _conclusion1, _conclusion2;
 
     public OnePremissTwoConclusionsRule(String name,
     		IUnaryLabelledFormulaPattern premise, 
-    		KEAction conclusion1,
-            KEAction conclusion2) {
+    		KELabelledAction conclusion1,
+    		KELabelledAction conclusion2) {
     	super(name);
         _premise = premise;
         _conclusion1 = conclusion1;
@@ -52,10 +52,8 @@ public class OnePremissTwoConclusionsRule extends Rule {
         LabelledFormula premise = lfl.get(0);
         if (_premise.matches(premise)) {
             LabelledFormulaList l = new LabelledFormulaList();
-            l.add(((KELabelledFormulaGetter) _conclusion1.getContent())
-                    .getLabelledFormula(lff, sff, ff, lfl));
-            l.add(((KELabelledFormulaGetter) _conclusion2.getContent())
-                    .getLabelledFormula(lff, sff, ff, lfl));
+            l.add((_conclusion1.getLabelledFormula(lff, sff, ff, lfl)));
+            l.add((_conclusion2.getLabelledFormula(lff, sff, ff, lfl)));
             return l;
         } else
             return null;

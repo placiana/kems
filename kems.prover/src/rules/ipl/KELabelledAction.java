@@ -4,6 +4,12 @@
  */
 package rules.ipl;
 
+import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
+import logic.labelledFormulas.LabelledFormulaFactory;
+import logic.labelledFormulas.LabelledFormulaList;
+import logic.signedFormulas.SignedFormula;
+import logic.signedFormulas.SignedFormulaFactory;
 import rules.ActionType;
 import rules.getters.BinaryConnectiveGetter;
 import rules.getters.KESignedFormulaGetter;
@@ -13,16 +19,17 @@ import rules.ipl.labels.LabelGetter;
  * @author Adolfo Gustavo Serra Seca Neto
  * 
  */
-public class KELabelledAction extends KEAction {
+public class KELabelledAction extends rules.KEAction {
 
 	ActionType _at;
-	KELabelledFormulaGetter _content;
+	KESignedFormulaGetter _content;
 	LabelGetter labelGetter;
 
 	
-	public KELabelledAction(ActionType at, KELabelledFormulaGetter content, LabelGetter labelGetter) {
+	public KELabelledAction(ActionType at, KESignedFormulaGetter content, LabelGetter labelGetter) {
 		super(at, content);
 		this.labelGetter = labelGetter;
+		_content = content;
 	}
 
 
@@ -40,8 +47,16 @@ public class KELabelledAction extends KEAction {
 	 * 
 	 * @see rulesNew.Action#getContent()
 	 */
-	public KELabelledFormulaGetter getContent() {
+	public KESignedFormulaGetter getContent() {
 		return _content;
 	}
 
+	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
+			LabelledFormulaList lfl) {
+		// TODO Auto-generated method stub
+		SignedFormula sf = getContent().getSignedFormula(sff, ff, lfl.toSignedFormulaList());
+		return lff.createLabelledFormula(this.labelGetter.getLabel(lfl), sf);
+	}
+
+	
 }

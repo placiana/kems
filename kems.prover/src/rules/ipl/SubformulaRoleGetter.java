@@ -76,11 +76,45 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
 
 
 	@Override
-	public SignedFormula getSignedFormula(SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
+	public SignedFormula getSignedFormula(SignedFormulaFactory sff, 
+			FormulaFactory ff, SignedFormulaList sfl) {
+        return getSignedFormula(sff, ff, sfl, _pattern
+                .getMatchedSubformula(sfl));
 	}
 
+	 public SignedFormula getSignedFormula(SignedFormulaFactory sff,
+	            FormulaFactory ff, SignedFormulaList sfl, Formula f) {
+
+	    	List<Formula> l = f.getImmediateSubformulas();
+	        //        System.out.println(f + " " + l);
+
+	        if (_role.equals(KERuleRole.OTHER)) {
+	            Formula auxFormula = sfl.get(1).getFormula();
+	            Formula left = (Formula) l.get(0);
+	            Formula right = (Formula) l.get(1);
+
+	            if (auxFormula.equals(left)) {
+	                return substitute(sff, ff, sfl, f, right);
+	            } else {
+	                if (auxFormula.equals(right)) {
+	                    return substitute(sff, ff, sfl, f, left);
+	                }
+	            }
+
+	        } else {
+	            //            System.err.println("LR");
+
+	            Formula substitution = (Formula) _role.getFormulas(f).get(0);
+	            //            System.out.println(substitution + " " + f + " " + sfl.get(0) + "
+	            // " + substitute(sff, ff, sfl, f, substitution));
+	            return substitute(sff, ff, sfl, f, substitution);
+	        }
+
+	        return null;
+
+	    }
+
+	
     public LabelledFormula getSignedFormula(LabelledFormulaFactory lff,SignedFormulaFactory sff,
             FormulaFactory ff, LabelledFormulaList sfl, Formula f) {
 

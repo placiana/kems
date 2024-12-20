@@ -41,10 +41,5 @@ public class C1_F_CONS_ANY_Getter implements KESignedFormulaGetter {
 		return not__f_and_not_f;
 	}
 
-	@Override
-	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

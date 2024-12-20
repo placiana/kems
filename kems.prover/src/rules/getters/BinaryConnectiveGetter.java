@@ -47,9 +47,5 @@ public class BinaryConnectiveGetter implements  KESignedFormulaGetter {
         return sff.createSignedFormula(_sign, ((Formula) (_role.getFormulas(sfl.get(0).getFormula())).get(0)));
     }
 
-	@Override
-	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
-	}    
+ 
 }

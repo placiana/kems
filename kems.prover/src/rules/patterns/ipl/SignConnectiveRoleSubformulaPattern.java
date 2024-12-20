@@ -162,4 +162,74 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
 		return null;
 	}
 
+	@Override
+    public Formula getMatchedSubformula(SignedFormulaList sfl) {
+        return getMatchedSubformula(sfl.get(0), sfl.get(1));
+    }
+
+    private Formula getMatchedSubformula(SignedFormula main,
+            SignedFormula auxiliary) {
+        if (!(auxiliary.getSign().equals(_auxiliarySign))) {
+            return null;
+        } else {
+            //			System.err.println(recursivelyGetMatchedSubformula(main.getFormula(),
+            // auxiliary)+" aqui � recGet");
+            return recursivelyGetMatchedSubformula(main.getFormula(), auxiliary);
+
+        }
+    }
+    
+    private Formula recursivelyGetMatchedSubformula(Formula main,
+            SignedFormula auxiliary) {
+
+        Formula tryMatch = getMatchedSubformula(main, auxiliary);
+        if (tryMatch != null) {
+
+            //			System.err.println(tryMatch + " aqui � tryMatch");
+            return tryMatch;
+        } else {
+            for (int i = 0; i < main.getImmediateSubformulas().size(); i++) {
+                tryMatch = recursivelyGetMatchedSubformula((Formula) main
+                        .getImmediateSubformulas().get(i), auxiliary);
+                if (tryMatch != null) {
+                    //					System.err.println(main.getImmediateSubformulas().get(i)
+                    // + " aqui � ...");
+                    return tryMatch;
+                    //					(Formula)main.getImmediateSubformulas().get(i);
+                }
+            }
+        }
+        return null;
+    }
+    
+    
+    private Formula getMatchedSubformula(Formula main, SignedFormula auxiliary) {
+
+        boolean mainMatch = matchesConnective(main);
+        //		System.err.println(mainMatch);
+
+        if (mainMatch) {
+        	List<Formula> l = _auxiliaryRole.getFormulas(main);
+
+            for (int i = 0; i < l.size(); i++) {
+                Formula f1 = (Formula) l.get(i);
+                //				System.err.println(f1);
+                //				System.err.println(auxiliary);
+                if (f1.equals(auxiliary.getFormula())) {
+                    //					System.err.println(main + " aqui");
+                    return main;
+                }
+
+            }
+        }
+
+        return null;
+    }
+	
+	@Override
+	public FormulaList getMainMatches(SignedFormula sf) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

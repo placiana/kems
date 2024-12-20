@@ -44,10 +44,5 @@ public class TrueBottomGetter implements KESignedFormulaGetter {
 						ff.createCompositeFormula(ClassicalConnectives.BOTTOM));
 	}
 
-	@Override
-	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -9,13 +9,13 @@ package rules.ipl;
  */
 public abstract class OneConclusionRule extends Rule {
 	
-	private KEAction _conclusion;
+	private KELabelledAction _conclusion;
 	
-	public KEAction getConclusion(){
+	public KELabelledAction getConclusion(){
 		return _conclusion;
 	}
 	
-	public OneConclusionRule(String name, KEAction conclusion){
+	public OneConclusionRule(String name, KELabelledAction conclusion){
 		super(name);
 		_conclusion = conclusion;
 	}

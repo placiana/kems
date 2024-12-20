@@ -20,6 +20,7 @@ import rules.getters.SubformulaConnectiveRoleGetter;
 import rules.getters.SubformulaRoleGetter;
 import rules.getters.UnaryConnectiveGetter;
 import rules.ipl.ContextSubformulaRoleGetter;
+import rules.ipl.KELabelledAction;
 import rules.ipl.labels.LabelGetter;
 import rules.ipl.labels.MainLabelGetter;
 import rules.patterns.SignConnectivePattern;
@@ -46,8 +47,8 @@ public class IPLRulesPablo {
 	public static final rules.ipl.OnePremissTwoConclusionsRule F_OR = new rules.ipl.OnePremissTwoConclusionsRule(
 			"F_OR",
 			new rules.patterns.ipl.SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.OR), 
-			new rules.ipl.KEAction(ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_LEFT), 
-			new rules.ipl.KEAction(ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_RIGHT));	
+			new KELabelledAction(ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_LEFT, LabelGetter.MAIN), 
+			new KELabelledAction(ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_RIGHT, LabelGetter.MAIN));	
 
 	// 2
 	public static final rules.ipl.OnePremissTwoConclusionsRule T_AND = new rules.ipl.OnePremissTwoConclusionsRule(
@@ -59,7 +60,7 @@ public class IPLRulesPablo {
 				ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.TRUE_RIGHT, LabelGetter.MAIN));
 
 
-	// 3?
+	// 3
 	static final rules.patterns.ipl.SignConnectiveRoleSubformulaPattern pattern_X_OR_F_LEFT = new rules.patterns.ipl.SignConnectiveRoleSubformulaPattern(
 		IPLConnectives.OR, 	// connective that may appear in any subformula of the main formula.
 		IPLSigns.FALSE, 	// sign of the auxiliary formula.
@@ -69,9 +70,10 @@ public class IPLRulesPablo {
 	public static final rules.ipl.TwoPremisesOneConclusionRule X_OR_F_LEFT = new rules.ipl.TwoPremisesOneConclusionRule(
 			"X_OR_F_LEFT", 
 			pattern_X_OR_F_LEFT,
-			new rules.ipl.KEAction(
-					ActionType.ADD_NODE,
-				new rules.ipl.SubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT)
+			new KELabelledAction(
+				ActionType.ADD_NODE,
+				new SubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT),
+				LabelGetter.MAIN
 			));
 
 	// 4
@@ -82,11 +84,24 @@ public class IPLRulesPablo {
 
 	public static final rules.ipl.TwoPremisesOneConclusionRule T_OR_F_RIGHT = new rules.ipl.TwoPremisesOneConclusionRule(
 			"X_OR_F_RIGHT", pattern_X_OR_F_RIGHT,
-			new rules.ipl.KEAction(
+			new KELabelledAction(
 				ActionType.ADD_NODE,
-				new rules.ipl.SubformulaRoleGetter(pattern_X_OR_F_RIGHT, KERuleRole.LEFT)
+				new rules.ipl.SubformulaRoleGetter(pattern_X_OR_F_RIGHT, KERuleRole.LEFT),
+				LabelGetter.MAIN
 			));
 
+	// 17
+	public static final rules.ipl.OnePremiseOneConclusionRule F_NOT = new rules.ipl.OnePremiseOneConclusionRule(
+		"F_NOT",
+		new rules.patterns.ipl.SignConnectivePattern(
+				IPLSigns.FALSE, 
+				IPLConnectives.NOT), 
+		new KELabelledAction(
+				ActionType.ADD_NODE, 
+				UnaryConnectiveGetter.TRUE,
+				LabelGetter.NEW));
+
+	
 
 	// 3 ? 
 	public static final TwoPremisesOneConclusionRule T_OR_LEFT = new TwoPremisesOneConclusionRule(
@@ -149,14 +164,6 @@ public class IPLRulesPablo {
 				ActionType.ADD_NODE, 
 				UnaryConnectiveGetter.FALSE));
 
-	// 17
-	public static final OnePremiseOneConclusionRule F_NOT = new OnePremiseOneConclusionRule("F_NOT",
-		new SignConnectivePattern(
-				IPLSigns.FALSE, 
-				IPLConnectives.NOT), 
-		new KEAction(
-				ActionType.ADD_NODE, 
-				UnaryConnectiveGetter.TRUE));
 
 	// ??
 	static final SignConnectiveRoleSubformulaPattern pattern_X_NOT_T = new SignConnectiveRoleSubformulaPattern(

@@ -70,10 +70,5 @@ public class UnaryConnectiveConnectiveGetter implements KESignedFormulaGetter
 				.getImmediateSubformulas().get(0));
 	}
 
-	@Override
-	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

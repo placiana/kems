@@ -29,11 +29,7 @@ public class C1_T_NOT_ANY_Getter implements KESignedFormulaGetter {
 				.createSignedFormula(_sign, C1_F_CONS_ANY_Getter.createC1ConsistencyFormula(ff, f));
 	}
 
-	@Override
-	public LabelledFormula getLabelledFormula(SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 
 }

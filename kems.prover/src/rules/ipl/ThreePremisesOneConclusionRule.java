@@ -29,7 +29,7 @@ public class ThreePremisesOneConclusionRule extends
 	 * @param conclusion
 	 */
 	public ThreePremisesOneConclusionRule(String name,
-			ITernarySignedFormulaPattern premise, KEAction conclusion) {
+			ITernarySignedFormulaPattern premise, KELabelledAction conclusion) {
 		super(name, conclusion);
 		_premise = premise;
 	}

@@ -5,6 +5,7 @@
 package rules.ipl;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
@@ -23,7 +24,7 @@ public class OnePremiseOneConclusionRule extends OneConclusionRule {
     IUnarySignedFormulaPattern _premise;
 
     public OnePremiseOneConclusionRule(String name,
-            IUnarySignedFormulaPattern premise, KEAction conclusion) {
+            IUnarySignedFormulaPattern premise, KELabelledAction conclusion) {
     	super(name, conclusion);
         _premise = premise;
     }
@@ -45,7 +46,14 @@ public class OnePremiseOneConclusionRule extends OneConclusionRule {
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
 			LabelledFormulaList lfl) {
 		// TODO Auto-generated method stub
-		return null;
+		LabelledFormula premise = lfl.get(0);
+        if (_premise.matches(premise)) {
+            return new LabelledFormulaList(((KESignedFormulaGetter) getConclusion()
+                    .getContent()).getSignedFormula(sff, ff, lfl));
+        } else {
+//            System.err.println(this+ " null for " + sfl);
+            return null;
+        }
 	}
 
 }
