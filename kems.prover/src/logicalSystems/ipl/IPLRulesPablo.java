@@ -11,7 +11,7 @@ import rules.KEAction;
 import rules.KERuleRole;
 import rules.NamedRule;
 import rules.OnePremiseOneConclusionRule;
-import rules.OnePremissTwoConclusionsRule;
+import rules.OnePremiseTwoConclusionsRule;
 import rules.TwoPremisesOneConclusionRule;
 import rules.getters.BinaryConnectiveGetter;
 import rules.getters.BinaryTwoPremisesConnectiveGetter;
@@ -44,14 +44,14 @@ public class IPLRulesPablo {
 
 	// 1
 
-	public static final rules.ipl.OnePremissTwoConclusionsRule F_OR = new rules.ipl.OnePremissTwoConclusionsRule(
+	public static final rules.ipl.OnePremiseTwoConclusionsRule F_OR = new rules.ipl.OnePremiseTwoConclusionsRule(
 			"F_OR",
 			new rules.patterns.ipl.SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.OR), 
 			new KELabelledAction(ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_LEFT, LabelGetter.MAIN), 
 			new KELabelledAction(ActionType.ADD_NODE, rules.ipl.BinaryConnectiveGetter.FALSE_RIGHT, LabelGetter.MAIN));	
 
 	// 2
-	public static final rules.ipl.OnePremissTwoConclusionsRule T_AND = new rules.ipl.OnePremissTwoConclusionsRule(
+	public static final rules.ipl.OnePremiseTwoConclusionsRule T_AND = new rules.ipl.OnePremiseTwoConclusionsRule(
 		"T_AND", 
 		new rules.patterns.ipl.SignConnectivePattern(IPLSigns.TRUE, IPLConnectives.AND),
 		new rules.ipl.KELabelledAction(
@@ -90,6 +90,21 @@ public class IPLRulesPablo {
 				LabelGetter.MAIN
 			));
 
+	/*
+	T not(A or B): Ci
+	-----------------
+	T not A : Ci
+	T not B : Ci
+	
+	*/
+	public static final rules.ipl.OnePremiseTwoConclusionsRule T_NOT_A_OR_B = new rules.ipl.OnePremiseTwoConclusionsRule(
+		"T_NOT_A_OR_B",
+		null,
+		null,
+		null
+	);
+			
+	
 	// 17
 	public static final rules.ipl.OnePremiseOneConclusionRule F_NOT = new rules.ipl.OnePremiseOneConclusionRule(
 		"F_NOT",
@@ -314,7 +329,7 @@ public class IPLRulesPablo {
 
 
 	// rules with implies
-	public static final OnePremissTwoConclusionsRule F_IMPLIES = new OnePremissTwoConclusionsRule(
+	public static final OnePremiseTwoConclusionsRule F_IMPLIES = new OnePremiseTwoConclusionsRule(
 			"F_IMPLIES", 
 			new SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.IMPLIES),
 			new KEAction(

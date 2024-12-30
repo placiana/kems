@@ -9,7 +9,7 @@ import rules.KEAction;
 import rules.KERuleRole;
 import rules.NamedRule;
 import rules.OnePremiseOneConclusionRule;
-import rules.OnePremissTwoConclusionsRule;
+import rules.OnePremiseTwoConclusionsRule;
 import rules.TwoPremisesOneConclusionRule;
 import rules.getters.BinaryConnectiveGetter;
 import rules.getters.BinaryTwoPremisesConnectiveGetter;
@@ -63,7 +63,7 @@ public class ClassicalRules {
 			));
 
 	// rules with and
-	public static final OnePremissTwoConclusionsRule T_AND = new OnePremissTwoConclusionsRule(
+	public static final OnePremiseTwoConclusionsRule T_AND = new OnePremiseTwoConclusionsRule(
 			"T_AND", new SignConnectivePattern(ClassicalSigns.TRUE, ClassicalConnectives.AND),
 			new KEAction(ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_LEFT), new KEAction(
 					ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_RIGHT));
@@ -125,7 +125,7 @@ public class ClassicalRules {
 
 	// rules with or
 
-	public static final OnePremissTwoConclusionsRule F_OR = new OnePremissTwoConclusionsRule("F_OR",
+	public static final OnePremiseTwoConclusionsRule F_OR = new OnePremiseTwoConclusionsRule("F_OR",
 			new SignConnectivePattern(ClassicalSigns.FALSE, ClassicalConnectives.OR), 
 			new KEAction(
 					ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_LEFT), 
@@ -186,7 +186,7 @@ public class ClassicalRules {
 			));
 
 	// rules with implies
-	public static final OnePremissTwoConclusionsRule F_IMPLIES = new OnePremissTwoConclusionsRule(
+	public static final OnePremiseTwoConclusionsRule F_IMPLIES = new OnePremiseTwoConclusionsRule(
 			"F_IMPLIES", new SignConnectivePattern(ClassicalSigns.FALSE, ClassicalConnectives.IMPLIES),
 			new KEAction(ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_LEFT), new KEAction(
 					ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_RIGHT));

@@ -45,11 +45,14 @@ public class OnePremiseOneConclusionRule extends OneConclusionRule {
 	public LabelledFormulaList getPossibleConclusions(
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
 			LabelledFormulaList lfl) {
-		// TODO Auto-generated method stub
 		LabelledFormula premise = lfl.get(0);
-        if (_premise.matches(premise)) {
-            return new LabelledFormulaList(((KESignedFormulaGetter) getConclusion()
-                    .getContent()).getSignedFormula(sff, ff, lfl));
+        if (_premise.matches(premise.getSignedFormula())) {
+        	LabelledFormula lf = getConclusion().getLabelledFormula(lff, sff, ff, lfl);
+    		//SignedFormula sf = ( getConclusion().getContent()).getSignedFormula(sff, ff, lfl.toSignedFormulaList())
+            return new LabelledFormulaList(
+            	lf	
+            	//	((KESignedFormulaGetter) getConclusion().getContent()).getSignedFormula(sff, ff, lfl)
+        	);
         } else {
 //            System.err.println(this+ " null for " + sfl);
             return null;

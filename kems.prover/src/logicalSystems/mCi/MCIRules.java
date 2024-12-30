@@ -11,7 +11,7 @@ import logicalSystems.mbc.MBCRules;
 import rules.ActionType;
 import rules.KEAction;
 import rules.OnePremiseOneConclusionRule;
-import rules.OnePremissTwoConclusionsRule;
+import rules.OnePremiseTwoConclusionsRule;
 import rules.getters.TrueBottomGetter;
 import rules.getters.UnaryConnectiveConnectiveConnectiveGetter;
 import rules.getters.UnaryConnectiveConnectiveGetter;
@@ -34,7 +34,7 @@ public class MCIRules extends MBCRules{
 	//        -----
 	//        T   A
 	//        T  !A
-    public static OnePremissTwoConclusionsRule T_NOT_CONS = new OnePremissTwoConclusionsRule(
+    public static OnePremiseTwoConclusionsRule T_NOT_CONS = new OnePremiseTwoConclusionsRule(
             "T_NOT_CONS",
             new SignConnectiveConnectivePattern(ClassicalSigns.TRUE,
                     ClassicalConnectives.NOT, MBCConnectives.CONSISTENCY),

@@ -21,13 +21,13 @@ import rules.patterns.ipl.IUnaryLabelledFormulaPattern;
  * 
  *  
  */
-public class OnePremissTwoConclusionsRule extends Rule {
+public class OnePremiseTwoConclusionsRule extends Rule {
 
 	IUnaryLabelledFormulaPattern _premise;
 
 	KELabelledAction _conclusion1, _conclusion2;
 
-    public OnePremissTwoConclusionsRule(String name,
+    public OnePremiseTwoConclusionsRule(String name,
     		IUnaryLabelledFormulaPattern premise, 
     		KELabelledAction conclusion1,
     		KELabelledAction conclusion2) {

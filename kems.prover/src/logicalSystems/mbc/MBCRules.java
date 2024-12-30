@@ -11,7 +11,7 @@ import rules.KEAction;
 import rules.KERuleRole;
 import rules.NamedRule;
 import rules.OnePremiseOneConclusionRule;
-import rules.OnePremissTwoConclusionsRule;
+import rules.OnePremiseTwoConclusionsRule;
 import rules.ThreePremisesOneConclusionRule;
 import rules.TwoPremisesOneConclusionRule;
 import rules.getters.BinaryConnectiveConnectiveGetter;
@@ -41,21 +41,21 @@ public class MBCRules {
 	public static OnePremiseOneConclusionRule F_NOT = ClassicalRules.F_NOT;
 
 	// simple rules with AND
-	public static OnePremissTwoConclusionsRule T_AND = ClassicalRules.T_AND;
+	public static OnePremiseTwoConclusionsRule T_AND = ClassicalRules.T_AND;
 
 	public static TwoPremisesOneConclusionRule F_AND_LEFT = ClassicalRules.F_AND_LEFT;
 
 	public static TwoPremisesOneConclusionRule F_AND_RIGHT = ClassicalRules.F_AND_RIGHT;
 	
 	// simple rules with OR
-	public static OnePremissTwoConclusionsRule F_OR = ClassicalRules.F_OR;
+	public static OnePremiseTwoConclusionsRule F_OR = ClassicalRules.F_OR;
 
 	public static TwoPremisesOneConclusionRule T_OR_LEFT = ClassicalRules.T_OR_LEFT;
 
 	public static TwoPremisesOneConclusionRule T_OR_RIGHT = ClassicalRules.T_OR_RIGHT;
 	
 	// simple rules with IMPLIES
-	public static OnePremissTwoConclusionsRule F_IMPLIES = ClassicalRules.F_IMPLIES;
+	public static OnePremiseTwoConclusionsRule F_IMPLIES = ClassicalRules.F_IMPLIES;
 
 	public static TwoPremisesOneConclusionRule T_IMPLIES_LEFT = ClassicalRules.T_IMPLIES_LEFT;
 

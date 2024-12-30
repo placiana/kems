@@ -17,7 +17,7 @@ import logicalSystems.c1.C1Signs;
 import org.junit.Before;
 import org.junit.Test;
 
-import rules.OnePremissTwoConclusionsRule;
+import rules.OnePremiseTwoConclusionsRule;
 import rules.TwoPremisesOneConclusionRule;
 import rules.ipl.Rule;
 import rules.patterns.C1ConsistencyAnyBinaryConnectivePattern;
@@ -69,7 +69,7 @@ public class IPLRuleSetTest {
 
 	@Test
 	public void testRule1FalseOR() {
-		rules.ipl.OnePremissTwoConclusionsRule falseOrRule = IPLRulesPablo.F_OR;
+		rules.ipl.OnePremiseTwoConclusionsRule falseOrRule = IPLRulesPablo.F_OR;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -93,7 +93,7 @@ public class IPLRuleSetTest {
 
 	@Test
 	public void testRule2TrueAnd() {
-		rules.ipl.OnePremissTwoConclusionsRule rule = IPLRulesPablo.T_AND;
+		rules.ipl.OnePremiseTwoConclusionsRule rule = IPLRulesPablo.T_AND;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -190,5 +190,28 @@ public class IPLRuleSetTest {
 		
 		
 		
+	}
+	
+	@Test
+	public void testRule5() {
+		/*
+		T not(A or B): Ci
+		-----------------
+		T not A : Ci
+		T not B : Ci
+		
+		*/
+	}
+
+	@Test
+	public void testRule6() {
+		/*
+		T A or B: Ci
+		T not A : Cj
+		Ci <= Cj or Cj <= Ci
+		-----------------
+		T  B : Ci
+		
+		*/
 	}
 }

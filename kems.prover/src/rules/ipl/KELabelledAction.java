@@ -53,10 +53,8 @@ public class KELabelledAction extends rules.KEAction {
 
 	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
 			LabelledFormulaList lfl) {
-		// TODO Auto-generated method stub
 		SignedFormula sf = getContent().getSignedFormula(sff, ff, lfl.toSignedFormulaList());
 		return lff.createLabelledFormula(this.labelGetter.getLabel(lfl), sf);
 	}
 
-	
 }

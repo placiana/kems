@@ -20,14 +20,14 @@ import rules.patterns.ipl.IUnaryLabelledFormulaPattern;
  * 
  *  
  */
-public class OnePremissTwoConclusionsRule extends Rule {
+public class OnePremiseTwoConclusionsRule extends Rule {
 
     IUnarySignedFormulaPattern _premise;
 	//IUnaryLabelledFormulaPattern _premise;
 
     KEAction _conclusion1, _conclusion2;
 
-    public OnePremissTwoConclusionsRule(String name,
+    public OnePremiseTwoConclusionsRule(String name,
             IUnarySignedFormulaPattern premise, KEAction conclusion1,
             KEAction conclusion2) {
     	super(name);
@@ -36,7 +36,7 @@ public class OnePremissTwoConclusionsRule extends Rule {
         _conclusion2 = conclusion2;
     }
 
-    public OnePremissTwoConclusionsRule(String name,
+    public OnePremiseTwoConclusionsRule(String name,
             IUnaryLabelledFormulaPattern premise, KEAction conclusion1,
             KEAction conclusion2) {
     	super(name);
