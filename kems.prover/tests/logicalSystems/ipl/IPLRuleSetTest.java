@@ -201,6 +201,22 @@ public class IPLRuleSetTest {
 		T not B : Ci
 		
 		*/
+		Rule rule = IPLRulesPablo.T_NOT_A_OR_B;
+		Formula x = ff.createAtomicFormula("X");
+		Formula y = ff.createAtomicFormula("Y");
+		Formula or = ff.createCompositeFormula(IPLConnectives.OR, x, y);
+		Formula notOr = ff.createCompositeFormula(IPLConnectives.NOT, or);
+	
+		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, notOr));
+		
+		LabelledFormulaList lfl = new LabelledFormulaList();
+		lfl.add(main);
+		
+		LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+		
+		assertTrue(conclusions.size() >= 1);
+
+		
 	}
 
 	@Test
@@ -213,5 +229,20 @@ public class IPLRuleSetTest {
 		T  B : Ci
 		
 		*/
+		
+		Formula x = ff.createAtomicFormula("X");
+		Formula y = ff.createAtomicFormula("Y");
+		Formula or = ff.createCompositeFormula(IPLConnectives.OR, x, y);
+		Formula not = ff.createCompositeFormula(IPLConnectives.NOT, x);
+		
+		SignedFormula sOr = sff.createSignedFormula(C1Signs.TRUE, or);
+		SignedFormula sNot = sff.createSignedFormula(C1Signs.TRUE, not);
+		
+		
+		LabelledFormula main = lff.createLabelledFormula("c", sOr);
+		LabelledFormula aux = lff.createLabelledFormula(main.getLabel().getNextFormulaLabel(), sNot);
+		
+		
+		
 	}
 }

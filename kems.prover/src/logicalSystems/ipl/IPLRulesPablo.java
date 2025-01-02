@@ -99,11 +99,46 @@ public class IPLRulesPablo {
 	*/
 	public static final rules.ipl.OnePremiseTwoConclusionsRule T_NOT_A_OR_B = new rules.ipl.OnePremiseTwoConclusionsRule(
 		"T_NOT_A_OR_B",
-		null,
-		null,
-		null
+		new rules.patterns.ipl.TwoLevelCompositeFormulaPattern(IPLConnectives.NOT, IPLConnectives.OR),
+		new KELabelledAction(
+			ActionType.ADD_NODE,
+			new NotSubformulaGetter(KERuleRole.LEFT, IPLSigns.TRUE),
+			LabelGetter.MAIN
+		),
+		new KELabelledAction(
+			ActionType.ADD_NODE,
+			new NotSubformulaGetter(KERuleRole.RIGHT, IPLSigns.TRUE),
+			LabelGetter.MAIN
+		)
 	);
-			
+	
+	/*
+	 * Rule 6
+	T A or B: Ci
+	T not A : Cj
+	Ci <= Cj or Cj <= Ci
+	-----------------
+	T  B : Ci
+	
+	*/
+	
+	// TODO: WORK IN PROGRESS!!!
+	static final rules.patterns.ipl.SignConnectiveRoleSubformulaPattern pattern_T_A_OR_B = new rules.patterns.ipl.SignConnectiveRoleSubformulaPattern(
+			IPLConnectives.OR, 	// connective that may appear in any subformula of the main formula.
+			IPLSigns.TRUE, 	// sign of the auxiliary formula.
+			KERuleRole.LEFT);	// role of the auxiliary formula in the subformula of the main formula 
+								// where the _mainConnective was found.
+
+	public static final rules.ipl.TwoPremisesOneConclusionRule T_A_OR_B = new rules.ipl.TwoPremisesOneConclusionRule(
+			"T_A_OR_B",
+			pattern_T_A_OR_B,
+			new KELabelledAction(
+				ActionType.ADD_NODE,
+				new NotSubformulaGetter(KERuleRole.RIGHT, IPLSigns.TRUE),
+				LabelGetter.MAIN
+			)
+		);
+	
 	
 	// 17
 	public static final rules.ipl.OnePremiseOneConclusionRule F_NOT = new rules.ipl.OnePremiseOneConclusionRule(
