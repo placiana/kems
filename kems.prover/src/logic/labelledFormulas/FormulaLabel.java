@@ -3,14 +3,14 @@ package logic.labelledFormulas;
 import java.util.Objects;
 
 public class FormulaLabel implements Comparable<FormulaLabel>{
-	private enum LabelType {
+	public enum LabelType {
 		CONSTANT, VARIABLE, NONE
 	}
 
-	private final LabelType type;
+	protected final LabelType type;
 	private final int index;
 
-	private FormulaLabel(LabelType type, int index) {
+	public FormulaLabel(LabelType type, int index) {
 		this.type = type;
 		this.index = index;
 	}

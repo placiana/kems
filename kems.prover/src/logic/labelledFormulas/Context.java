@@ -11,18 +11,17 @@ import java.util.Set;
 
 public class Context {
 
-	private LinkedList<FormulaLabel> labels;
-	
+    private LinkedList<FormulaLabel> labels;
+
     private final Map<FormulaLabel, Set<FormulaLabel>> greaterThanMap;
     private final Map<FormulaLabel, Set<FormulaLabel>> lessThanMap;
 
-
-	public Context() {
-		labels = new LinkedList<FormulaLabel>();
+    public Context() {
+        labels = new LinkedList<FormulaLabel>();
         this.greaterThanMap = new HashMap<>();
         this.lessThanMap = new HashMap<>();
 
-	}
+    }
 
     // Add an element to the set
     public void addElement(FormulaLabel element) {
@@ -44,9 +43,9 @@ public class Context {
         if (isLessThan(a, b)) {
             return -1; // a < b
         } else if (isGreaterThan(a, b)) {
-            return 1;  // a > b
+            return 1; // a > b
         } else {
-            return 0;  // a and b are incomparable
+            return 0; // a and b are incomparable
         }
     }
 
@@ -59,6 +58,7 @@ public class Context {
     public boolean isGreaterThan(FormulaLabel a, FormulaLabel b) {
         return lessThanMap.get(a).contains(b);
     }
+
     // Check if a == b (i.e., a and b are comparable and equal)
     public boolean isEqual(FormulaLabel a, FormulaLabel b) {
         return !isLessThan(a, b) && !isGreaterThan(a, b);
@@ -100,28 +100,25 @@ public class Context {
             System.out.println(entry.getKey() + " < " + entry.getValue());
         }
     }
-    
-	
-	public FormulaLabel getNewFormulaLabel() {
-		FormulaLabel newLabel;
-		if (this.labels.isEmpty()) {
-			newLabel = FormulaLabel.constant(0);
-			
-		} else {
-			newLabel = this.labels.getLast().getNextFormulaLabel();
-		}
-		this.labels.addLast(newLabel);
 
-		
-		addElement(newLabel);
-		return newLabel;
-	}
+    public FormulaLabel getNewFormulaLabel() {
+        FormulaLabel newLabel;
+        if (this.labels.isEmpty()) {
+            newLabel = new ContextFormulaLabel(this, this.labels.size());
 
-	public FormulaLabel getNewFormulaLabelGreaterThan(FormulaLabel label) {
-		FormulaLabel newFormulaLabel = getNewFormulaLabel();
-		createGreaterThan(label, newFormulaLabel);
-		return newFormulaLabel;
-	}
+        } else {
+            newLabel = this.labels.getLast().getNextFormulaLabel();
+        }
+        this.labels.addLast(newLabel);
 
+        addElement(newLabel);
+        return newLabel;
+    }
+
+    public FormulaLabel getNewFormulaLabelGreaterThan(FormulaLabel label) {
+        FormulaLabel newFormulaLabel = getNewFormulaLabel();
+        createGreaterThan(label, newFormulaLabel);
+        return newFormulaLabel;
+    }
 
 }

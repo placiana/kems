@@ -103,7 +103,7 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 					;
 			return result;
 		} else
-			return null;
+			return new LabelledFormulaList();
 		}
 
 

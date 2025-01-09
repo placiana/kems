@@ -6,21 +6,21 @@ import logic.signedFormulas.SignedFormula;
 
 public class LabelledFormula {
 
-	private FormulaLabel context;
+	private FormulaLabel _label;
 	private SignedFormula signedFormula;
 
 	public LabelledFormula(FormulaLabel aLabel, SignedFormula aSignedFormula) {
 		this.signedFormula = aSignedFormula;
-		this.context = aLabel;
+		this._label = aLabel;
 	}
 	
 	public FormulaLabel getLabel() {
-		return context;
+		return _label;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(context, signedFormula);
+		return Objects.hash(_label, signedFormula);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class LabelledFormula {
 		if (getClass() != obj.getClass())
 			return false;
 		LabelledFormula other = (LabelledFormula) obj;
-		return Objects.equals(context, other.context) && Objects.equals(signedFormula, other.signedFormula);
+		return Objects.equals(_label, other._label) && Objects.equals(signedFormula, other.signedFormula);
 	}
 
 	public SignedFormula getSignedFormula() {
@@ -40,7 +40,7 @@ public class LabelledFormula {
 	}
 	
     public String toString() {
-        return signedFormula.toString() + " " + this.context.toString();
+        return signedFormula.toString() + " " + this._label.toString();
     }
 
 	private String toString(SignedFormula signedFormula2, FormulaLabel context2) {

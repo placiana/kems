@@ -5,6 +5,7 @@
 package rules;
 
 import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 
 import logic.formulas.Formula;
@@ -30,7 +31,7 @@ public class KERuleRole {
     }
 
     public List<Formula> getFormulas(Formula f) {
-        List<Formula> result = new ArrayList<Formula>();
+        List<Formula> result = new ArrayList<Formula>();   // new ArrayList<Formula>();
         if (this.equals(KERuleRole.LEFT)) {
             result.add(f.getImmediateSubformulas().get(0));
         } else if (this.equals(KERuleRole.RIGHT)) {

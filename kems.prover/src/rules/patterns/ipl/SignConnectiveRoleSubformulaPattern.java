@@ -16,6 +16,7 @@ import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.KERuleRole;
+import rules.ipl.labels.LabelCondition;
 
 public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormulaPattern, ISubformulaPattern {
 
@@ -24,18 +25,26 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
     FormulaSign _auxiliarySign;
 
     KERuleRole _auxiliaryRole;
+    
+    LabelCondition _labelCondition;
 
     Formula _match;
 	
-	public SignConnectiveRoleSubformulaPattern(Connective conn, FormulaSign sign, KERuleRole ruleRole) {
-		_mainConnective = conn;
-		_auxiliarySign = sign;
-		_auxiliaryRole = ruleRole;
-	}
 
+   public SignConnectiveRoleSubformulaPattern(Connective conn, FormulaSign sign, KERuleRole ruleRole, LabelCondition labelCondition) {
+        _mainConnective = conn;
+        _auxiliarySign = sign;
+        _auxiliaryRole = ruleRole;
+        _labelCondition = labelCondition;
+        
+    }
 	@Override
 	public boolean matches(LabelledFormula main, LabelledFormula auxiliary) {
-        return auxiliary.getSignedFormula().getSign().equals(_auxiliarySign)
+	    LabelledFormulaList lfl = new LabelledFormulaList();
+	    lfl.add(main);
+	    lfl.add(auxiliary);
+	    boolean labelCondition = _labelCondition.matches(lfl); 
+        return labelCondition && auxiliary.getSignedFormula().getSign().equals(_auxiliarySign)
                 && recursivelyMatches(main.getSignedFormula().getFormula(), auxiliary);
 	}
 
