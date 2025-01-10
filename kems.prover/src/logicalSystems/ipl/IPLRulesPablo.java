@@ -127,7 +127,6 @@ public class IPLRulesPablo {
 	
 	*/
 	
-	// TODO: WORK IN PROGRESS!!!
 	static final rules.patterns.ipl.SignConnectiveRoleSubformulaPattern pattern_T_A_OR_B = new rules.patterns.ipl.SignConnectiveRoleSubformulaPattern(
 			IPLConnectives.OR, 	// connective that may appear in any subformula of the main formula.
 			IPLSigns.TRUE, 	// sign of the auxiliary formula.
@@ -137,15 +136,66 @@ public class IPLRulesPablo {
 								
 
 	public static final rules.ipl.TwoPremisesOneConclusionRule T_A_OR_B = new rules.ipl.TwoPremisesOneConclusionRule(
-			"T_A_OR_B",
-			pattern_T_A_OR_B,
-			new KELabelledAction(
-				ActionType.ADD_NODE,
-				new NotSubformulaGetter(KERuleRole.RIGHT, IPLSigns.TRUE),
-				LabelGetter.MAIN
-			)
-		);
+		"T_A_OR_B",
+		pattern_T_A_OR_B,
+		new KELabelledAction(
+			ActionType.ADD_NODE,
+			new rules.ipl.SubformulaRoleGetter(pattern_T_A_OR_B, KERuleRole.RIGHT),
+			LabelGetter.MAIN
+		)
+	);
 	
+    /*
+     * Regla 7
+     * T A or B : ci
+     * T not B: cj
+     * ci <= cj or cj <= ci
+     * --------------------
+     * TA: Ci
+     */
+    static final rules.patterns.ipl.SignConnectiveRoleSubformulaPattern pattern_T_A_OR_B_NOT_B = new rules.patterns.ipl.SignConnectiveRoleSubformulaPattern(
+            IPLConnectives.OR,  // connective that may appear in any subformula of the main formula.
+            IPLSigns.TRUE,  // sign of the auxiliary formula.
+            new KEDecoratedRuleRole("Right", IPLConnectives.NOT),   // role of the auxiliary formula in the subformula of the main formula 
+                                                                   // where the _mainConnective was found.
+            new BinarySomeRelationLabelCondition());    
+                    
+	
+	public static final rules.ipl.TwoPremisesOneConclusionRule T_A_OR_B_NOT_B = new rules.ipl.TwoPremisesOneConclusionRule(
+            "T_A_OR_B_NOT_B",
+            pattern_T_A_OR_B_NOT_B,
+            new KELabelledAction(
+                ActionType.ADD_NODE,
+                new rules.ipl.SubformulaRoleGetter(pattern_T_A_OR_B_NOT_B, KERuleRole.LEFT),
+                //new NotSubformulaGetter(KERuleRole.RIGHT, IPLSigns.TRUE),
+                LabelGetter.MAIN
+            )
+        );	
+	
+	// Regla 8
+    /*
+     * F A and B : cJ
+     * T A : cI
+     * cI <= cJ
+     * ----------
+     * F B : cJ
+     */    
+	
+	public static final rules.ipl.TwoPremisesOneConclusionRule F_AND_LEFT = new rules.ipl.TwoPremisesOneConclusionRule(
+            "F_AND_LEFT",
+
+            new rules.patterns.ipl.TwoSignsConnectiveRolePattern(
+                    IPLSigns.FALSE,     // main sign
+                    IPLConnectives.AND, // main connective
+                    IPLSigns.TRUE,      // aux sign
+                    KERuleRole.LEFT,    // aux role
+                    new BinarySomeRelationLabelCondition()
+            ),   
+            new KELabelledAction(
+                    ActionType.ADD_NODE,
+                    BinaryTwoPremisesConnectiveGetter.FALSE_OTHER,
+                    LabelGetter.MAIN
+            ));
 
     // Regla 9
     /*
@@ -171,7 +221,24 @@ public class IPLRulesPablo {
         )
     );	
 	
-	
+    // Regla 10
+    /*
+    T not (A and B) : cI
+    T A : cJ
+    ci <= ck and cj <= cK
+    -----------------
+    T not B : cK
+    */
+    public static final rules.ipl.TwoPremisesOneConclusionRule T_NOT_A_AND_B = new rules.ipl.TwoPremisesOneConclusionRule(
+            "T_NOT_A_AND_B",
+
+            new rules.patterns.ipl.TwoLevelCompositeFormulaPattern(IPLConnectives.NOT, IPLConnectives.OR),  
+            new KELabelledAction(
+                    ActionType.ADD_NODE,
+                    BinaryTwoPremisesConnectiveGetter.FALSE_OTHER,
+                    LabelGetter.MAIN
+            ));
+    
 	// 17
 	public static final rules.ipl.OnePremiseOneConclusionRule F_NOT = new rules.ipl.OnePremiseOneConclusionRule(
 		"F_NOT",
@@ -279,35 +346,7 @@ public class IPLRulesPablo {
 
 	// rules with and
 
-	// Regla 8
-	public static final TwoPremisesOneConclusionRule F_AND_LEFT = new TwoPremisesOneConclusionRule(
-			"F_AND_LEFT",
-
-			new TwoSignsConnectiveRolePattern(
-					IPLSigns.FALSE, 	// main sign
-					IPLConnectives.AND,	// main connective
-					IPLSigns.TRUE, 		// aux sign
-					KERuleRole.LEFT), 	// aux role
-			new KEAction(
-					ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
 	
-	// cual es? 8 tambien?
-	static final SignConnectiveRoleSubformulaPattern pattern_X_AND_T_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.AND, 	// main con
-			IPLSigns.TRUE, 			// aux sign
-			KERuleRole.LEFT);		// aux role
-
-	public static final TwoPremisesOneConclusionRule X_AND_T_LEFT = new TwoPremisesOneConclusionRule(
-			"X_AND_T_LEFT", 
-			pattern_X_AND_T_LEFT,
-			new KEAction(ActionType.ADD_NODE,
-				new SubformulaRoleGetter(
-					pattern_X_AND_T_LEFT, 
-					KERuleRole.RIGHT)
-	));
-
 
 
 	// Regla 12 (implica)

@@ -170,30 +170,7 @@ public class IPLRuleSetTest {
 
 	}
 
-	@Test
-	public void testRule17Not() {
-		Rule rule = IPLRulesPablo.F_NOT;
 
-		x = ff.createAtomicFormula("X");
-		Formula y = ff.createAtomicFormula("Y");
-		Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
-
-		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, not_x));
-		
-		LabelledFormulaList lfl = new LabelledFormulaList();
-		lfl.add(main);
-		
-		LabelledFormulaList conclusions;
-		conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
-		assertTrue(conclusions.size() == 1);
-		
-		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
-		assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
-		
-		
-		
-	}
-	
 	@Test
 	public void testRule5() {
 		/*
@@ -220,6 +197,7 @@ public class IPLRuleSetTest {
 
 		
 	}
+
 
 	@Test
 	public void testRule6() {
@@ -256,47 +234,154 @@ public class IPLRuleSetTest {
         LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
         
         assertTrue(conclusions.size() >= 1);
-		
+        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(y));
+        assertTrue(conclusions.get(0).getLabel().equals(mainLabel));
+        
 	}
-	
-	   @Test
-	    public void testRule9() {
-	        /*
-	        F A and B: Cj
-	        T B : Ci
-	        Ci <= Cj
-	        -----------------
-	        F A : Cj
-	        
-	        */
-	       
-	        Rule rule = IPLRulesPablo.X_AND_T_RIGHT;
-	        
-	        Formula x = ff.createAtomicFormula("X");
-	        Formula y = ff.createAtomicFormula("Y");
-	        Formula and = ff.createCompositeFormula(IPLConnectives.AND, x, y);
-	        //Formula not = ff.createCompositeFormula(IPLConnectives.NOT, y);
-	        
-	        SignedFormula sAnd = sff.createSignedFormula(C1Signs.FALSE, and);
-	        SignedFormula sY = sff.createSignedFormula(C1Signs.TRUE, y);
-	        
-	        Context c = new Context();
-	        FormulaLabel auxLabel = c.getNewFormulaLabel();
-	        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
-	        
-	        LabelledFormula main = lff.createLabelledFormula(mainLabel, sAnd);
-	        LabelledFormula aux = lff.createLabelledFormula(auxLabel, sY);
 
+
+    @Test
+    public void testRule7() {
+        /*
+         * T A or B : ci
+         * T not B: cj
+         * ci <= cj or cj <= ci
+         * --------------------
+         * TA: Ci
+         */
+        
+        Rule rule = IPLRulesPablo.T_A_OR_B_NOT_B;
+        
+        Formula x = ff.createAtomicFormula("X");
+        Formula y = ff.createAtomicFormula("Y");
+        Formula or = ff.createCompositeFormula(IPLConnectives.OR, x, y);
+        Formula not = ff.createCompositeFormula(IPLConnectives.NOT, y);
+        
+        SignedFormula sOr = sff.createSignedFormula(C1Signs.TRUE, or);
+        SignedFormula sNot = sff.createSignedFormula(C1Signs.TRUE, not);
+        
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        FormulaLabel auxLabel = c.getNewFormulaLabelGreaterThan(mainLabel);
+        
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sOr);
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, sNot);
+
+        LabelledFormulaList lfl = new LabelledFormulaList();
+        lfl.add(main);
+        lfl.add(aux);
+
+        LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+        
+        assertTrue(conclusions.size() >= 1);
+        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
+        assertTrue(conclusions.get(0).getLabel().equals(mainLabel));
+    }
+    
+    @Test
+    public void testRule8() {
+    /*
+     * F A and B : cJ
+     * T A : cI
+     * cI <= cJ
+     * ----------
+     * F B : cJ
+     */
+        Rule rule = IPLRulesPablo.F_AND_LEFT;
+        
+        Formula x = ff.createAtomicFormula("X");
+        Formula y = ff.createAtomicFormula("Y");
+        Formula and = ff.createCompositeFormula(IPLConnectives.AND, x, y);
+        //Formula not = ff.createCompositeFormula(IPLConnectives.NOT, y);
+        
+        SignedFormula sOr = sff.createSignedFormula(C1Signs.FALSE, and);
+        SignedFormula sNot = sff.createSignedFormula(C1Signs.TRUE, x);
+        
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        FormulaLabel auxLabel = c.getNewFormulaLabelGreaterThan(mainLabel);
+        
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sOr);
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, sNot);
+
+        LabelledFormulaList lfl = new LabelledFormulaList();
+        lfl.add(main);
+        lfl.add(aux);
+
+        LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+        
+        assertTrue(conclusions.size() >= 1);
+        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.FALSE));
+        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(y));
+        assertTrue(conclusions.get(0).getLabel().equals(mainLabel));
+    }
+    
+	@Test
+    public void testRule9() {
+        /*
+        F A and B: Cj
+        T B : Ci
+        Ci <= Cj
+        -----------------
+        F A : Cj
+        
+        */
+       
+        Rule rule = IPLRulesPablo.X_AND_T_RIGHT;
+        
+        Formula x = ff.createAtomicFormula("X");
+        Formula y = ff.createAtomicFormula("Y");
+        Formula and = ff.createCompositeFormula(IPLConnectives.AND, x, y);
+        //Formula not = ff.createCompositeFormula(IPLConnectives.NOT, y);
+        
+        SignedFormula sAnd = sff.createSignedFormula(C1Signs.FALSE, and);
+        SignedFormula sY = sff.createSignedFormula(C1Signs.TRUE, y);
+        
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+        
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sAnd);
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, sY);
+
+        LabelledFormulaList lfl = new LabelledFormulaList();
+        lfl.add(main);
+        lfl.add(aux);
+
+        LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+        
+        assertTrue(conclusions.size() >= 1);
+
+        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.FALSE));
+        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
+        
+   }
+
+	    @Test
+	    public void testRule17Not() {
+	        Rule rule = IPLRulesPablo.F_NOT;
+
+	        x = ff.createAtomicFormula("X");
+	        Formula y = ff.createAtomicFormula("Y");
+	        Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+
+	        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, not_x));
+	        
 	        LabelledFormulaList lfl = new LabelledFormulaList();
 	        lfl.add(main);
-	        lfl.add(aux);
-
-	        LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
 	        
-	        assertTrue(conclusions.size() >= 1);
-
-	        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.FALSE));
+	        LabelledFormulaList conclusions;
+	        conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+	        assertTrue(conclusions.size() == 1);
+	        
+	        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
 	        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
 	        
-	   }
+	        
+	        
+	    }
+	    
+
 }
