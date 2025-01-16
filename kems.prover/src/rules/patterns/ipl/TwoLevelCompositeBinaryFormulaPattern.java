@@ -103,8 +103,13 @@ public class TwoLevelCompositeBinaryFormulaPattern implements IBinarySignedFormu
 
     @Override
     public Formula getMatchedSubformula(SignedFormulaList sfl) {
-        // TODO Auto-generated method stub
-        return null;
+        SignedFormula signedMain = sfl.get(0);
+        if (matchesMain(signedMain)) {
+            List<Formula> subs = ((CompositeFormula) signedMain.getFormula()).getImmediateSubformulas();
+            
+            return subs.get(0);
+        }
+        return  null;
     }
 
     @Override
@@ -116,7 +121,8 @@ public class TwoLevelCompositeBinaryFormulaPattern implements IBinarySignedFormu
     @Override
     public Formula getMatchedSubformula(LabelledFormulaList sfl) {
         // TODO Auto-generated method stub
-        return null;
+        LabelledFormula main = sfl.get(0);
+        return main.getSignedFormula().getFormula();
     }
 
     @Override

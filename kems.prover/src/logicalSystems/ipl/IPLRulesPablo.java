@@ -244,13 +244,88 @@ public class IPLRulesPablo {
         T_NOT_AND_B_PATTERN,
 
         new KELabelledAction(
-                ActionType.ADD_NODE,
-                new SubformulaRoleGetter(T_NOT_AND_B_PATTERN, KERuleRole.LEFT),
-                LabelGetter.MAIN
+            ActionType.ADD_NODE,
+            //new SubformulaRoleGetter(T_NOT_AND_B_PATTERN, KERuleRole.LEFT),
+            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Right", IPLConnectives.NOT) ),
+            LabelGetter.MAIN
         )
     );
     
-	// 17
+    
+    // Regla 11
+    /*
+    T not (A and B) : cI
+    T B : cJ
+    ci <= ck and cj <= cK
+    -----------------
+    T not A : cK
+    */
+    public static final TwoLevelCompositeBinaryFormulaPattern pattern_T_NOT_AND_LEFT = new TwoLevelCompositeBinaryFormulaPattern(
+            IPLConnectives.NOT, 
+            IPLConnectives.AND, 
+            IPLSigns.TRUE,
+            IPLSigns.TRUE, 
+            new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
+            new BinarySomeRelationLabelCondition());
+    
+    public static final  rules.ipl.TwoPremisesOneConclusionRule T_NOT_AND_LEFT = new  rules.ipl.TwoPremisesOneConclusionRule(
+        "T_NOT_AND_LEFT",
+        pattern_T_NOT_AND_LEFT,
+        new KELabelledAction(
+            ActionType.ADD_NODE,
+            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Left", IPLConnectives.NOT) ),
+            LabelGetter.MAIN
+        )
+    );
+            
+
+    // Regla 12 (implica)
+    public static final TwoPremisesOneConclusionRule T_IMPLIES_LEFT = new TwoPremisesOneConclusionRule(
+            "T_IMPLIES_LEFT",
+            new TwoSignsConnectiveRolePattern(
+                    IPLSigns.TRUE, 
+                    IPLConnectives.IMPLIES,
+                    IPLSigns.TRUE, 
+                    KERuleRole.LEFT), 
+            new KEAction(ActionType.ADD_NODE,
+                    BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
+
+    // Regla 12 bis (implica) 
+    static final SignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_T_LEFT = new SignConnectiveRoleSubformulaPattern(
+            IPLConnectives.IMPLIES, 
+            IPLSigns.TRUE, 
+            KERuleRole.LEFT);
+
+    public static final TwoPremisesOneConclusionRule X_IMPLIES_T_LEFT = new TwoPremisesOneConclusionRule(
+            "X_IMPLIES_T_LEFT", 
+            pattern_X_IMPLIES_T_LEFT,
+            new KEAction(
+                ActionType.ADD_NODE, 
+                new SubformulaRoleGetter(
+                    pattern_X_IMPLIES_T_LEFT,
+                    KERuleRole.RIGHT)));
+    
+    
+    // Regla 13
+    static final SignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_F_RIGHT = new SignConnectiveRoleSubformulaPattern(
+            IPLConnectives.IMPLIES, 
+            IPLSigns.FALSE, 
+            KERuleRole.RIGHT);
+
+    public static final TwoPremisesOneConclusionRule X_IMPLIES_F_RIGHT = new TwoPremisesOneConclusionRule(
+            "X_IMPLIES_F_RIGHT", 
+            pattern_X_IMPLIES_F_RIGHT,
+            new KEAction(ActionType.ADD_NODE, 
+                new SubformulaConnectiveRoleGetter(
+                    pattern_X_IMPLIES_F_RIGHT, 
+                    IPLConnectives.NOT, 
+                    KERuleRole.LEFT)));
+
+    
+    
+    
+    
+    // 17
 	public static final rules.ipl.OnePremiseOneConclusionRule F_NOT = new rules.ipl.OnePremiseOneConclusionRule(
 		"F_NOT",
 		new rules.patterns.ipl.SignConnectivePattern(
@@ -357,52 +432,7 @@ public class IPLRulesPablo {
 
 	// rules with and
 
-	
 
-
-	// Regla 12 (implica)
-	public static final TwoPremisesOneConclusionRule T_IMPLIES_LEFT = new TwoPremisesOneConclusionRule(
-			"T_IMPLIES_LEFT",
-			new TwoSignsConnectiveRolePattern(
-					IPLSigns.TRUE, 
-					IPLConnectives.IMPLIES,
-					IPLSigns.TRUE, 
-					KERuleRole.LEFT), 
-			new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	// Regla 12 bis (implica) 
-	static final SignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_T_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.IMPLIES, 
-			IPLSigns.TRUE, 
-			KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_IMPLIES_T_LEFT = new TwoPremisesOneConclusionRule(
-			"X_IMPLIES_T_LEFT", 
-			pattern_X_IMPLIES_T_LEFT,
-			new KEAction(
-				ActionType.ADD_NODE, 
-				new SubformulaRoleGetter(
-					pattern_X_IMPLIES_T_LEFT,
-					KERuleRole.RIGHT)));
-	
-	
-	// Regla 13
-	static final SignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_F_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.IMPLIES, 
-			IPLSigns.FALSE, 
-			KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_IMPLIES_F_RIGHT = new TwoPremisesOneConclusionRule(
-			"X_IMPLIES_F_RIGHT", 
-			pattern_X_IMPLIES_F_RIGHT,
-			new KEAction(ActionType.ADD_NODE, 
-				new SubformulaConnectiveRoleGetter(
-					pattern_X_IMPLIES_F_RIGHT, 
-					IPLConnectives.NOT, 
-					KERuleRole.LEFT)));
-
-	
 	
 	// Cual es? (AND)
 	static final SignConnectiveRoleSubformulaPattern pattern_X_AND_F_LEFT = new SignConnectiveRoleSubformulaPattern(

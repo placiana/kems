@@ -396,9 +396,9 @@ public class IPLRuleSetTest {
         LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
         
         assertTrue(conclusions.size() >= 1);
-
-        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.FALSE));
-        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
+        Formula not_y = ff.createCompositeFormula(IPLConnectives.NOT, y);
+        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(not_y));
         
    }	
 
@@ -412,7 +412,7 @@ public class IPLRuleSetTest {
         -----------------
         T not A : cK
         */
-        Rule rule = IPLRulesPablo.F_NOT; // Replace
+        Rule rule = IPLRulesPablo.T_NOT_AND_LEFT; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");

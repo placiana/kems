@@ -105,9 +105,9 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
 	            //            System.err.println("LR");
 
 	            Formula substitution = (Formula) _role.getFormulas(f).get(0);
-	            //            System.out.println(substitution + " " + f + " " + sfl.get(0) + "
-	            // " + substitute(sff, ff, sfl, f, substitution));
-	            return substitute(sff, ff, sfl, f, substitution);
+	            return sff.createSignedFormula(sfl.get(0).getSign(), substitution);
+
+	            //return substitute(sff, ff, sfl, f, substitution);
 	        }
 
 	        return null;
@@ -138,9 +138,12 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
             //            System.err.println("LR");
 
             Formula substitution = (Formula) _role.getFormulas(f).get(0);
+            return lff.createLabelledFormula(
+                "c", 
+                sff.createSignedFormula(sfl.get(0).getSignedFormula().getSign(), substitution));
             //            System.out.println(substitution + " " + f + " " + sfl.get(0) + "
             // " + substitute(sff, ff, sfl, f, substitution));
-            return substitute(lff, sff, ff, sfl, f, substitution);
+            //return substitute(lff, sff, ff, sfl, f, substitution);
         }
 
         return null;
