@@ -214,7 +214,7 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
     
     private Formula getMatchedSubformula(Formula main, SignedFormula auxiliary) {
 
-        boolean mainMatch = matchesConnective(main);
+         boolean mainMatch = matchesConnective(main);
         //		System.err.println(mainMatch);
 
         if (mainMatch) {

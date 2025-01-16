@@ -24,6 +24,7 @@ import rules.ipl.KEDecoratedRuleRole;
 import rules.ipl.KELabelledAction;
 import rules.ipl.labels.BinarySomeRelationLabelCondition;
 import rules.ipl.labels.GreaterThanLabelCondition;
+import rules.ipl.labels.LabelCondition;
 import rules.ipl.labels.LabelGetter;
 import rules.ipl.labels.MainLabelGetter;
 import rules.ipl.labels.NoLabelCondition;
@@ -32,6 +33,7 @@ import rules.patterns.SignConnectiveRoleSubformulaPattern;
 import rules.patterns.TwoConnectivesRoleSubformulaPattern;
 import rules.patterns.TwoSignsConnectiveRolePattern;
 import rules.patterns.ipl.LowerOrEqualCondition;
+import rules.patterns.ipl.TwoLevelCompositeBinaryFormulaPattern;
 import rules.patterns.ipl.TwoSignsWithContextConnectiveRolePattern;
 
 /**
@@ -229,15 +231,24 @@ public class IPLRulesPablo {
     -----------------
     T not B : cK
     */
-    public static final rules.ipl.TwoPremisesOneConclusionRule T_NOT_A_AND_B = new rules.ipl.TwoPremisesOneConclusionRule(
-            "T_NOT_A_AND_B",
+    public static final TwoLevelCompositeBinaryFormulaPattern T_NOT_AND_B_PATTERN = new TwoLevelCompositeBinaryFormulaPattern(
+        IPLConnectives.NOT, 
+        IPLConnectives.AND, 
+        IPLSigns.TRUE,
+        IPLSigns.TRUE, 
+        new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
+        new BinarySomeRelationLabelCondition());
 
-            new rules.patterns.ipl.TwoLevelCompositeFormulaPattern(IPLConnectives.NOT, IPLConnectives.OR),  
-            new KELabelledAction(
-                    ActionType.ADD_NODE,
-                    BinaryTwoPremisesConnectiveGetter.FALSE_OTHER,
-                    LabelGetter.MAIN
-            ));
+    public static final rules.ipl.TwoPremisesOneConclusionRule T_NOT_A_AND_B = new rules.ipl.TwoPremisesOneConclusionRule(
+        "T_NOT_A_AND_B",
+        T_NOT_AND_B_PATTERN,
+
+        new KELabelledAction(
+                ActionType.ADD_NODE,
+                new SubformulaRoleGetter(T_NOT_AND_B_PATTERN, KERuleRole.LEFT),
+                LabelGetter.MAIN
+        )
+    );
     
 	// 17
 	public static final rules.ipl.OnePremiseOneConclusionRule F_NOT = new rules.ipl.OnePremiseOneConclusionRule(
