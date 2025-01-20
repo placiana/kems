@@ -452,7 +452,7 @@ public class IPLRuleSetTest {
         -----------------
         T B : cK
         */
-        Rule rule = IPLRulesPablo.F_NOT; // Replace
+        Rule rule = IPLRulesPablo.T_IMPLIES_LEFT; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -486,7 +486,7 @@ public class IPLRuleSetTest {
         -----------------
         F A : cJ
         */
-        Rule rule = IPLRulesPablo.F_NOT; // Replace
+        Rule rule = IPLRulesPablo.X_IMPLIES_F_RIGHT;
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -520,14 +520,14 @@ public class IPLRuleSetTest {
         F B: cJ
         cI <= cJ
         */
-        Rule rule = IPLRulesPablo.F_NOT; // Replace
+        Rule rule = IPLRulesPablo.F_A_IMPLIES_B_TA_FB; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
         
         Formula implies = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
         
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, implies));
+        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, implies));
         
         LabelledFormulaList lfl = new LabelledFormulaList();
         lfl.add(main);
@@ -555,7 +555,7 @@ public class IPLRuleSetTest {
         T not B : cK
         cI <= cK
         */
-        Rule rule = IPLRulesPablo.F_NOT; // Replace
+        Rule rule = IPLRulesPablo.F_NOT_A_IMPLIES_B_TA_FB; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -576,8 +576,8 @@ public class IPLRuleSetTest {
         assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
 
         Formula not_y = ff.createCompositeFormula(IPLConnectives.NOT, y);
-        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
-        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(not_y));
+        assertTrue(conclusions.get(1).getSignedFormula().getSign().equals(C1Signs.TRUE));
+        assertTrue(conclusions.get(1).getSignedFormula().getFormula().equals(not_y));
     }	
 
     

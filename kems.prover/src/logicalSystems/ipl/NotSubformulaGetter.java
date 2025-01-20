@@ -22,6 +22,33 @@ public class NotSubformulaGetter implements KESignedFormulaGetter {
 		_sign = sign;
 	}
 
+	
+    @Override
+    public SignedFormula getSignedFormula(SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl) {
+        // TODO Auto-generated method stub
+        SignedFormula sf = sfl.get(0);
+        if (sf.getFormula() instanceof CompositeFormula) {
+            CompositeFormula formula = (CompositeFormula) sf.getFormula();
+            
+            //Formula sub = formula.getImmediateSubformulas().get(0);
+            
+            List<Formula> l = formula.getImmediateSubformulas();
+            Formula sideFormula = null;
+            if (role.equals(KERuleRole.LEFT)) {
+                sideFormula = (Formula) l.get(0);
+            }
+            else if (role.equals(KERuleRole.RIGHT)) {
+                sideFormula = (Formula) l.get(1);
+            }
+            Formula resultFormula = ff.createCompositeFormula(IPLConnectives.NOT, sideFormula);
+            return sff.createSignedFormula(_sign, resultFormula);
+        
+
+        }
+        
+        return null;
+    }
+    /*
 	@Override
 	public SignedFormula getSignedFormula(SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl) {
 		// TODO Auto-generated method stub
@@ -47,4 +74,5 @@ public class NotSubformulaGetter implements KESignedFormulaGetter {
 		
 		return null;
 	}
+	*/
 }

@@ -22,11 +22,11 @@ public class TwoLevelCompositeFormulaPattern implements IUnaryLabelledFormulaPat
 	public boolean matches(SignedFormula sf) {
 		if (sf.getFormula() instanceof CompositeFormula) {
 			CompositeFormula formula =  (CompositeFormula) sf.getFormula();
-			if (formula.getConnective().equals(IPLConnectives.NOT)) {
+			if (formula.getConnective().equals(this.first)) {
 				Formula sub = formula.getImmediateSubformulas().get(0);
 				if (sub instanceof CompositeFormula) {
 					CompositeFormula subformula = (CompositeFormula) sub;
-					if (subformula.getConnective().equals(IPLConnectives.OR)) {
+					if (subformula.getConnective().equals(this.second)) {
 						return true;
 					}
 					

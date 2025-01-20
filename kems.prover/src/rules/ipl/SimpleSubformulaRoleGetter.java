@@ -16,9 +16,7 @@ import rules.patterns.ipl.IBinarySignedFormulaPattern;
 import rules.patterns.ipl.ISubformulaPattern;
 import rules.patterns.ipl.SignConnectiveRoleSubformulaPattern;
 
-public class SubformulaRoleGetter implements KELabelledFormulaGetter, SubformulaGetter {
-
-    ISubformulaPattern _pattern;
+public class SimpleSubformulaRoleGetter implements KELabelledFormulaGetter, SubformulaGetter {
 
     KERuleRole _role;
     
@@ -28,14 +26,7 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
      * @param _pattern
      * @param _role
      */
-    public SubformulaRoleGetter(ISubformulaPattern _pattern, KERuleRole _role) {
-        this._pattern = _pattern;
-        this._role = _role;
-        this.conclussionSign = null;
-    }
-
-    public SubformulaRoleGetter(ISubformulaPattern _pattern, KERuleRole _role, FormulaSign sign) {
-        this._pattern = _pattern;
+    public SimpleSubformulaRoleGetter(KERuleRole _role, FormulaSign sign) {
         this._role = _role;
         this.conclussionSign = sign;
     }
@@ -44,9 +35,9 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
 	@Override
 	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
 			LabelledFormulaList lfl) {
-		System.out.println("Hola");
-		Formula matchedSubformula = _pattern.getMatchedSubformula(lfl);
-        return getLabelledFormula(lff, sff, ff, lfl, matchedSubformula);
+		//Formula matchedSubformula = _pattern.getMatchedSubformula(lfl);
+        //return getLabelledFormula(lff, sff, ff, lfl, matchedSubformula);
+        return null;
 		
 	}
 
@@ -87,8 +78,10 @@ public class SubformulaRoleGetter implements KELabelledFormulaGetter, Subformula
 	@Override
 	public SignedFormula getSignedFormula(SignedFormulaFactory sff, 
 			FormulaFactory ff, SignedFormulaList sfl) {
-        return getSignedFormula(sff, ff, sfl, _pattern
-                .getMatchedSubformula(sfl));
+        //return getSignedFormula(sff, ff, sfl, _pattern.getMatchedSubformula(sfl));
+	    return getSignedFormula(sff, ff, sfl, sfl.get(0).getFormula());
+	    
+	    //return sfl.get(0);
 	}
 
 	 public SignedFormula getSignedFormula(SignedFormulaFactory sff,
