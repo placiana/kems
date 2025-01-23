@@ -1,6 +1,7 @@
 package logic.labelledFormulas;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -9,6 +10,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The Context class represents a partial order context for FormulaLabels.
+ * It maintains a set of labels and their relationships in terms of "greater than" and "less than".
+ * 
+ * <p>This class provides methods to add elements, define relations, and compare elements within the context.
+ * It also includes utility methods to generate new labels and print the current relations for debugging purposes.</p>
+ * 
+ */
 public class Context {
 
     private LinkedList<FormulaLabel> labels;
@@ -75,7 +84,7 @@ public class Context {
     }
 
     // Create a new element greater than the given element
-    public FormulaLabel createGreaterThan(FormulaLabel element, FormulaLabel newElement) {
+    public FormulaLabel setAsGreaterThan(FormulaLabel element, FormulaLabel newElement) {
         addElement(newElement);
         addRelation(element, newElement);
         return newElement;
@@ -103,21 +112,49 @@ public class Context {
 
     public FormulaLabel getNewFormulaLabel() {
         FormulaLabel newLabel;
+        newLabel = new ContextFormulaLabel(this, this.labels.size());
+        /*
         if (this.labels.isEmpty()) {
             newLabel = new ContextFormulaLabel(this, this.labels.size());
 
         } else {
             newLabel = this.labels.getLast().getNextFormulaLabel();
         }
+        */
         this.labels.addLast(newLabel);
 
         addElement(newLabel);
         return newLabel;
     }
 
+    /**
+     * Generates a new formula label that is greater than the specified label.
+     *
+     * @param label the reference formula label to compare against
+     * @return a new formula label that is greater than the specified label
+     */
     public FormulaLabel getNewFormulaLabelGreaterThan(FormulaLabel label) {
         FormulaLabel newFormulaLabel = getNewFormulaLabel();
-        createGreaterThan(label, newFormulaLabel);
+        setAsGreaterThan(label, newFormulaLabel);
+        return newFormulaLabel;
+    }
+
+    /**
+     * Generates a new FormulaLabel that is greater than all the labels in the provided collection.
+     * 
+     * This method first creates a new FormulaLabel using the getNewFormulaLabel method.
+     * Then, it iterates over the given collection of FormulaLabels and sets the new label
+     * as greater than each label in the collection.
+     * 
+     * @param labelCollection the collection of FormulaLabels to compare against
+     * @return a new FormulaLabel that is greater than all the labels in the provided collection
+     */
+    public FormulaLabel getNewFormulaLabelGreaterThanCollection(Collection<FormulaLabel> labelCollection) {
+        FormulaLabel newFormulaLabel = getNewFormulaLabel();
+
+        for (FormulaLabel label : labelCollection) {
+            setAsGreaterThan(label, newFormulaLabel);
+        }
         return newFormulaLabel;
     }
 

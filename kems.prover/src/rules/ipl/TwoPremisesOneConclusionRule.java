@@ -99,8 +99,7 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 		LabelledFormula auxPremise = lfl.get(1);
 		if (_premise.matches(mainPremise, auxPremise)) {
 			LabelledFormulaList result = new LabelledFormulaList();
-			result.add(( getConclusion().getLabelledFormula(lff, sff, ff, lfl)))
-					;
+			result.add(( getConclusion().getLabelledFormula(lff, sff, ff, lfl)));
 			return result;
 		} else
 			return new LabelledFormulaList();

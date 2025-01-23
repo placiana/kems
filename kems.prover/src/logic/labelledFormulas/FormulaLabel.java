@@ -82,4 +82,9 @@ public class FormulaLabel implements Comparable<FormulaLabel>{
 	public boolean lowerThan(FormulaLabel aux) {
 		return this.index < aux.getIndex();
 	}
+
+    public FormulaLabel getGreaterFormulaLabel() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

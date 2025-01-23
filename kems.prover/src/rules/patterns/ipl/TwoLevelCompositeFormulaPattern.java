@@ -4,6 +4,7 @@ import logic.formulas.CompositeFormula;
 import logic.formulas.Connective;
 import logic.formulas.Formula;
 import logic.labelledFormulas.LabelledFormula;
+import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logicalSystems.ipl.IPLConnectives;
 
@@ -11,12 +12,21 @@ public class TwoLevelCompositeFormulaPattern implements IUnaryLabelledFormulaPat
 
 	private Connective first;
 	private Connective second;
+    private FormulaSign sign;
 
 	public TwoLevelCompositeFormulaPattern(Connective firstLevelConnective,
 			Connective secondLevelConnective) {
 		this.first = firstLevelConnective;
 		this.second  = secondLevelConnective;
 	}
+    
+	public TwoLevelCompositeFormulaPattern(FormulaSign formulaSign, Connective firstLevelConnective,
+            Connective secondLevelConnective) {
+        this.first = firstLevelConnective;
+        this.second  = secondLevelConnective;
+        this.sign = formulaSign;
+        
+    }
 	
 	@Override
 	public boolean matches(SignedFormula sf) {

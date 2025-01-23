@@ -4,40 +4,23 @@
  */
 package logicalSystems.ipl;
 
-import logic.formulas.Connective;
-import logic.signedFormulas.FormulaSign;
 import rules.ActionType;
-import rules.KEAction;
 import rules.KERuleRole;
 import rules.NamedRule;
-import rules.OnePremiseOneConclusionRule;
-import rules.OnePremiseTwoConclusionsRule;
-import rules.TwoPremisesOneConclusionRule;
-import rules.getters.BinaryConnectiveGetter;
 import rules.getters.BinaryTwoPremisesConnectiveGetter;
-import rules.getters.SimpleSubformulaGetter;
-import rules.getters.SubformulaConnectiveRoleGetter;
 import rules.getters.SubformulaRoleGetter;
 import rules.getters.UnaryConnectiveGetter;
 import rules.ipl.CompositeLabelledAction;
-import rules.ipl.ContextSubformulaRoleGetter;
 import rules.ipl.KEDecoratedRuleRole;
 import rules.ipl.KELabelledAction;
 import rules.ipl.SimpleSubformulaRoleGetter;
 import rules.ipl.labels.BinarySomeRelationLabelCondition;
 import rules.ipl.labels.GreaterThanLabelCondition;
-import rules.ipl.labels.LabelCondition;
 import rules.ipl.labels.LabelGetter;
-import rules.ipl.labels.MainLabelGetter;
+import rules.ipl.labels.NewLabelGetter;
 import rules.ipl.labels.NoLabelCondition;
-import rules.patterns.SignConnectivePattern;
-import rules.patterns.SignConnectiveRoleSubformulaPattern;
-import rules.patterns.TwoConnectivesRoleSubformulaPattern;
-import rules.patterns.TwoSignsConnectiveRolePattern;
-import rules.patterns.ipl.LowerOrEqualCondition;
 import rules.patterns.ipl.TwoLevelCompositeBinaryFormulaPattern;
 import rules.patterns.ipl.TwoLevelCompositeFormulaPattern;
-import rules.patterns.ipl.TwoSignsWithContextConnectiveRolePattern;
 
 /**
  * Rules (and patterns for these rules) for IPL.
@@ -252,7 +235,7 @@ public class IPLRulesPablo {
             ActionType.ADD_NODE,
             //new SubformulaRoleGetter(T_NOT_AND_B_PATTERN, KERuleRole.LEFT),
             new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Right", IPLConnectives.NOT) ),
-            LabelGetter.MAIN
+            new NewLabelGetter(NewLabelGetter.BOTH)
         )
     );
     
@@ -279,7 +262,7 @@ public class IPLRulesPablo {
         new KELabelledAction(
             ActionType.ADD_NODE,
             new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Left", IPLConnectives.NOT) ),
-            LabelGetter.MAIN
+            new NewLabelGetter(NewLabelGetter.BOTH)
         )
     );
             
@@ -308,7 +291,8 @@ public class IPLRulesPablo {
                 new BinarySomeRelationLabelCondition()), 
         new KELabelledAction(ActionType.ADD_NODE,
                 new rules.ipl.SubformulaRoleGetter(pattern_X_IMPLIES_T_LEFT, KERuleRole.RIGHT),
-                LabelGetter.MAIN)
+                new NewLabelGetter(NewLabelGetter.BOTH)
+            )
     );
 
 
@@ -384,6 +368,28 @@ public class IPLRulesPablo {
             )
         );
 
+    // Regla 16
+    /*
+    T (A implies B) : cI
+    T not B : cJ
+    ci <= cj
+    -----------------
+    T not A : cJ
+    */
+    static final rules.patterns.ipl.SignConnectiveRoleSubformulaPattern pattern_T_X_IMPLIES_Y_NOT_Y = new rules.patterns.ipl.SignConnectiveRoleSubformulaPattern(
+        IPLConnectives.IMPLIES, 
+        IPLSigns.TRUE, 
+        new KEDecoratedRuleRole("Right", IPLConnectives.NOT),
+        new BinarySomeRelationLabelCondition());
+    public static final rules.ipl.TwoPremisesOneConclusionRule T_X_IMPLIES_Y_NOT_Y = new rules.ipl.TwoPremisesOneConclusionRule(
+        "T_X_IMPLIES_Y_NOT_Y", 
+        pattern_T_X_IMPLIES_Y_NOT_Y,
+        new KELabelledAction(
+            ActionType.ADD_NODE, 
+            new NotSubformulaGetter(KERuleRole.LEFT, IPLSigns.TRUE),
+            LabelGetter.NEW)
+    );
+    
     // 17
 	public static final rules.ipl.OnePremiseOneConclusionRule F_NOT = new rules.ipl.OnePremiseOneConclusionRule(
 		"F_NOT",
@@ -395,594 +401,22 @@ public class IPLRulesPablo {
 				UnaryConnectiveGetter.TRUE,
 				LabelGetter.NEW));
 
-	
 
-	// 3 ? 
-	public static final TwoPremisesOneConclusionRule T_OR_LEFT = new TwoPremisesOneConclusionRule(
-		"T_OR_LEFT",
-		new TwoSignsWithContextConnectiveRolePattern(
-			IPLSigns.TRUE, 		// main sign
-			IPLConnectives.OR,	// main connective
-			IPLSigns.FALSE, 	// auxiliary sign
-			KERuleRole.LEFT		// auxiliary role
-		), 
-		new KEAction(ActionType.ADD_NODE,
-			BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));	
-		
-
-	
-	// cual es?
-	static final SignConnectiveRoleSubformulaPattern pattern_X_OR_T_LEFT = new SignConnectiveRoleSubformulaPattern(
-		IPLConnectives.OR, // connective that may appear in any subformula of the main formula
-		IPLSigns.TRUE, // sign of the auxiliary formula
-		KERuleRole.LEFT // role of the auxiliary formula in the subformula of the main formula where the _mainConnective was found
-	);
-
-	public static final TwoPremisesOneConclusionRule X_OR_T_LEFT = new TwoPremisesOneConclusionRule(
-		"X_OR_T_LEFT", 
-		pattern_X_OR_T_LEFT,
-		new KEAction(
-			ActionType.ADD_NODE, 
-			new SimpleSubformulaGetter(pattern_X_OR_T_LEFT,
-			IPLConnectives.TOP)
-		));
-
-	// cual es?
-	static final SignConnectiveRoleSubformulaPattern pattern_X_OR_T_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.OR, 
-			IPLSigns.TRUE, 
-			KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_OR_T_RIGHT = new TwoPremisesOneConclusionRule(
-			"X_OR_T_RIGHT", 
-			pattern_X_OR_T_RIGHT,
-			new KEAction(
-				ActionType.ADD_NODE, 
-				new SimpleSubformulaGetter(
-					pattern_X_OR_T_RIGHT,
-					IPLConnectives.TOP)
-			));
-
-
-	
-	
-	// rules with not
-	
-	//no está en la lista
-	public static final OnePremiseOneConclusionRule T_NOT = new OnePremiseOneConclusionRule(
-			"T_NOT",
-			new SignConnectivePattern(
-				IPLSigns.TRUE, 
-				IPLConnectives.NOT), 
-			new KEAction(
-				ActionType.ADD_NODE, 
-				UnaryConnectiveGetter.FALSE));
-
-
-	// ??
-	static final SignConnectiveRoleSubformulaPattern pattern_X_NOT_T = new SignConnectiveRoleSubformulaPattern(
-		IPLConnectives.NOT, 
-		IPLSigns.TRUE, 
-		KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_NOT_T = new TwoPremisesOneConclusionRule(
-		"X_NOT_T", 
-		pattern_X_NOT_T, 
-		new KEAction(
-			ActionType.ADD_NODE, 
-			new SimpleSubformulaGetter(
-				pattern_X_NOT_T, 
-				IPLConnectives.BOTTOM)
-		));
-
-	// ??
-	static final SignConnectiveRoleSubformulaPattern pattern_X_NOT_F = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.NOT, IPLSigns.FALSE, KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_NOT_F = new TwoPremisesOneConclusionRule(
-			"X_NOT_F", 
-			pattern_X_NOT_F, 
-			new KEAction(
-				ActionType.ADD_NODE, 
-				new SimpleSubformulaGetter(
-					pattern_X_NOT_F, 
-					IPLConnectives.TOP)
-			));
-
-	// rules with and
-
-
-	
-	// Cual es? (AND)
-	static final SignConnectiveRoleSubformulaPattern pattern_X_AND_F_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.AND, IPLSigns.FALSE, KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_AND_F_LEFT = new TwoPremisesOneConclusionRule(
-		"X_AND_F_LEFT", pattern_X_AND_F_LEFT,
-
-		new KEAction(
-			ActionType.ADD_NODE,
-			new SimpleSubformulaGetter(pattern_X_AND_F_LEFT, IPLConnectives.BOTTOM)
-
-		));
-
-	
-	// Cual es? (AND)
-	static final SignConnectiveRoleSubformulaPattern pattern_X_AND_F_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.AND, IPLSigns.FALSE, KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_AND_F_RIGHT = new TwoPremisesOneConclusionRule(
-			"X_AND_F_RIGHT", pattern_X_AND_F_RIGHT,
-
-			new KEAction(ActionType.ADD_NODE,
-
-			new SimpleSubformulaGetter(pattern_X_AND_F_RIGHT, IPLConnectives.BOTTOM)
-
-			));
-
-	// rules with or
-
-
-
-
-
-	// rules with implies
-	public static final OnePremiseTwoConclusionsRule F_IMPLIES = new OnePremiseTwoConclusionsRule(
-			"F_IMPLIES", 
-			new SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.IMPLIES),
-			new KEAction(
-					ActionType.ADD_NODE, BinaryConnectiveGetter.TRUE_LEFT), 
-			new KEAction(
-					ActionType.ADD_NODE, BinaryConnectiveGetter.FALSE_RIGHT));
-
-
-
-
-	// cual es?
-	static final SignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_T_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.IMPLIES, 
-			IPLSigns.TRUE, 
-			KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_IMPLIES_T_RIGHT = new TwoPremisesOneConclusionRule(
-		"X_IMPLIES_T_RIGHT", pattern_X_IMPLIES_T_RIGHT,
-
-		new KEAction(
-			ActionType.ADD_NODE, 
-			new SimpleSubformulaGetter(pattern_X_IMPLIES_T_RIGHT,
-			IPLConnectives.TOP))
-
-	);
-
-	// cual es?
-	static final SignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_F_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.IMPLIES, 
-			IPLSigns.FALSE, 
-			KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_IMPLIES_F_LEFT = new TwoPremisesOneConclusionRule(
-			"X_IMPLIES_F_LEFT", pattern_X_IMPLIES_F_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SimpleSubformulaGetter(pattern_X_IMPLIES_F_LEFT, IPLConnectives.TOP))
-
-	);
-
-
-	// rules with biimplies
-
-	public static final TwoPremisesOneConclusionRule T_BIIMPLIES_LEFT_TRUE = new TwoPremisesOneConclusionRule(
-			"T_BIIMPLIES_LEFT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.BIIMPLIES,
-					IPLSigns.TRUE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_BIIMPLIES_LEFT_TRUE = new TwoPremisesOneConclusionRule(
-			"F_BIIMPLIES_LEFT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.BIIMPLIES,
-					IPLSigns.TRUE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule T_BIIMPLIES_LEFT_FALSE = new TwoPremisesOneConclusionRule(
-			"T_BIIMPLIES_LEFT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.BIIMPLIES,
-					IPLSigns.FALSE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_BIIMPLIES_LEFT_FALSE = new TwoPremisesOneConclusionRule(
-			"F_BIIMPLIES_LEFT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.BIIMPLIES,
-					IPLSigns.FALSE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	static final SignConnectiveRoleSubformulaPattern pattern_X_BIIMPLIES_T_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.BIIMPLIES, IPLSigns.TRUE, KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_BIIMPLIES_T_LEFT = new TwoPremisesOneConclusionRule(
-			"X_BIIMPLIES_T_LEFT", pattern_X_BIIMPLIES_T_LEFT,
-
-			new KEAction(ActionType.ADD_NODE, new SubformulaRoleGetter(pattern_X_BIIMPLIES_T_LEFT,
-					KERuleRole.RIGHT)));
-
-	static final SignConnectiveRoleSubformulaPattern pattern_X_BIIMPLIES_T_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.BIIMPLIES, IPLSigns.TRUE, KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_BIIMPLIES_T_RIGHT = new TwoPremisesOneConclusionRule(
-			"X_BIIMPLIES_T_RIGHT", pattern_X_BIIMPLIES_T_RIGHT,
-
-			new KEAction(ActionType.ADD_NODE, new SubformulaRoleGetter(pattern_X_BIIMPLIES_T_RIGHT,
-					KERuleRole.LEFT)));
-
-	static final SignConnectiveRoleSubformulaPattern pattern_X_BIIMPLIES_F_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.BIIMPLIES, IPLSigns.FALSE, KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_BIIMPLIES_F_LEFT = new TwoPremisesOneConclusionRule(
-			"X_BIIMPLIES_F_LEFT", pattern_X_BIIMPLIES_F_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaConnectiveRoleGetter(pattern_X_BIIMPLIES_F_LEFT, IPLConnectives.NOT,
-							KERuleRole.RIGHT)));
-
-	static final SignConnectiveRoleSubformulaPattern pattern_X_BIIMPLIES_F_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.BIIMPLIES, IPLSigns.FALSE, KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_BIIMPLIES_F_RIGHT = new TwoPremisesOneConclusionRule(
-			"X_BIIMPLIES_F_RIGHT", pattern_X_BIIMPLIES_F_RIGHT,
-
-			new KEAction(ActionType.ADD_NODE, new SubformulaConnectiveRoleGetter(
-					pattern_X_BIIMPLIES_F_RIGHT, IPLConnectives.NOT, KERuleRole.LEFT)));
-
-	// rules with XOR
-
-	public static final TwoPremisesOneConclusionRule T_XOR_LEFT_TRUE = new TwoPremisesOneConclusionRule(
-			"T_XOR_LEFT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.XOR,
-					IPLSigns.TRUE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_XOR_LEFT_TRUE = new TwoPremisesOneConclusionRule(
-			"F_XOR_LEFT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.XOR,
-					IPLSigns.TRUE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule T_XOR_LEFT_FALSE = new TwoPremisesOneConclusionRule(
-			"T_XOR_LEFT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.XOR,
-					IPLSigns.FALSE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_XOR_LEFT_FALSE = new TwoPremisesOneConclusionRule(
-			"F_XOR_LEFT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.XOR,
-					IPLSigns.FALSE, KERuleRole.LEFT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule T_XOR_RIGHT_TRUE = new TwoPremisesOneConclusionRule(
-			"T_XOR_RIGHT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.XOR,
-					IPLSigns.TRUE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_XOR_RIGHT_TRUE = new TwoPremisesOneConclusionRule(
-			"F_XOR_RIGHT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.XOR,
-					IPLSigns.TRUE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule T_XOR_RIGHT_FALSE = new TwoPremisesOneConclusionRule(
-			"T_XOR_RIGHT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.XOR,
-					IPLSigns.FALSE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_XOR_RIGHT_FALSE = new TwoPremisesOneConclusionRule(
-			"F_XOR_RIGHT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.XOR,
-					IPLSigns.FALSE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	// Xor simplification rules
-	static final SignConnectiveRoleSubformulaPattern pattern_X_XOR_F_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.XOR, IPLSigns.FALSE, KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_XOR_F_LEFT = new TwoPremisesOneConclusionRule(
-			"X_XOR_F_LEFT", pattern_X_XOR_F_LEFT,
-
-			new KEAction(ActionType.ADD_NODE, new SubformulaRoleGetter(pattern_X_XOR_F_LEFT,
-					KERuleRole.RIGHT)));
-
-	static final SignConnectiveRoleSubformulaPattern pattern_X_XOR_F_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.XOR, IPLSigns.FALSE, KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_XOR_F_RIGHT = new TwoPremisesOneConclusionRule(
-			"X_XOR_F_RIGHT", pattern_X_XOR_F_RIGHT,
-
-			new KEAction(ActionType.ADD_NODE, new SubformulaRoleGetter(pattern_X_XOR_F_RIGHT,
-					KERuleRole.LEFT)));
-
-	static final SignConnectiveRoleSubformulaPattern pattern_X_XOR_T_LEFT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.XOR, IPLSigns.TRUE, KERuleRole.LEFT);
-
-	public static final TwoPremisesOneConclusionRule X_XOR_T_LEFT = new TwoPremisesOneConclusionRule(
-			"X_XOR_T_LEFT", pattern_X_XOR_T_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaConnectiveRoleGetter(pattern_X_XOR_T_LEFT, IPLConnectives.NOT,
-							KERuleRole.RIGHT)));
-
-	static final SignConnectiveRoleSubformulaPattern pattern_X_XOR_T_RIGHT = new SignConnectiveRoleSubformulaPattern(
-			IPLConnectives.XOR, IPLSigns.TRUE, KERuleRole.RIGHT);
-
-	public static final TwoPremisesOneConclusionRule X_XOR_T_RIGHT = new TwoPremisesOneConclusionRule(
-			"X_XOR_T_RIGHT", pattern_X_XOR_T_RIGHT,
-
-			new KEAction(ActionType.ADD_NODE, new SubformulaConnectiveRoleGetter(pattern_X_XOR_T_RIGHT,
-					IPLConnectives.NOT, KERuleRole.LEFT)));
-
-	// rules with top
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_AND_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.LEFT, IPLConnectives.AND);
-
-	public static final OnePremiseOneConclusionRule X_TOP_AND_LEFT = new OnePremiseOneConclusionRule(
-			"X_TOP_AND_LEFT", pattern_X_TOP_AND_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_TOP_AND_LEFT, KERuleRole.RIGHT)
-
-			));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_AND_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.RIGHT, IPLConnectives.AND);
-
-	public static final OnePremiseOneConclusionRule X_TOP_AND_RIGHT = new OnePremiseOneConclusionRule(
-			"X_TOP_AND_RIGHT", pattern_X_TOP_AND_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_TOP_AND_RIGHT, KERuleRole.LEFT)
-
-			));
-
-	// ////
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_OR_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.LEFT, IPLConnectives.OR);
-
-	public static final OnePremiseOneConclusionRule X_TOP_OR_LEFT = new OnePremiseOneConclusionRule(
-			"X_TOP_OR_LEFT", pattern_X_TOP_OR_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SimpleSubformulaGetter(pattern_X_TOP_OR_LEFT, IPLConnectives.TOP)));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_OR_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.RIGHT, IPLConnectives.OR);
-
-	public static final OnePremiseOneConclusionRule X_TOP_OR_RIGHT = new OnePremiseOneConclusionRule(
-			"X_TOP_OR_RIGHT", pattern_X_TOP_OR_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SimpleSubformulaGetter(pattern_X_TOP_OR_RIGHT, IPLConnectives.TOP)));
-
-	// ////
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_IMPLIES_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.LEFT, IPLConnectives.IMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_TOP_IMPLIES_LEFT = new OnePremiseOneConclusionRule(
-			"X_TOP_IMPLIES_LEFT", pattern_X_TOP_IMPLIES_LEFT, new KEAction(
-
-			ActionType.ADD_NODE, new SubformulaRoleGetter(pattern_X_TOP_IMPLIES_LEFT, KERuleRole.RIGHT)
-
-			));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_IMPLIES_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.RIGHT, IPLConnectives.IMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_TOP_IMPLIES_RIGHT = new OnePremiseOneConclusionRule(
-			"X_TOP_IMPLIES_RIGHT", pattern_X_TOP_IMPLIES_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SimpleSubformulaGetter(pattern_X_TOP_IMPLIES_RIGHT, IPLConnectives.TOP)));
-
-	// //
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_BIIMPLIES_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.LEFT, IPLConnectives.BIIMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_TOP_BIIMPLIES_LEFT = new OnePremiseOneConclusionRule(
-			"X_TOP_BIIMPLIES_LEFT", pattern_X_TOP_BIIMPLIES_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_TOP_BIIMPLIES_LEFT, KERuleRole.RIGHT)));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_BIIMPLIES_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.RIGHT, IPLConnectives.BIIMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_TOP_BIIMPLIES_RIGHT = new OnePremiseOneConclusionRule(
-			"X_TOP_BIIMPLIES_RIGHT", pattern_X_TOP_BIIMPLIES_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_TOP_BIIMPLIES_RIGHT, KERuleRole.LEFT)));
-
-	// //
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_XOR_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.LEFT, IPLConnectives.XOR);
-
-	public static final OnePremiseOneConclusionRule X_TOP_XOR_LEFT = new OnePremiseOneConclusionRule(
-			"X_TOP_XOR_LEFT", pattern_X_TOP_XOR_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaConnectiveRoleGetter(pattern_X_TOP_XOR_LEFT, IPLConnectives.NOT,
-							KERuleRole.RIGHT)
-
-			));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_XOR_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.RIGHT, IPLConnectives.XOR);
-
-	public static final OnePremiseOneConclusionRule X_TOP_XOR_RIGHT = new OnePremiseOneConclusionRule(
-			"X_TOP_XOR_RIGHT", pattern_X_TOP_XOR_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaConnectiveRoleGetter(pattern_X_TOP_XOR_RIGHT, IPLConnectives.NOT,
-							KERuleRole.LEFT)
-
-			));
-
-	// //
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_TOP_NOT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.TOP, KERuleRole.LEFT, IPLConnectives.NOT);
-
-	public static final OnePremiseOneConclusionRule X_TOP_NOT = new OnePremiseOneConclusionRule(
-			"X_TOP_NOT", pattern_X_TOP_NOT, new KEAction(ActionType.ADD_NODE, new SimpleSubformulaGetter(
-					pattern_X_TOP_NOT, IPLConnectives.BOTTOM)
-
-			));
-
-	// rules with bottom
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_OR_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.LEFT, IPLConnectives.OR);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_OR_LEFT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_OR_LEFT", pattern_X_BOTTOM_OR_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_BOTTOM_OR_LEFT, KERuleRole.RIGHT)
-
-			));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_OR_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.RIGHT, IPLConnectives.OR);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_OR_RIGHT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_OR_RIGHT", pattern_X_BOTTOM_OR_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_BOTTOM_OR_RIGHT, KERuleRole.LEFT)
-
-			));
-
-	// ////
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_AND_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.LEFT, IPLConnectives.AND);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_AND_LEFT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_AND_LEFT", pattern_X_BOTTOM_AND_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SimpleSubformulaGetter(pattern_X_BOTTOM_AND_LEFT, IPLConnectives.BOTTOM)));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_AND_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.RIGHT, IPLConnectives.AND);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_AND_RIGHT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_AND_RIGHT", pattern_X_BOTTOM_AND_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SimpleSubformulaGetter(pattern_X_BOTTOM_AND_RIGHT, IPLConnectives.BOTTOM)));
-
-	// ////
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_IMPLIES_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.LEFT, IPLConnectives.IMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_IMPLIES_LEFT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_IMPLIES_LEFT", pattern_X_BOTTOM_IMPLIES_LEFT, new KEAction(
-
-			ActionType.ADD_NODE, new SimpleSubformulaGetter(pattern_X_BOTTOM_IMPLIES_LEFT,
-					IPLConnectives.TOP)));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_IMPLIES_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.RIGHT, IPLConnectives.IMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_IMPLIES_RIGHT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_IMPLIES_RIGHT", pattern_X_BOTTOM_IMPLIES_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaConnectiveRoleGetter(pattern_X_BOTTOM_IMPLIES_RIGHT,
-							IPLConnectives.NOT, KERuleRole.LEFT)
-
-			));
-
-	// ////
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_BIIMPLIES_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.LEFT, IPLConnectives.BIIMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_BIIMPLIES_LEFT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_BIIMPLIES_LEFT", pattern_X_BOTTOM_BIIMPLIES_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaConnectiveRoleGetter(pattern_X_BOTTOM_BIIMPLIES_LEFT,
-							IPLConnectives.NOT, KERuleRole.RIGHT)
-
-			));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_BIIMPLIES_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.RIGHT, IPLConnectives.BIIMPLIES);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_BIIMPLIES_RIGHT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_BIIMPLIES_RIGHT", pattern_X_BOTTOM_BIIMPLIES_RIGHT, new KEAction(
-					ActionType.ADD_NODE, new SubformulaConnectiveRoleGetter(pattern_X_BOTTOM_BIIMPLIES_RIGHT,
-							IPLConnectives.NOT, KERuleRole.LEFT)
-
-			));
-
-	// //
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_XOR_LEFT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.LEFT, IPLConnectives.XOR);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_XOR_LEFT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_XOR_LEFT", pattern_X_BOTTOM_XOR_LEFT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_BOTTOM_XOR_LEFT, KERuleRole.RIGHT)));
-
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_XOR_RIGHT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.RIGHT, IPLConnectives.XOR);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_XOR_RIGHT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_XOR_RIGHT", pattern_X_BOTTOM_XOR_RIGHT, new KEAction(ActionType.ADD_NODE,
-					new SubformulaRoleGetter(pattern_X_BOTTOM_XOR_RIGHT, KERuleRole.LEFT)));
-
-	// //
-	static final TwoConnectivesRoleSubformulaPattern pattern_X_BOTTOM_NOT = new TwoConnectivesRoleSubformulaPattern(
-			IPLConnectives.BOTTOM, KERuleRole.LEFT, IPLConnectives.NOT);
-
-	public static final OnePremiseOneConclusionRule X_BOTTOM_NOT = new OnePremiseOneConclusionRule(
-			"X_BOTTOM_NOT", pattern_X_BOTTOM_NOT, new KEAction(ActionType.ADD_NODE,
-					new SimpleSubformulaGetter(pattern_X_BOTTOM_NOT, IPLConnectives.TOP)
-
-			));
-
-	// / additional rules for configurable
-
-	public static TwoPremisesOneConclusionRule F_AND_RIGHT = new TwoPremisesOneConclusionRule(
-			"F_AND_RIGHT",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.AND,
-					IPLSigns.TRUE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static TwoPremisesOneConclusionRule T_OR_RIGHT = new TwoPremisesOneConclusionRule(
-			"T_OR_RIGHT",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.OR,
-					IPLSigns.FALSE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	public static TwoPremisesOneConclusionRule T_IMPLIES_RIGHT = new TwoPremisesOneConclusionRule(
-			"T_IMPLIES_RIGHT",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.IMPLIES,
-					IPLSigns.FALSE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	// rules with biimplies
-
-	public static final TwoPremisesOneConclusionRule T_BIIMPLIES_RIGHT_TRUE = new TwoPremisesOneConclusionRule(
-			"T_BIIMPLIES_RIGHT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.BIIMPLIES,
-					IPLSigns.TRUE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_BIIMPLIES_RIGHT_TRUE = new TwoPremisesOneConclusionRule(
-			"F_BIIMPLIES_RIGHT_TRUE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.BIIMPLIES,
-					IPLSigns.TRUE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule T_BIIMPLIES_RIGHT_FALSE = new TwoPremisesOneConclusionRule(
-			"T_BIIMPLIES_RIGHT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.TRUE, IPLConnectives.BIIMPLIES,
-					IPLSigns.FALSE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.FALSE_OTHER));
-
-	public static final TwoPremisesOneConclusionRule F_BIIMPLIES_RIGHT_FALSE = new TwoPremisesOneConclusionRule(
-			"F_BIIMPLIES_RIGHT_FALSE",
-
-			new TwoSignsConnectiveRolePattern(IPLSigns.FALSE, IPLConnectives.BIIMPLIES,
-					IPLSigns.FALSE, KERuleRole.RIGHT), new KEAction(ActionType.ADD_NODE,
-					BinaryTwoPremisesConnectiveGetter.TRUE_OTHER));
+    // Regla 18
+    /*
+    T not not A : cI
+    -----------------
+    T  A : cK
+    cI <= cK
+    */
+    public static final rules.ipl.OnePremiseOneConclusionRule T_NOT_NOT = new rules.ipl.OnePremiseOneConclusionRule(
+        "T_NOT_NOT",
+        new TwoLevelCompositeFormulaPattern(IPLConnectives.NOT, IPLConnectives.NOT),
+        new KELabelledAction(
+            ActionType.ADD_NODE,
+            new CompositeLabelledAction(IPLConnectives.NOT, new SimpleSubformulaRoleGetter(KERuleRole.LEFT, IPLSigns.TRUE)),
+            LabelGetter.NEW
+        )
+    );
 
 }

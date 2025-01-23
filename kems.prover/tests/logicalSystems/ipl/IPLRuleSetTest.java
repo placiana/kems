@@ -1,6 +1,8 @@
 package logicalSystems.ipl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
@@ -95,7 +97,14 @@ public class IPLRuleSetTest {
 
 	@Test
 	public void testRule2TrueAnd() {
-		rules.ipl.OnePremiseTwoConclusionsRule rule = IPLRulesPablo.T_AND;
+        /*
+        T (A and B): Ci
+        -----------------
+        T A : Ci
+        T B : Ci
+        
+        */
+	    rules.ipl.OnePremiseTwoConclusionsRule rule = IPLRulesPablo.T_AND;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -113,6 +122,9 @@ public class IPLRuleSetTest {
 
 		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
 		assertTrue(conclusions.get(1).getSignedFormula().getSign().equals(C1Signs.TRUE));
+		
+		assertEquals(conclusions.get(0).getLabel(), conclusions.get(1).getLabel());
+		assertEquals(conclusions.get(0).getLabel(), main.getLabel());
 
 	}
 
@@ -240,15 +252,56 @@ public class IPLRuleSetTest {
         
 	}
 
+	   @Test
+	    public void testRule6AlternateLabels() {
+	        /*
+	        T A or B: Ci
+	        T not A : Cj
+	        Ci <= Cj or Cj <= Ci
+	        -----------------
+	        T  B : Ci
+	        
+	        */
+	        
+	        Rule rule = IPLRulesPablo.T_A_OR_B;
+	        
+	        Formula x = ff.createAtomicFormula("X");
+	        Formula y = ff.createAtomicFormula("Y");
+	        Formula or = ff.createCompositeFormula(IPLConnectives.OR, x, y);
+	        Formula not = ff.createCompositeFormula(IPLConnectives.NOT, x);
+	        
+	        SignedFormula sOr = sff.createSignedFormula(C1Signs.TRUE, or);
+	        SignedFormula sNot = sff.createSignedFormula(C1Signs.TRUE, not);
+	        
+	        Context c = new Context();
+	        FormulaLabel auxLabel = c.getNewFormulaLabel();
+	        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+	        
+	        LabelledFormula main = lff.createLabelledFormula(mainLabel, sOr);
+	        LabelledFormula aux = lff.createLabelledFormula(auxLabel, sNot);
+
+	        LabelledFormulaList lfl = new LabelledFormulaList();
+	        lfl.add(main);
+	        lfl.add(aux);
+
+	        LabelledFormulaList conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+	        
+	        assertTrue(conclusions.size() >= 1);
+	        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+	        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(y));
+	        assertTrue(conclusions.get(0).getLabel().equals(mainLabel));
+	        
+	    }
+	
 
     @Test
     public void testRule7() {
         /*
-         * T A or B : ci
-         * T not B: cj
+         * T A or B : CI
+         * T not B: CJ
          * ci <= cj or cj <= ci
          * --------------------
-         * TA: Ci
+         * TA: CI
          */
         
         Rule rule = IPLRulesPablo.T_A_OR_B_NOT_B;
@@ -299,9 +352,10 @@ public class IPLRuleSetTest {
         SignedFormula sOr = sff.createSignedFormula(C1Signs.FALSE, and);
         SignedFormula sNot = sff.createSignedFormula(C1Signs.TRUE, x);
         
+        // main label greater than aux label
         Context c = new Context();
-        FormulaLabel mainLabel = c.getNewFormulaLabel();
-        FormulaLabel auxLabel = c.getNewFormulaLabelGreaterThan(mainLabel);
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
         
         LabelledFormula main = lff.createLabelledFormula(mainLabel, sOr);
         LabelledFormula aux = lff.createLabelledFormula(auxLabel, sNot);
@@ -357,6 +411,13 @@ public class IPLRuleSetTest {
         assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.FALSE));
         assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
         
+        // Labels
+        assertEquals(main.getLabel(), conclusions.get(0).getLabel());
+        assertTrue(aux.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        assertNotEquals(main.getLabel(), aux.getLabel());
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(aux.getLabel()));
+
+        
    }
 
 	
@@ -400,6 +461,13 @@ public class IPLRuleSetTest {
         assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
         assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(not_y));
         
+        assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        assertTrue(aux.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        assertNotEquals(main.getLabel(), aux.getLabel());
+        
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(aux.getLabel()));
+        
    }	
 
     @Test
@@ -419,9 +487,13 @@ public class IPLRuleSetTest {
         
         Formula and = ff.createCompositeFormula(IPLConnectives.AND, x, y);
         Formula not_and = ff.createCompositeFormula(IPLConnectives.NOT, and);
+
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
         
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, not_and));
-        LabelledFormula aux = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, y));
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.TRUE, not_and));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, sff.createSignedFormula(C1Signs.TRUE, y));
 
         LabelledFormulaList lfl = new LabelledFormulaList();
         lfl.add(main);
@@ -437,7 +509,10 @@ public class IPLRuleSetTest {
 
         assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
         assertTrue(aux.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        assertNotEquals(main.getLabel(), aux.getLabel());
         
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(aux.getLabel()));        
     }   
 
     
@@ -459,8 +534,12 @@ public class IPLRuleSetTest {
         
         Formula implies = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
         
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, implies));
-        LabelledFormula aux = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, x));
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.TRUE, implies));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, sff.createSignedFormula(C1Signs.TRUE, x));
 
         LabelledFormulaList lfl = new LabelledFormulaList();
         lfl.add(main);
@@ -474,6 +553,9 @@ public class IPLRuleSetTest {
         
         assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
         assertTrue(aux.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(aux.getLabel()));
     }    	
 
     @Test
@@ -527,7 +609,10 @@ public class IPLRuleSetTest {
         
         Formula implies = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
         
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, implies));
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.FALSE, implies));
         
         LabelledFormulaList lfl = new LabelledFormulaList();
         lfl.add(main);
@@ -563,7 +648,10 @@ public class IPLRuleSetTest {
         Formula implies = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
         Formula not_implies = ff.createCompositeFormula(IPLConnectives.NOT, implies);
         
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, not_implies));
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.TRUE, not_implies));
         
         LabelledFormulaList lfl = new LabelledFormulaList();
         lfl.add(main);
@@ -592,17 +680,64 @@ public class IPLRuleSetTest {
         -----------------
         T not A : cJ
         */
+        Rule rule = IPLRulesPablo.T_X_IMPLIES_Y_NOT_Y;
+        
+        x = ff.createAtomicFormula("X");
+        Formula y = ff.createAtomicFormula("Y");
+        
+        Formula implies = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
+        Formula not_y = ff.createCompositeFormula(IPLConnectives.NOT, y);
+        
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.TRUE, implies));
+        LabelledFormula aux = lff.createLabelledFormula(
+                main.getLabel().getNextFormulaLabel(),
+                sff.createSignedFormula(C1Signs.TRUE, not_y));
+
+        LabelledFormulaList lfl = new LabelledFormulaList();
+        lfl.add(main);
+        lfl.add(aux);
+
+        LabelledFormulaList conclusions;
+        conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+        assertTrue(conclusions.size() == 1);
+        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
+        
+        Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(not_x));
+        
+        assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        assertTrue(aux.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));
+        assertEquals(conclusions.get(0).getLabel(),aux.getLabel());
+       
+        
+    
     }    
     
 	    @Test
-	    public void testRule17Not() {
+	    public void testRule17Not() { 
+	        /*
+	         * Regla 17
+	         * F not A : cI
+	         * ------------
+	         *  T A : cJ
+	         *  cI <= cJ
+	         * 
+	         * 
+	         */
 	        Rule rule = IPLRulesPablo.F_NOT;
 
 	        x = ff.createAtomicFormula("X");
 	        Formula y = ff.createAtomicFormula("Y");
 	        Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+	        
+	        Context c = new Context();
+	        FormulaLabel mainLabel = c.getNewFormulaLabel();
 
-	        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, not_x));
+	        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.FALSE, not_x));
 	        
 	        LabelledFormulaList lfl = new LabelledFormulaList();
 	        lfl.add(main);
@@ -610,11 +745,13 @@ public class IPLRuleSetTest {
 	        LabelledFormulaList conclusions;
 	        conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
 	        assertTrue(conclusions.size() == 1);
-	        
+
 	        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
 	        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
-	        
-	        
+
+	        assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+
+	        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));
 	        
 	    }
 	    
@@ -628,13 +765,15 @@ public class IPLRuleSetTest {
         cI <= cK
         */
 
-        Rule rule = IPLRulesPablo.F_NOT; // Replace
+        Rule rule = IPLRulesPablo.T_NOT_NOT; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
         Formula not_not_x = ff.createCompositeFormula(IPLConnectives.NOT, not_x);
-        
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, not_not_x));
+
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.TRUE, not_not_x));
         
         LabelledFormulaList lfl = new LabelledFormulaList();
         lfl.add(main);
@@ -645,6 +784,9 @@ public class IPLRuleSetTest {
         
         assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
         assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
+        
+        assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));
         
     }
 
