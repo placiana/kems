@@ -4,12 +4,13 @@ import java.util.Objects;
 
 import logic.signedFormulas.SignedFormula;
 
-public class LabelledFormula {
+public class LabelledSignedFormula extends SignedFormula {
 
 	private FormulaLabel _label;
 	private SignedFormula signedFormula;
 
-	public LabelledFormula(FormulaLabel aLabel, SignedFormula aSignedFormula) {
+	public LabelledSignedFormula(FormulaLabel aLabel, SignedFormula aSignedFormula) {
+	    super(aSignedFormula.getSign(), aSignedFormula.getFormula());
 		this.signedFormula = aSignedFormula;
 		this._label = aLabel;
 	}
@@ -31,7 +32,7 @@ public class LabelledFormula {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LabelledFormula other = (LabelledFormula) obj;
+		LabelledSignedFormula other = (LabelledSignedFormula) obj;
 		return Objects.equals(_label, other._label) && Objects.equals(signedFormula, other.signedFormula);
 	}
 
@@ -42,5 +43,10 @@ public class LabelledFormula {
     public String toString() {
         return signedFormula.toString() + " " + this._label.toString();
     }
+
+	private String toString(SignedFormula signedFormula2, FormulaLabel context2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

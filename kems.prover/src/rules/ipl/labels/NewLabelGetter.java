@@ -26,8 +26,8 @@ public class NewLabelGetter extends LabelGetter {
 	}
 
 		@Override
-		public FormulaLabel getLabel(LabelledFormulaList lfl) {
-			if (this.getterType == "MAIN") {
+	public FormulaLabel getLabel(LabelledFormulaList lfl) {
+		if (this.getterType == "MAIN") {
 			return lfl.get(0).getLabel().getGreaterFormulaLabel();
 		} else if (this.getterType == "AUX") {
 			return lfl.get(1).getLabel().getGreaterFormulaLabel();
@@ -44,8 +44,6 @@ public class NewLabelGetter extends LabelGetter {
 				return new FormulaLabel(FormulaLabel.LabelType.CONSTANT, maxIndex + 1);
 
 			}
-			// we should do something about this cast
-			//return ((ContextFormulaLabel)lfl.get(0).getLabel()).getContext().getNewFormulaLabelGreaterThanCollection(labels);
 		} else {
 			return null;
 		}
