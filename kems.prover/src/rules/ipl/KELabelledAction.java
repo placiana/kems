@@ -10,6 +10,7 @@ import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
+import logic.signedFormulas.SignedFormulaList;
 import rules.ActionType;
 import rules.getters.BinaryConnectiveGetter;
 import rules.getters.KESignedFormulaGetter;
@@ -51,9 +52,10 @@ public class KELabelledAction extends rules.KEAction {
 		return _content;
 	}
 
-	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			LabelledFormulaList lfl) {
-		SignedFormula sf = getContent().getSignedFormula(sff, ff, lfl.toSignedFormulaList());
+	public LabelledFormula getLabelledFormula( SignedFormulaFactory sff, FormulaFactory ff,
+			SignedFormulaList lfl) {
+		LabelledFormulaFactory lff = (LabelledFormulaFactory) sff;
+		SignedFormula sf = getContent().getSignedFormula(sff, ff, lfl);
 		return lff.createLabelledFormula(this.labelGetter.getLabel(lfl), sf);
 	}
 

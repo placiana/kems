@@ -18,25 +18,20 @@ import rules.getters.SubformulaGetter;
 import rules.patterns.ISubformulaPattern;
 import rules.patterns.ipl.IBinarySignedFormulaPattern;
 
-
 /**
  * @author Adolfo Gustavo Serra Seca Neto
  * 
- *  
+ * 
  */
-public class TwoPremisesOneConclusionRule extends OneConclusionRule {
+public class TwoPremisesOneConclusionRule extends OneConclusionIPLRule {
 
 	IBinarySignedFormulaPattern _premise;
 
-	public TwoPremisesOneConclusionRule(String name,
-			IBinarySignedFormulaPattern premise, KELabelledAction conclusion) {
+	public TwoPremisesOneConclusionRule(String name, IBinarySignedFormulaPattern premise, KELabelledAction conclusion) {
 		super(name, conclusion);
 		_premise = premise;
 	}
 
-
-
-	
 	/**
 	 * @param sff
 	 * @param ff
@@ -56,14 +51,14 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 		return _premise.matchesMain(sfMain);
 	}
 
-	//    /**
-	//     * @param sf
-	//     * @param order
-	//     * @return
-	//     */
-	//    public Formula getMainMatch(SignedFormula sf, int order) {
-	//        return ((SubformulaPattern) _premise).getMainMatch(sf, order);
-	//    }
+	// /**
+	// * @param sf
+	// * @param order
+	// * @return
+	// */
+	// public Formula getMainMatch(SignedFormula sf, int order) {
+	// return ((SubformulaPattern) _premise).getMainMatch(sf, order);
+	// }
 
 	/**
 	 * @param sf
@@ -80,42 +75,40 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 	 * @param f
 	 * @return
 	 */
-	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
-			FormulaFactory ff, SignedFormulaList sfl, CompositeFormula f) {
+	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl,
+			CompositeFormula f) {
 //		SignedFormula mainPremise = sfl.get(0);
 //		SignedFormula auxPremise = sfl.get(1);
 		SignedFormulaList result = new SignedFormulaList();
-		result.add(((SubformulaGetter) getConclusion().getContent())
-				.getSignedFormula(sff, ff, sfl, f));
+		result.add(((SubformulaGetter) getConclusion().getContent()).getSignedFormula(sff, ff, sfl, f));
 		return result;
 	}
 
+	/*
 	@Override
-	public LabelledFormulaList getPossibleConclusions(
-			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			LabelledFormulaList lfl) {
+	public LabelledFormulaList getPossibleConclusions(LabelledFormulaFactory lff, SignedFormulaFactory sff,
+			FormulaFactory ff, LabelledFormulaList lfl) {
 
 		LabelledFormula mainPremise = lfl.get(0);
 		LabelledFormula auxPremise = lfl.get(1);
 		if (_premise.matches(mainPremise, auxPremise)) {
 			LabelledFormulaList result = new LabelledFormulaList();
-			result.add(( getConclusion().getLabelledFormula(lff, sff, ff, lfl)));
+			result.add((getConclusion().getLabelledFormula(lff, sff, ff, lfl)));
 			return result;
 		} else
 			return new LabelledFormulaList();
-		}
-
-
-
+	}
+	*/
 
 	@Override
 	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff,
 			SignedFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
+		SignedFormulaList result = new SignedFormulaList();
+		LabelledFormula mainPremise = (LabelledFormula) sfl.get(0);
+		LabelledFormula auxPremise = (LabelledFormula) sfl.get(1);
+		if (_premise.matches(mainPremise, auxPremise)) {
+			result.add((getConclusion().getLabelledFormula(sff, ff, sfl)));
+		} 
+		return result;
 	}
-
-	
-
-	
 }

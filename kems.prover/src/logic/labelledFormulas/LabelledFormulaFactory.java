@@ -10,7 +10,7 @@ import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 
-public class LabelledFormulaFactory {
+public class LabelledFormulaFactory  extends SignedFormulaFactory {
 	
 	Map<String, SignedFormula> _signedFormulas;
 	

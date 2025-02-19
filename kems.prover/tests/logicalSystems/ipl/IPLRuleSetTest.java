@@ -21,9 +21,11 @@ import logicalSystems.c1.C1Signs;
 import org.junit.Before;
 import org.junit.Test;
 
+
+import rules.Rule;
 import rules.OnePremiseTwoConclusionsRule;
 import rules.TwoPremisesOneConclusionRule;
-import rules.ipl.Rule;
+import rules.ipl.IPLRule;
 import rules.patterns.C1ConsistencyAnyBinaryConnectivePattern;
 import rules.patterns.C1ConsistencyPattern;
 import rules.patterns.C1SignConsistencyAnyBinaryConnectivePattern;
@@ -73,7 +75,7 @@ public class IPLRuleSetTest {
 
 	@Test
 	public void testRule1FalseOR() {
-		rules.ipl.OnePremiseTwoConclusionsRule falseOrRule = IPLRulesPablo.F_OR;
+		rules.ipl.OnePremiseTwoConclusionsRule falseOrRule = IPLRules.F_OR;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -104,7 +106,7 @@ public class IPLRuleSetTest {
         T B : Ci
         
         */
-	    rules.ipl.OnePremiseTwoConclusionsRule rule = IPLRulesPablo.T_AND;
+	    rules.ipl.OnePremiseTwoConclusionsRule rule = IPLRules.T_AND;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -130,7 +132,7 @@ public class IPLRuleSetTest {
 
 	@Test
 	public void testRule3TrueOr() {
-		Rule rule = IPLRulesPablo.X_OR_F_LEFT;
+		Rule rule = IPLRules.X_OR_F_LEFT;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -140,24 +142,24 @@ public class IPLRuleSetTest {
 		LabelledFormula aux = lff.createLabelledFormula(main.getLabel().getNextFormulaLabel(),
 				sff.createSignedFormula(C1Signs.FALSE, x));
 
-		LabelledFormulaList lfl = new LabelledFormulaList();
+		SignedFormulaList lfl = new SignedFormulaList();
 		lfl.add(main);
 		lfl.add(aux);
 
-		LabelledFormulaList conclusions;
-		conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+		SignedFormulaList conclusions;
+		conclusions = rule.getPossibleConclusions(lff, ff, lfl);
 		assertTrue(conclusions.size() == 1);
 
 		assertTrue(conclusions.get(0).getLabel().equals(main.getLabel()));
 
-		assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
-		assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(y));
+		assertTrue(conclusions.get(0).getSign().equals(C1Signs.TRUE));
+		assertTrue(conclusions.get(0).getFormula().equals(y));
 
 	}
 
 	@Test
 	public void testRule4TrueOrFalseRight() {
-		Rule rule = IPLRulesPablo.T_OR_F_RIGHT;
+		IPLRule rule = IPLRules.T_OR_F_RIGHT;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -192,7 +194,7 @@ public class IPLRuleSetTest {
 		T not B : Ci
 		
 		*/
-		Rule rule = IPLRulesPablo.T_NOT_A_OR_B;
+		IPLRule rule = IPLRules.T_NOT_A_OR_B;
 		Formula x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
 		Formula or = ff.createCompositeFormula(IPLConnectives.OR, x, y);
@@ -222,7 +224,7 @@ public class IPLRuleSetTest {
 		
 		*/
 	    
-	    Rule rule = IPLRulesPablo.T_A_OR_B;
+	    IPLRule rule = IPLRules.T_A_OR_B;
 		
 		Formula x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -263,7 +265,7 @@ public class IPLRuleSetTest {
 	        
 	        */
 	        
-	        Rule rule = IPLRulesPablo.T_A_OR_B;
+	        Rule rule = IPLRules.T_A_OR_B;
 	        
 	        Formula x = ff.createAtomicFormula("X");
 	        Formula y = ff.createAtomicFormula("Y");
@@ -304,7 +306,7 @@ public class IPLRuleSetTest {
          * TA: CI
          */
         
-        Rule rule = IPLRulesPablo.T_A_OR_B_NOT_B;
+        IPLRule rule = IPLRules.T_A_OR_B_NOT_B;
         
         Formula x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -342,7 +344,7 @@ public class IPLRuleSetTest {
      * ----------
      * F B : cJ
      */
-        Rule rule = IPLRulesPablo.F_AND_LEFT;
+        IPLRule rule = IPLRules.F_AND_LEFT;
         
         Formula x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -383,7 +385,7 @@ public class IPLRuleSetTest {
         
         */
        
-        Rule rule = IPLRulesPablo.X_AND_T_RIGHT;
+        IPLRule rule = IPLRules.X_AND_T_RIGHT;
         
         Formula x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -432,7 +434,7 @@ public class IPLRuleSetTest {
 	    T not B : cK
 	    */
        
-        Rule rule = IPLRulesPablo.T_NOT_A_AND_B;
+        IPLRule rule = IPLRules.T_NOT_A_AND_B;
         
         Formula x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -480,7 +482,7 @@ public class IPLRuleSetTest {
         -----------------
         T not A : cK
         */
-        Rule rule = IPLRulesPablo.T_NOT_AND_LEFT; // Replace
+        IPLRule rule = IPLRules.T_NOT_AND_LEFT; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -527,7 +529,7 @@ public class IPLRuleSetTest {
         -----------------
         T B : cK
         */
-        Rule rule = IPLRulesPablo.T_IMPLIES_LEFT; // Replace
+        IPLRule rule = IPLRules.T_IMPLIES_LEFT; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -568,7 +570,7 @@ public class IPLRuleSetTest {
         -----------------
         F A : cJ
         */
-        Rule rule = IPLRulesPablo.X_IMPLIES_F_RIGHT;
+        IPLRule rule = IPLRules.X_IMPLIES_F_RIGHT;
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -602,7 +604,7 @@ public class IPLRuleSetTest {
         F B: cJ
         cI <= cJ
         */
-        Rule rule = IPLRulesPablo.F_A_IMPLIES_B_TA_FB; // Replace
+        IPLRule rule = IPLRules.F_A_IMPLIES_B_TA_FB; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -640,7 +642,7 @@ public class IPLRuleSetTest {
         T not B : cK
         cI <= cK
         */
-        Rule rule = IPLRulesPablo.F_NOT_A_IMPLIES_B_TA_FB; // Replace
+        IPLRule rule = IPLRules.F_NOT_A_IMPLIES_B_TA_FB; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -680,7 +682,7 @@ public class IPLRuleSetTest {
         -----------------
         T not A : cJ
         */
-        Rule rule = IPLRulesPablo.T_X_IMPLIES_Y_NOT_Y;
+        IPLRule rule = IPLRules.T_X_IMPLIES_Y_NOT_Y;
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -728,7 +730,7 @@ public class IPLRuleSetTest {
 	         * 
 	         * 
 	         */
-	        Rule rule = IPLRulesPablo.F_NOT;
+	    	Rule rule = IPLRules.F_NOT;
 
 	        x = ff.createAtomicFormula("X");
 	        Formula y = ff.createAtomicFormula("Y");
@@ -739,15 +741,16 @@ public class IPLRuleSetTest {
 
 	        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.FALSE, not_x));
 	        
-	        LabelledFormulaList lfl = new LabelledFormulaList();
+	        //LabelledFormulaList lfl = new LabelledFormulaList();
+	        SignedFormulaList lfl = new SignedFormulaList();
 	        lfl.add(main);
 	        
-	        LabelledFormulaList conclusions;
-	        conclusions = rule.getPossibleConclusions(lff, sff, ff, lfl);
+	        SignedFormulaList conclusions;
+	        conclusions = rule.getPossibleConclusions((SignedFormulaFactory) lff, ff, lfl);
 	        assertTrue(conclusions.size() == 1);
 
-	        assertTrue(conclusions.get(0).getSignedFormula().getSign().equals(C1Signs.TRUE));
-	        assertTrue(conclusions.get(0).getSignedFormula().getFormula().equals(x));
+	        assertTrue(conclusions.get(0).getSign().equals(C1Signs.TRUE));
+	        assertTrue(conclusions.get(0).getFormula().equals(x));
 
 	        assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
 
@@ -765,7 +768,7 @@ public class IPLRuleSetTest {
         cI <= cK
         */
 
-        Rule rule = IPLRulesPablo.T_NOT_NOT; // Replace
+        Rule rule = IPLRules.T_NOT_NOT; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);

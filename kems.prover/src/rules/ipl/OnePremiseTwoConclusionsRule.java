@@ -21,7 +21,7 @@ import rules.patterns.ipl.IUnaryLabelledFormulaPattern;
  * 
  *  
  */
-public class OnePremiseTwoConclusionsRule extends Rule {
+public class OnePremiseTwoConclusionsRule extends IPLRule {
 
 	IUnaryLabelledFormulaPattern _premise;
 

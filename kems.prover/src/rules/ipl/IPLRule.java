@@ -9,26 +9,17 @@ import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
+import rules.IRule;
+import rules.Rule;
 
-/**
- * Class that represents rules. <br>
- * A rule has zero or more premisses and one or more conclusions. <br>
- * Each conclusion is an action which may also contain a formula or a signed
- * formula.
- * 
- * @author Adolfo Gustavo Serra Seca Neto
- */
-public abstract class Rule implements IRule {
 
-	private String _name;
+public abstract class IPLRule extends Rule {
 
-	public Rule(String name) {
-		_name = name;
+
+	public IPLRule(String name) {
+		super(name);
 	};
 
-	public String toString() {
-		return _name;
-	}
 
 	abstract public LabelledFormulaList getPossibleConclusions(
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl);

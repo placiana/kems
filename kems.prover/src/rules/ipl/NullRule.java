@@ -14,7 +14,7 @@ import logic.signedFormulas.SignedFormulaList;
  * @author adolfo
  *
  */
-public class NullRule extends Rule {
+public class NullRule extends IPLRule {
 
     /**
      * 

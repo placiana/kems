@@ -18,7 +18,7 @@ import rules.patterns.ITernarySignedFormulaPattern;
  *
  */
 public class ThreePremisesOneConclusionRule extends
-		OneConclusionRule{
+		OneConclusionIPLRule{
 	
     ITernarySignedFormulaPattern _premise;
 

@@ -2,11 +2,12 @@ package rules.ipl.labels;
 
 import logic.labelledFormulas.FormulaLabel;
 import logic.labelledFormulas.LabelledFormulaList;
+import logic.signedFormulas.SignedFormulaList;
 
 public class AuxiliarLabelGetter extends LabelGetter {
 
 	@Override
-	public FormulaLabel getLabel(LabelledFormulaList lfl) {
+	public FormulaLabel getLabel(SignedFormulaList lfl) {
 		return lfl.get(1).getLabel();
 	}
 

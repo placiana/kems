@@ -17,7 +17,7 @@ import logic.signedFormulas.SignedFormulaList;
  * @author Adolfo Gustavo Serra Seca Neto
  *
  */
-public class NamedRule extends Rule {
+public class NamedRule extends IPLRule {
 
     /**
      * Creates a name rule

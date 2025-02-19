@@ -4,12 +4,13 @@ import java.util.Objects;
 
 import logic.signedFormulas.SignedFormula;
 
-public class LabelledFormula {
+public class LabelledFormula  extends SignedFormula {
 
 	private FormulaLabel _label;
 	private SignedFormula signedFormula;
 
 	public LabelledFormula(FormulaLabel aLabel, SignedFormula aSignedFormula) {
+		super(aSignedFormula.getSign(), aSignedFormula.getFormula());
 		this.signedFormula = aSignedFormula;
 		this._label = aLabel;
 	}

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import logic.labelledFormulas.ContextFormulaLabel;
 import logic.labelledFormulas.FormulaLabel;
 import logic.labelledFormulas.LabelledFormulaList;
+import logic.signedFormulas.SignedFormulaList;
 
 public class NewLabelGetter extends LabelGetter {
 
@@ -26,7 +27,7 @@ public class NewLabelGetter extends LabelGetter {
 	}
 
 		@Override
-	public FormulaLabel getLabel(LabelledFormulaList lfl) {
+	public FormulaLabel getLabel(SignedFormulaList lfl) {
 		if (this.getterType == "MAIN") {
 			return lfl.get(0).getLabel().getGreaterFormulaLabel();
 		} else if (this.getterType == "AUX") {
