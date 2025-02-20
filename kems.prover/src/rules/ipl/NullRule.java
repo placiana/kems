@@ -35,9 +35,9 @@ public class NullRule extends IPLRule {
 
 
 	@Override
-	public LabelledFormulaList getPossibleConclusions(
+	public SignedFormulaList getPossibleConclusions(
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			LabelledFormulaList lfl) {
+			SignedFormulaList lfl) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -63,10 +63,10 @@ public class ThreePremisesOneConclusionRule extends
 		return _premise;
 	}
 
-	@Override
-	public LabelledFormulaList getPossibleConclusions(
+
+	public SignedFormulaList getPossibleConclusions(
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			LabelledFormulaList lfl) {
+			SignedFormulaList lfl) {
 		// TODO Auto-generated method stub
 		return null;
 	}

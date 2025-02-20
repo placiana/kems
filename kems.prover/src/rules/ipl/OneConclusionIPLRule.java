@@ -8,15 +8,16 @@ import rules.OneConclusionRule;
 
 public abstract class OneConclusionIPLRule extends OneConclusionRule {
 	
-	private KELabelledAction _conclusion;
+	private KELabelledAction labelConclusion;
 	
 	public KELabelledAction getConclusion(){
-		return _conclusion;
+		return labelConclusion;
 	}
 	
 	public OneConclusionIPLRule(String name, KELabelledAction conclusion){
 		super(name, conclusion);
 		//super(name);
+		labelConclusion = conclusion;
 	}
 
 

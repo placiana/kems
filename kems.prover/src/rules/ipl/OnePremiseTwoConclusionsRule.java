@@ -41,19 +41,18 @@ public class OnePremiseTwoConclusionsRule extends IPLRule {
 	@Override
 	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff,
 			SignedFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return null;
+        return this.getPossibleConclusions((LabelledFormulaFactory) sff, sff, ff, sfl);
 	}
 
 	@Override
-	public LabelledFormulaList getPossibleConclusions(
+	public SignedFormulaList getPossibleConclusions(
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			LabelledFormulaList lfl) {
-        LabelledFormula premise = lfl.get(0);
+			SignedFormulaList lfl) {
+        LabelledFormula premise = (LabelledFormula) lfl.get(0);
         if (_premise.matches(premise)) {
-            LabelledFormulaList l = new LabelledFormulaList();
-            l.add((_conclusion1.getLabelledFormula(lff, sff, ff, lfl)));
-            l.add((_conclusion2.getLabelledFormula(lff, sff, ff, lfl)));
+            SignedFormulaList l = new SignedFormulaList();
+            l.add((_conclusion1.getLabelledFormula(sff, ff, lfl)));
+            l.add((_conclusion2.getLabelledFormula(sff, ff, lfl)));
             return l;
         } else
             return null;

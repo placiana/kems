@@ -218,7 +218,7 @@ public class IPLRuleStructures {
 
 
 
-    private void addToOnePremiseRules(FormulaSign sign, Connective conn, rules.ipl.IPLRule r) {
+    private void addToOnePremiseRules(FormulaSign sign, Connective conn, Rule r) {
         if (signature.contains(conn)) {
             addConnectiveRuleType(conn, r, RuleType.SIMPLE_1P);
             onePremiseRules.add(sign, conn, r);

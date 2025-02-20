@@ -21,7 +21,7 @@ public abstract class IPLRule extends Rule {
 	};
 
 
-	abstract public LabelledFormulaList getPossibleConclusions(
-			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl);
+	abstract public SignedFormulaList getPossibleConclusions(
+			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl);
 
 }

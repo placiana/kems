@@ -35,10 +35,10 @@ public class OnePremiseOneConclusionRule extends OneConclusionIPLRule {
 	}
 
 	public LabelledFormulaList getPossibleConclusions(LabelledFormulaFactory lff, SignedFormulaFactory sff,
-			FormulaFactory ff, LabelledFormulaList lfl) {
-		LabelledFormula premise = lfl.get(0);
+			FormulaFactory ff, SignedFormulaList lfl) {
+		LabelledFormula premise = (LabelledFormula) lfl.get(0);
 		if (_premise.matches(premise.getSignedFormula())) {
-			LabelledFormula lf = getConclusion().getLabelledFormula(lff, sff, ff, lfl);
+			LabelledFormula lf = getConclusion().getLabelledFormula(lff, ff, lfl);
 			return new LabelledFormulaList(lf);
 		} else {
             System.err.println(this+ " null for " + lfl);
