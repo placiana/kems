@@ -10,7 +10,6 @@ import logic.formulas.FormulaFactory;
 import logic.formulas.FormulaList;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
@@ -40,7 +39,7 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
     }
 	@Override
 	public boolean matches(LabelledFormula main, LabelledFormula auxiliary) {
-	    LabelledFormulaList lfl = new LabelledFormulaList();
+	    SignedFormulaList lfl = new SignedFormulaList();
 	    lfl.add(main);
 	    lfl.add(auxiliary);
 	    boolean labelCondition = _labelCondition.matches(lfl); 
@@ -93,7 +92,7 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
 	}
 
 	@Override
-	public LabelledFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
+	public SignedFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
 			FormulaFactory ff, SignedFormula sfMain) {
 		// TODO Auto-generated method stub
 		return null;
@@ -105,11 +104,7 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
 		return false;
 	}
 
-	@Override
-	public Formula getMatchedSubformula(LabelledFormulaList sfl) {
-		// TODO Auto-generated method stub
-		return getMatchedSubformula(sfl.get(0), sfl.get(1));
-	}
+	
 
 	private Formula getMatchedSubformula(LabelledFormula main, LabelledFormula auxiliary) {
 		 if (!(auxiliary.getSignedFormula().getSign().equals(_auxiliarySign))) {
@@ -175,7 +170,8 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
     public Formula getMatchedSubformula(SignedFormulaList sfl) {
         return getMatchedSubformula(sfl.get(0), sfl.get(1));
     }
-
+	
+	
     private Formula getMatchedSubformula(SignedFormula main,
             SignedFormula auxiliary) {
         if (!(auxiliary.getSign().equals(_auxiliarySign))) {

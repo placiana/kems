@@ -11,7 +11,6 @@ import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.FormulaLabel;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -52,11 +51,11 @@ public class ContextSubformulaRoleGetter extends SubformulaRoleGetter {
     }
     
     public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff,
-            FormulaFactory ff, LabelledFormulaList lfl) {
-    	SignedFormulaList sfl = lfl.toSignedFormulaList();
+            FormulaFactory ff, SignedFormulaList lfl) {
+    	SignedFormulaList sfl = lfl;
     	SignedFormula result = getSignedFormula(sff, ff, sfl);
     	
-    	LabelledFormula main = lfl.get(0);
+    	LabelledFormula main = (LabelledFormula )lfl.get(0);
     	
     	FormulaLabel label;
     	if (_context == "MAIN") {

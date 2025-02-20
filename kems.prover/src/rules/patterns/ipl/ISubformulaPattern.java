@@ -7,8 +7,6 @@ package rules.patterns.ipl;
 import logic.formulas.Formula;
 import logic.formulas.FormulaList;
 import logic.labelledFormulas.LabelledFormula;
-import logic.labelledFormulas.LabelledFormulaList;
-import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaList;
 
 /**
@@ -17,7 +15,7 @@ import logic.signedFormulas.SignedFormulaList;
  */
 public interface ISubformulaPattern extends rules.patterns.ISubformulaPattern {
 
-	public Formula getMatchedSubformula(LabelledFormulaList sfl);
+	public Formula getMatchedSubformula(SignedFormulaList sfl);
 
 	/**
 	 * @param sf

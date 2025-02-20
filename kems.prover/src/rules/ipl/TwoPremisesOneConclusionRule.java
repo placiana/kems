@@ -9,11 +9,9 @@ import logic.formulas.FormulaFactory;
 import logic.formulas.FormulaList;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
-import rules.getters.KESignedFormulaGetter;
 import rules.getters.SubformulaGetter;
 import rules.patterns.ISubformulaPattern;
 import rules.patterns.ipl.IBinarySignedFormulaPattern;
@@ -38,7 +36,7 @@ public class TwoPremisesOneConclusionRule extends OneConclusionIPLRule {
 	 * @param sfMain
 	 * @return
 	 */
-	public LabelledFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
+	public SignedFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
 			FormulaFactory ff, SignedFormula sfMain) {
 		return _premise.getAuxiliaryCandidates(lff, sff, ff, sfMain);
 	}
@@ -77,28 +75,11 @@ public class TwoPremisesOneConclusionRule extends OneConclusionIPLRule {
 	 */
 	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl,
 			CompositeFormula f) {
-//		SignedFormula mainPremise = sfl.get(0);
-//		SignedFormula auxPremise = sfl.get(1);
 		SignedFormulaList result = new SignedFormulaList();
 		result.add(((SubformulaGetter) getConclusion().getContent()).getSignedFormula(sff, ff, sfl, f));
 		return result;
 	}
 
-	/*
-	@Override
-	public LabelledFormulaList getPossibleConclusions(LabelledFormulaFactory lff, SignedFormulaFactory sff,
-			FormulaFactory ff, LabelledFormulaList lfl) {
-
-		LabelledFormula mainPremise = lfl.get(0);
-		LabelledFormula auxPremise = lfl.get(1);
-		if (_premise.matches(mainPremise, auxPremise)) {
-			LabelledFormulaList result = new LabelledFormulaList();
-			result.add((getConclusion().getLabelledFormula(lff, sff, ff, lfl)));
-			return result;
-		} else
-			return new LabelledFormulaList();
-	}
-	*/
 
 	@Override
 	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff,

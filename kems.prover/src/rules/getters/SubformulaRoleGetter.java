@@ -8,8 +8,6 @@ import java.util.List;
 
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
-import logic.labelledFormulas.LabelledFormula;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;

@@ -5,9 +5,6 @@
 package rules;
 
 import logic.formulas.FormulaFactory;
-import logic.labelledFormulas.LabelledFormula;
-import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;

@@ -4,13 +4,10 @@
  */
 package rules.ipl;
 
-import java.util.List;
-
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
@@ -56,8 +53,8 @@ public class BinaryConnectiveGetter implements  KELabelledFormulaGetter {
 
 
 	@Override
-	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList lfl) {
-		LabelledFormula lformula = lfl.get(0);
+	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList lfl) {
+		LabelledFormula lformula = (LabelledFormula) lfl.get(0);
 
 		Formula newFormula = _role.getFormulas(lformula.getSignedFormula().getFormula()).get(0);
 		SignedFormula newSignedFormula = sff.createSignedFormula(_sign, newFormula);

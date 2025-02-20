@@ -7,7 +7,6 @@ package rules;
 import logic.formulas.CompositeFormula;
 import logic.formulas.FormulaFactory;
 import logic.formulas.FormulaList;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -47,20 +46,7 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 
 
 	
-	public final SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
-			FormulaFactory ff, LabelledFormulaList sfl) {
 
-		SignedFormulaList sfll = new SignedFormulaList();
-		SignedFormula mainPremise = sfl.get(0).getSignedFormula();
-		SignedFormula auxPremise = sfl.get(1).getSignedFormula();
-		if (_premise.matches(mainPremise, auxPremise)) {
-			SignedFormulaList result = new SignedFormulaList();
-			result.add(((KESignedFormulaGetter) getConclusion().getContent())
-					.getSignedFormula(sff, ff, sfll)); // ESTO ES CUALQUER COSA
-			return result;
-		} else
-			return null;
-	}
 
 	
 	

@@ -9,15 +9,11 @@ import logic.formulas.FormulaFactory;
 import logic.formulas.FormulaList;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
-import logicalSystems.ipl.IPLConnectives;
-import logicalSystems.ipl.IPLSigns;
 import rules.KERuleRole;
-import rules.ipl.labels.BinarySomeRelationLabelCondition;
 import rules.ipl.labels.LabelCondition;
 
 public class TwoLevelCompositeBinaryFormulaPattern implements IBinarySignedFormulaPattern, ISubformulaPattern {
@@ -52,7 +48,7 @@ public class TwoLevelCompositeBinaryFormulaPattern implements IBinarySignedFormu
     
     @Override
     public boolean matches(LabelledFormula main, LabelledFormula auxiliary) {
-        LabelledFormulaList lfl = new LabelledFormulaList();
+        SignedFormulaList lfl = new SignedFormulaList();
         lfl.add(main);
         lfl.add(auxiliary);
         boolean lcMatch = labelCondition.matches(lfl);
@@ -89,7 +85,7 @@ public class TwoLevelCompositeBinaryFormulaPattern implements IBinarySignedFormu
     }
 
     @Override
-    public LabelledFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
+    public SignedFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
             FormulaFactory ff, SignedFormula sfMain) {
         // TODO Auto-generated method stub
         return null;
@@ -112,18 +108,18 @@ public class TwoLevelCompositeBinaryFormulaPattern implements IBinarySignedFormu
         return  null;
     }
 
+    public Formula getMatchedSubformulaBak(SignedFormulaList sfl) {
+        // TODO Auto-generated method stub
+        LabelledFormula main = (LabelledFormula)sfl.get(0);
+        return main.getSignedFormula().getFormula();
+    }
+
     @Override
     public FormulaList getMainMatches(SignedFormula sf) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
-    public Formula getMatchedSubformula(LabelledFormulaList sfl) {
-        // TODO Auto-generated method stub
-        LabelledFormula main = sfl.get(0);
-        return main.getSignedFormula().getFormula();
-    }
 
     @Override
     public FormulaList getMainMatches(LabelledFormula lf) {

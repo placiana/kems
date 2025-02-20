@@ -1,7 +1,6 @@
 package rules.ipl.labels;
 
 import logic.labelledFormulas.FormulaLabel;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormulaList;
 
 public class MainLabelGetter extends LabelGetter {

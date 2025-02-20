@@ -4,17 +4,8 @@
  */
 package rules.ipl;
 
-import logic.formulas.FormulaFactory;
-import logic.labelledFormulas.LabelledFormula;
-import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
-import logic.signedFormulas.SignedFormula;
-import logic.signedFormulas.SignedFormulaFactory;
 import rules.Action;
 import rules.ActionType;
-import rules.getters.BinaryConnectiveGetter;
-import rules.getters.KESignedFormulaGetter;
-import rules.ipl.labels.LabelGetter;
 
 /**
  * @author Adolfo Gustavo Serra Seca Neto

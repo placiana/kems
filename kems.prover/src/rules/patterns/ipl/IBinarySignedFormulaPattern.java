@@ -7,7 +7,6 @@ package rules.patterns.ipl;
 import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
@@ -33,7 +32,7 @@ public interface IBinarySignedFormulaPattern {
      * @param sfMain
      * @return
      */
-    public LabelledFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
+    public SignedFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
             FormulaFactory ff, SignedFormula sfMain);
 
     /**

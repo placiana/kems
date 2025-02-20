@@ -7,7 +7,6 @@ package rules.ipl;
 import logic.formulas.CompositeFormula;
 import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.getters.KESignedFormulaGetter;

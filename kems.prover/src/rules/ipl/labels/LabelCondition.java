@@ -1,9 +1,9 @@
 package rules.ipl.labels;
 
-import logic.labelledFormulas.LabelledFormulaList;
+import logic.signedFormulas.SignedFormulaList;
 
 public interface LabelCondition {
 
 	
-    public boolean matches(LabelledFormulaList lfl);
+    public boolean matches(SignedFormulaList lfl);
 }

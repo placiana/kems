@@ -1,6 +1,6 @@
 package rules.ipl.labels;
 
-import logic.labelledFormulas.LabelledFormulaList;
+import logic.signedFormulas.SignedFormulaList;
 
 /**
  * @author placiana
@@ -10,7 +10,7 @@ import logic.labelledFormulas.LabelledFormulaList;
 public class NoLabelCondition implements LabelCondition {
 
     @Override
-    public boolean matches(LabelledFormulaList lfl) {
+    public boolean matches(SignedFormulaList lfl) {
         return true;
     }
 

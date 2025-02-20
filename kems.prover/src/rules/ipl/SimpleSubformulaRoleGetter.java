@@ -6,15 +6,11 @@ import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.FormulaSign;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.KERuleRole;
-import rules.patterns.ipl.IBinarySignedFormulaPattern;
-import rules.patterns.ipl.ISubformulaPattern;
-import rules.patterns.ipl.SignConnectiveRoleSubformulaPattern;
 
 public class SimpleSubformulaRoleGetter implements KELabelledFormulaGetter, SubformulaGetter {
 
@@ -34,7 +30,7 @@ public class SimpleSubformulaRoleGetter implements KELabelledFormulaGetter, Subf
 
 	@Override
 	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
-			LabelledFormulaList lfl) {
+			SignedFormulaList lfl) {
 		//Formula matchedSubformula = _pattern.getMatchedSubformula(lfl);
         //return getLabelledFormula(lff, sff, ff, lfl, matchedSubformula);
         return null;
@@ -44,11 +40,11 @@ public class SimpleSubformulaRoleGetter implements KELabelledFormulaGetter, Subf
 
 	public LabelledFormula getLabelledFormula(LabelledFormulaFactory lff, 
 			SignedFormulaFactory sff, FormulaFactory ff,
-			LabelledFormulaList sfl, Formula f) {
+			SignedFormulaList sfl, Formula f) {
     	List<Formula> l = f.getImmediateSubformulas();
 
         if (_role.equals(KERuleRole.OTHER)) {
-            Formula auxFormula = sfl.get(1).getSignedFormula().getFormula();
+            Formula auxFormula = sfl.get(1).getFormula();
             Formula left = (Formula) l.get(0);
             Formula right = (Formula) l.get(1);
 
@@ -123,13 +119,13 @@ public class SimpleSubformulaRoleGetter implements KELabelledFormulaGetter, Subf
 
 	
     public LabelledFormula getSignedFormula(LabelledFormulaFactory lff,SignedFormulaFactory sff,
-            FormulaFactory ff, LabelledFormulaList sfl, Formula f) {
+            FormulaFactory ff, SignedFormulaList sfl, Formula f) {
 
     	List<Formula> l = f.getImmediateSubformulas();
         //        System.out.println(f + " " + l);
 
         if (_role.equals(KERuleRole.OTHER)) {
-            Formula auxFormula = sfl.get(1).getSignedFormula().getFormula();
+            Formula auxFormula = sfl.get(1).getFormula();
             Formula left = (Formula) l.get(0);
             Formula right = (Formula) l.get(1);
 
@@ -147,7 +143,7 @@ public class SimpleSubformulaRoleGetter implements KELabelledFormulaGetter, Subf
             Formula substitution = (Formula) _role.getFormulas(f).get(0);
             return lff.createLabelledFormula(
                 "c", 
-                sff.createSignedFormula(sfl.get(0).getSignedFormula().getSign(), substitution));
+                sff.createSignedFormula(sfl.get(0).getSign(), substitution));
         }
 
         return null;
@@ -162,14 +158,13 @@ public class SimpleSubformulaRoleGetter implements KELabelledFormulaGetter, Subf
                         substituted, replacement));
     }
     
-	private LabelledFormula substitute(LabelledFormulaFactory lff, 
-			SignedFormulaFactory sff, FormulaFactory ff, 
-			LabelledFormulaList sfl, Formula substituted,
-			Formula replacement) {
+	private LabelledFormula substitute(
+	        LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, 
+			SignedFormulaList sfl, Formula substituted, Formula replacement) {
         SignedFormula sf = sff.createSignedFormula(
-        		sfl.get(0).getSignedFormula().getSign(), ff
+        		sfl.get(0).getSign(), ff
                 .createFormulaBySubstitution(
-                		sfl.get(0).getSignedFormula().getFormula(),
+                		sfl.get(0).getFormula(),
                         substituted, replacement));
 
         return lff.createLabelledFormula("c", sf);

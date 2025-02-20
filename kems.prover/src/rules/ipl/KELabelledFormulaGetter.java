@@ -7,8 +7,6 @@ package rules.ipl;
 import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
-import logic.labelledFormulas.LabelledFormulaList;
-import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.getters.KESignedFormulaGetter;
@@ -21,7 +19,7 @@ public interface KELabelledFormulaGetter extends KESignedFormulaGetter{
 	
 	//public SignedFormula getSignedFormula (SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl);
 
-	public LabelledFormula getLabelledFormula (LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, LabelledFormulaList sfl);
+	public LabelledFormula getLabelledFormula (LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff, SignedFormulaList sfl);
 
 
 }

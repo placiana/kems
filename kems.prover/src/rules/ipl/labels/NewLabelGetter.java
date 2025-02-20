@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import logic.labelledFormulas.ContextFormulaLabel;
 import logic.labelledFormulas.FormulaLabel;
-import logic.labelledFormulas.LabelledFormulaList;
 import logic.signedFormulas.SignedFormulaList;
 
 public class NewLabelGetter extends LabelGetter {
