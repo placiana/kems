@@ -6,22 +6,24 @@ import logic.signedFormulas.SignedFormula;
 
 public class LabelledFormula  extends SignedFormula {
 
-	private FormulaLabel _label;
+	//private FormulaLabel _label;
 	private SignedFormula signedFormula;
 
 	public LabelledFormula(FormulaLabel aLabel, SignedFormula aSignedFormula) {
-		super(aSignedFormula.getSign(), aSignedFormula.getFormula());
+		super(aSignedFormula.getSign(), aSignedFormula.getFormula(), aLabel);
 		this.signedFormula = aSignedFormula;
-		this._label = aLabel;
+		//this._label = aLabel;
 	}
 	
+	/*
 	public FormulaLabel getLabel() {
 		return _label;
 	}
+    */
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(_label, signedFormula);
+		return Objects.hash(this.getLabel(), signedFormula);
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class LabelledFormula  extends SignedFormula {
 		if (getClass() != obj.getClass())
 			return false;
 		LabelledFormula other = (LabelledFormula) obj;
-		return Objects.equals(_label, other._label) && Objects.equals(signedFormula, other.signedFormula);
+		return Objects.equals(this.getLabel(), other.getLabel()) && Objects.equals(signedFormula, other.signedFormula);
 	}
 
 	public SignedFormula getSignedFormula() {
@@ -41,7 +43,7 @@ public class LabelledFormula  extends SignedFormula {
 	}
 	
     public String toString() {
-        return signedFormula.toString() + " " + this._label.toString();
+        return signedFormula.toString() + " " + this.getLabel().toString();
     }
 
 }

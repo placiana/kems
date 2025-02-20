@@ -25,6 +25,7 @@ public class OnePremiseOneConclusionRule extends OneConclusionIPLRule {
 
 	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff, FormulaFactory ff,
 			SignedFormulaList sfl) {
+	    /*
 		SignedFormula premise = sfl.get(0);
 		if (_premise.matches(premise)) {
 			return new SignedFormulaList(
@@ -32,14 +33,16 @@ public class OnePremiseOneConclusionRule extends OneConclusionIPLRule {
 		} else {
 			return null;
 		}
+		*/
+	    return getPossibleConclusions((LabelledFormulaFactory) sff, sff, ff, sfl);
 	}
 
-	public LabelledFormulaList getPossibleConclusions(LabelledFormulaFactory lff, SignedFormulaFactory sff,
+	public SignedFormulaList getPossibleConclusions(LabelledFormulaFactory lff, SignedFormulaFactory sff,
 			FormulaFactory ff, SignedFormulaList lfl) {
 		LabelledFormula premise = (LabelledFormula) lfl.get(0);
 		if (_premise.matches(premise.getSignedFormula())) {
 			LabelledFormula lf = getConclusion().getLabelledFormula(lff, ff, lfl);
-			return new LabelledFormulaList(lf);
+			return new SignedFormulaList(lf);
 		} else {
             System.err.println(this+ " null for " + lfl);
 			return null;
