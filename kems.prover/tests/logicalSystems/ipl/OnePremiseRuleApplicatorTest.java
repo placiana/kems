@@ -15,6 +15,7 @@ import logicalSystems.c1.C1RuleStructures;
 import logicalSystems.c1.C1Signs;
 import logicalSystems.classicalLogic.ClassicalConnectives;
 import logicalSystems.classicalLogic.ClassicalSigns;
+import main.newstrategy.ipl.IPLOnePremiseRuleApplicator;
 import main.newstrategy.mbc.simple.MBCSimpleStrategy;
 import main.proofTree.SignedFormulaNode;
 import main.proofTree.SignedFormulaNodeState;
@@ -32,68 +33,66 @@ import proverinterface.RuleStructureFactory;
 
 public class OnePremiseRuleApplicatorTest {
 
-	private SignedFormula tTopFormula;
-	SignedFormulaFactory sff;
-	FormulaFactory ff;
+    private SignedFormula tTopFormula;
+    SignedFormulaFactory sff;
+    FormulaFactory ff;
 
-	LabelledFormulaFactory lff;
+    LabelledFormulaFactory lff;
 
-	@Before
-	public void setUp() throws Exception {
-		sff = new SignedFormulaFactory();
-		ff = new FormulaFactory();
-		lff = new LabelledFormulaFactory();
-	}
+    @Before
+    public void setUp() throws Exception {
+        sff = new SignedFormulaFactory();
+        ff = new FormulaFactory();
+        lff = new LabelledFormulaFactory();
+    }
 
-	@Test
-	public void testOnePremiseApplicator() {
+    @Test
+    public void testOnePremiseApplicator() {
 
-		Method method = new Method(RuleStructureFactory.createRulesStructure("C1"));
-		OnePremiseRuleApplicator x = new OnePremiseRuleApplicator(
-				new MBCSimpleStrategy(method),
-				C1RuleStructures.ONE_PREMISE_RULES);
+        Method method = new Method(RuleStructureFactory.createRulesStructure("IPL"));
+        IPLOnePremiseRuleApplicator x = new IPLOnePremiseRuleApplicator(new MBCSimpleStrategy(method),
+                IPLRuleStructures.ONE_PREMISE_RULE_LIST);
 
-		Formula xx = ff.createAtomicFormula("X");
-		Formula y = ff.createAtomicFormula("Y");
-		Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, xx, y);
+        Formula xx = ff.createAtomicFormula("X");
+        Formula y = ff.createAtomicFormula("Y");
+        Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, xx, y);
 
-		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, x_or_y));
+        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, x_or_y));
 
-		SignedFormulaCreator sfc = new SignedFormulaCreator("sats5");
-		SignedFormulaList sfl = new SignedFormulaList();
+        SignedFormulaCreator sfc = new SignedFormulaCreator("sats5");
+        SignedFormulaList sfl = new SignedFormulaList();
 
-		sfl.add(main);
-		sfl.add(sfc.parseString("T A1"));
-		sfl.add(sfc.parseString("T !(A2&!B2)"));
-		sfl.add(sfc.parseString("T A3&B3"));
-		sfl.add(sfc.parseString("F A4|B4"));
-		sfl.add(sfc.parseString("F A5->B5"));
-		sfl.add(sfc.parseString("T !!A6"));
+        sfl.add(main);
+        sfl.add(sfc.parseString("T A1"));
+        sfl.add(sfc.parseString("T !(A2&!B2)"));
+        sfl.add(sfc.parseString("T A3&B3"));
+        sfl.add(sfc.parseString("F A4|B4"));
+        sfl.add(sfc.parseString("F A5->B5"));
+        sfl.add(sfc.parseString("T !!A6"));
 
-		tTopFormula = sfc.getSignedFormulaFactory().createSignedFormula(ClassicalSigns.TRUE,
-				sfc.getFormulaFactory().createCompositeFormula(ClassicalConnectives.TOP));
+        tTopFormula = sfc.getSignedFormulaFactory().createSignedFormula(ClassicalSigns.TRUE,
+                sfc.getFormulaFactory().createCompositeFormula(ClassicalConnectives.TOP));
 
-		ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
-				new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
 
-		SignedFormulaBuilder sfb = new SignedFormulaBuilder(sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
 
-		Iterator<SignedFormula> it = sfl.iterator();
+        Iterator<SignedFormula> it = sfl.iterator();
 
-		while (it.hasNext()) {
-			cpt.addLast(
-					new SignedFormulaNode(
-							it.next(), 
-							SignedFormulaNodeState.NOT_ANALYSED, 
-							NamedOrigin.PROBLEM));
-		}
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
 //      System.out.println(cpt);
-		x.applyAll(cpt, sfb);
+        x.applyAll(cpt, sfb);
 
-      System.out.println(cpt.getNumberOfNodes());
-		assertTrue(cpt.getNumberOfNodes() == 14);
+        System.out.println(cpt.getNumberOfNodes());
+        // assertTrue(cpt.getNumberOfNodes() == 15);
+        assertTrue(cpt.getNumberOfNodes() == 10);
 
 //      System.out.println(cpt);
 
-	}
+    }
 }
