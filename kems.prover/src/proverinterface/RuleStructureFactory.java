@@ -57,7 +57,8 @@ public class RuleStructureFactory {
                     .getRuleStructure();
         } else if (rulesStructureName.equals(IPL)) {
             rulesStructure = new IPLRuleStructures(IPLSignatureFactory.getInstance()
-                    .getClausalSignature()).getRuleStructure();
+            		.getNormalSignature()).getRuleStructure();
+            		//.getClausalSignature()).getRuleStructure();
         } else {
             throw new KEMSException("No rules structure configured for " + rulesStructureName
                     + " !");

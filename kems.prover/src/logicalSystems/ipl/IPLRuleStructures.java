@@ -172,7 +172,7 @@ public class IPLRuleStructures {
                 IPLRules.T_AND);
 
         // Regla 5?
-        addToOnePremiseRules(IPLSigns.TRUE, IPLConnectives.AND,
+        addToOnePremiseRules(IPLSigns.TRUE, IPLConnectives.NOT,
                 IPLRules.T_NOT_A_OR_B);
 
         // Regla 14

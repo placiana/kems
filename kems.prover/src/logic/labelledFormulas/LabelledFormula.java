@@ -43,6 +43,9 @@ public class LabelledFormula  extends SignedFormula {
 	}
 	
     public String toString() {
+    	if (this.getLabel() == null) {
+    		System.out.println("Sin label");
+    	}
         return signedFormula.toString() + " " + this.getLabel().toString();
     }
 
