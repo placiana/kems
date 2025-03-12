@@ -115,7 +115,7 @@ public class IPLRuleStructures {
 
         // Regla 3
         addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.X_OR_F_LEFT);
+                IPLSigns.TRUE, IPLRules.X_OR_F_LEFT);
         // Regla 4
         addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
                 IPLSigns.FALSE, IPLRules.T_OR_F_RIGHT);
@@ -185,7 +185,7 @@ public class IPLRuleStructures {
         addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.NOT,
                 IPLRules.F_NOT);
         // Regla 18
-        addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.NOT,
+        addToOnePremiseRules(IPLSigns.TRUE, IPLConnectives.NOT,
                 IPLRules.T_NOT_NOT);
 
         return onePremiseRules;

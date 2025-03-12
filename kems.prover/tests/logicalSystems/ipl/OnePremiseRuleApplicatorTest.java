@@ -1,6 +1,8 @@
 package logicalSystems.ipl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
@@ -19,6 +21,7 @@ import logicalSystems.classicalLogic.ClassicalConnectives;
 import logicalSystems.classicalLogic.ClassicalSigns;
 import main.newstrategy.ipl.IPLOnePremiseRuleApplicator;
 import main.newstrategy.mbc.simple.MBCSimpleStrategy;
+import main.proofTree.INode;
 import main.proofTree.SignedFormulaNode;
 import main.proofTree.SignedFormulaNodeState;
 import main.proofTree.origin.NamedOrigin;
@@ -223,9 +226,6 @@ public class OnePremiseRuleApplicatorTest {
         SignedFormulaList sfl = new SignedFormulaList();
 
         sfl.add(main);
-        //sfl.add(aux);
-        //sfl.add(trueX);
-
 
         ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
                 new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
@@ -241,6 +241,15 @@ public class OnePremiseRuleApplicatorTest {
         }
         app.applyAll(cpt, sfb);
         System.out.println(cpt);
+
+        List<INode> nodes = cpt.getNodeSequence();
+        
+        System.out.println(nodes);
+        LabelledFormula firstConclusion = (LabelledFormula) nodes.get(nodes.size()-2).getContent();
+
+        LabelledFormula secondConclusion = (LabelledFormula)  nodes.get(nodes.size()-1).getContent();
+        
+        assertEquals(firstConclusion.getLabel(), secondConclusion.getLabel());
 
         System.out.println(cpt.getNumberOfNodes());
         assertTrue(cpt.getNumberOfNodes() == 4);
@@ -286,16 +295,98 @@ public class OnePremiseRuleApplicatorTest {
         System.out.println(cpt);
 
         System.out.println(cpt.getNumberOfNodes());
-        assertTrue(cpt.getNumberOfNodes() == 4);
         
-        // TODO: bien pero deberia ser c1 para las dos conclusiones
+        List<INode> nodes = cpt.getNodeSequence();
+        
+        System.out.println(nodes);
+
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+
 
     }
     
     // Regla 17
     //addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.NOT, IPLRules.F_NOT);
+    @Test
+    public void testRule17() {
+    	
+    	Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.FALSE, not_x));
+
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 3);
+        
+        // TODO: bien pero deberia ser c1 para las dos conclusiones
+
+    }
+    
+    
     // Regla 18
     //addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.NOT, IPLRules.T_NOT_NOT);
+    @Test
+    public void testRule18() {
+    	
+    	Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+    	Formula not_not_x = ff.createCompositeFormula(IPLConnectives.NOT, not_x);
+
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, not_not_x));
+
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 3);
+        
+        // TODO: bien pero deberia ser c1 para las dos conclusiones
+
+    }
     
     
 }

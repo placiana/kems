@@ -94,8 +94,17 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
 	@Override
 	public SignedFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
 			FormulaFactory ff, SignedFormula sfMain) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO HAY QUE COMPLETAR ESTO !!!!
+		
+		List<Formula> formulas = _auxiliaryRole.getFormulas(sfMain.getFormula());
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        for (int i = 0; i < formulas.size(); i++) {
+            sfl.add(sff.createSignedFormula(_auxiliarySign, 
+            		(Formula) formulas.get(i)));
+        }
+
+        return sfl;
 	}
 
 	@Override
