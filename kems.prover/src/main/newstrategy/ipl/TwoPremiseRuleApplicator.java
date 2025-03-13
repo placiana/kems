@@ -4,6 +4,8 @@
  */
 package main.newstrategy.ipl;
 
+import java.util.Iterator;
+
 import logic.formulas.CompositeFormula;
 import logic.formulas.Connective;
 import logic.formulas.FormulaFactory;
@@ -274,12 +276,27 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 
 			SignedFormulaNode sfn = (SignedFormulaNode) it.next();
 
-			if (sflInput.contains((SignedFormula) sfn.getContent())) {
-				sflResult.add((SignedFormula) sfn.getContent());
+			SignedFormula sf = (SignedFormula) sfn.getContent();
+			//if (sflInput.contains((SignedFormula) sfn.getContent())) {
+			if (formulaLevelContains(sflInput,sf)) {
+				sflResult.add(sf);
 			}
 
 		}
 		return sflResult;
+	}
+	
+	private boolean formulaLevelContains(SignedFormulaList aList, SignedFormula aSignedFormula) {
+		
+		for (SignedFormula listFormula : aList.getList()) {
+			if (listFormula.getFormula().equals(aSignedFormula.getFormula()) &&
+				listFormula.getSign().equals(aSignedFormula.getSign())	) {
+				return true;
+			}
+			
+		}
+		
+		return false;
 	}
 
 }

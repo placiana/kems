@@ -100,8 +100,16 @@ public class SignConnectiveRoleSubformulaPattern implements IBinarySignedFormula
         SignedFormulaList sfl = new SignedFormulaList();
 
         for (int i = 0; i < formulas.size(); i++) {
-            sfl.add(sff.createSignedFormula(_auxiliarySign, 
-            		(Formula) formulas.get(i)));
+        	
+        	/*
+        	sfl.add(lff.createLabelledFormula(
+    			this._labelCondition.getAuxiliaryLabel((LabelledFormula)sfMain), 
+    			sff.createSignedFormula(_auxiliarySign, (Formula) formulas.get(i)))
+        	);
+        	*/
+        	sfl.add(
+    			sff.createSignedFormula(_auxiliarySign, (Formula) formulas.get(i))
+            );
         }
 
         return sfl;

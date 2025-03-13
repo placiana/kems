@@ -161,16 +161,19 @@ public class ClassicalRules {
 
 			));
 
-	static final SignConnectiveRoleSubformulaPattern pattern_X_OR_F_LEFT = new SignConnectiveRoleSubformulaPattern(
-			ClassicalConnectives.OR, ClassicalSigns.FALSE, KERuleRole.LEFT);
+	static final SignConnectiveRoleSubformulaPattern pattern_X_OR_F_LEFT = 
+			new SignConnectiveRoleSubformulaPattern(
+				ClassicalConnectives.OR, 
+				ClassicalSigns.FALSE, 
+				KERuleRole.LEFT
+			);
 
 	public static final TwoPremisesOneConclusionRule X_OR_F_LEFT = new TwoPremisesOneConclusionRule(
 			"X_OR_F_LEFT", pattern_X_OR_F_LEFT,
 
-			new KEAction(ActionType.ADD_NODE,
-
-			new SubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT)
-
+			new KEAction(
+				ActionType.ADD_NODE,
+				new SubformulaRoleGetter(pattern_X_OR_F_LEFT, KERuleRole.RIGHT)
 			));
 
 	static final SignConnectiveRoleSubformulaPattern pattern_X_OR_F_RIGHT = new SignConnectiveRoleSubformulaPattern(

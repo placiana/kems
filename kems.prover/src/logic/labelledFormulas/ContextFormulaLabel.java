@@ -32,6 +32,10 @@ public class ContextFormulaLabel extends FormulaLabel {
         return _context.getNewFormulaLabelGreaterThan(this);
     }
 
+    public FormulaLabel getLowerFormulaLabel() {
+        return _context.getNewFormulaLabelLowerThan(this);
+    }
+    
     public Context getContext() {
         return _context;
     }

@@ -1,5 +1,6 @@
 package rules.ipl.labels;
 
+import logic.labelledFormulas.FormulaLabel;
 import logic.labelledFormulas.LabelledFormula;
 import logic.signedFormulas.SignedFormulaList;
 
@@ -17,5 +18,10 @@ public class BinarySomeRelationLabelCondition implements LabelCondition {
         LabelledFormula aux = (LabelledFormula) lfl.get(1);
         return main.getLabel().lowerOrEqualThan(aux.getLabel()) || aux.getLabel().lowerOrEqualThan(main.getLabel());
     }
+
+	@Override
+	public FormulaLabel getAuxiliaryLabel(LabelledFormula main) {
+		return main.getLabel().getGreaterFormulaLabel();
+	}
 
 }

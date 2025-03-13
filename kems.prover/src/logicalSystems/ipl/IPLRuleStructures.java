@@ -117,14 +117,14 @@ public class IPLRuleStructures {
         addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
                 IPLSigns.TRUE, IPLRules.X_OR_F_LEFT);
         // Regla 4
-        addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.T_OR_F_RIGHT);
+        addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.RIGHT,
+                IPLSigns.TRUE, IPLRules.T_OR_F_RIGHT);
         // Regla 6
-        addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.T_A_OR_B);
+        //addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
+        //        IPLSigns.TRUE, IPLRules.T_A_OR_B);
         // Regla 7
-        addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.T_A_OR_B_NOT_B);
+        //addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.RIGHT,
+        //        IPLSigns.TRUE, IPLRules.T_A_OR_B_NOT_B);
         
         // Regla 8
         addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,

@@ -2,6 +2,8 @@ package logic.labelledFormulas;
 
 import java.util.Objects;
 
+import util.NotImplementedException;
+
 public class FormulaLabel implements Comparable<FormulaLabel>{
 	public enum LabelType {
 		CONSTANT, VARIABLE, NONE
@@ -84,7 +86,10 @@ public class FormulaLabel implements Comparable<FormulaLabel>{
 	}
 
     public FormulaLabel getGreaterFormulaLabel() {
-        // TODO Auto-generated method stub
-        return null;
+		throw new NotImplementedException();
     }
+
+	public FormulaLabel getLowerFormulaLabel() {
+		throw new NotImplementedException();
+	}
 }

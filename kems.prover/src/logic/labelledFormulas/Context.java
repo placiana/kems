@@ -91,7 +91,7 @@ public class Context {
     }
 
     // Create a new element less than the given element
-    public FormulaLabel createLessThan(FormulaLabel element, FormulaLabel newElement) {
+    public FormulaLabel setAsLowerThan(FormulaLabel element, FormulaLabel newElement) {
         addElement(newElement);
         addRelation(newElement, element);
         return newElement;
@@ -157,5 +157,11 @@ public class Context {
         }
         return newFormulaLabel;
     }
+
+	public FormulaLabel getNewFormulaLabelLowerThan(FormulaLabel label) {
+        FormulaLabel newFormulaLabel = getNewFormulaLabel();
+        setAsLowerThan(label, newFormulaLabel);
+        return newFormulaLabel;
+	}
 
 }
