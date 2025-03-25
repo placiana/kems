@@ -13,6 +13,7 @@ import rules.Rule;
 import rules.ipl.TwoPremisesOneConclusionRule;
 import rules.structures.ConnectiveRoleSignRuleList;
 import rules.structures.ConnectiveRuleStructureFactory;
+import rules.structures.IPLConnectiveRoleSignRuleList;
 import rules.structures.OnePremiseRuleList;
 import rules.structures.PBRuleList;
 import rules.structures.RuleList;
@@ -34,7 +35,7 @@ public class IPLRuleStructures {
 
     private TopBottomRoleRuleList topAndBottomRulesNew;
 
-    private ConnectiveRoleSignRuleList twoPremiseRules;
+    private IPLConnectiveRoleSignRuleList twoPremiseRules;
 
     private PBRuleList PBRules;
 
@@ -110,8 +111,8 @@ public class IPLRuleStructures {
         return PBRules;
     }
 
-    private ConnectiveRoleSignRuleList initializeTwoPremiseRuleList() {
-        twoPremiseRules = new ConnectiveRoleSignRuleList();
+    private IPLConnectiveRoleSignRuleList initializeTwoPremiseRuleList() {
+        twoPremiseRules = new IPLConnectiveRoleSignRuleList();
 
         // Regla 3
         addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
@@ -120,37 +121,37 @@ public class IPLRuleStructures {
         addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.RIGHT,
                 IPLSigns.TRUE, IPLRules.T_OR_F_RIGHT);
         // Regla 6
-        //addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
-        //        IPLSigns.TRUE, IPLRules.T_A_OR_B);
+        addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
+                IPLSigns.TRUE, IPLRules.T_A_OR_B);
         // Regla 7
-        //addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.RIGHT,
-        //        IPLSigns.TRUE, IPLRules.T_A_OR_B_NOT_B);
+        addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.RIGHT,
+                IPLSigns.TRUE, IPLRules.T_A_OR_B_NOT_B);
         
         // Regla 8
         addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
                 IPLSigns.FALSE, IPLRules.F_AND_LEFT);
         // Regla 9
-        addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
+        addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.RIGHT,
                 IPLSigns.FALSE, IPLRules.X_AND_T_RIGHT);
         // Regla 10
-        addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.T_NOT_A_AND_B);
+        addToTwoPremiseRules(IPLConnectives.NOT, KERuleRole.LEFT,
+                IPLSigns.TRUE, IPLRules.T_NOT_A_AND_B);
         // Regla 11
-        addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.T_NOT_AND_LEFT);
+        addToTwoPremiseRules(IPLConnectives.NOT, KERuleRole.RIGHT,
+                IPLSigns.TRUE, IPLRules.T_NOT_AND_LEFT);
         
         
         // Regla 12
         addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.T_IMPLIES_LEFT);
+                IPLSigns.TRUE, IPLRules.T_IMPLIES_LEFT);
         
         // 13
-        addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.X_IMPLIES_F_RIGHT);
+        addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.RIGHT,
+                IPLSigns.TRUE, IPLRules.X_IMPLIES_F_RIGHT);
         
         // Regla 16
-        addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.LEFT,
-                IPLSigns.FALSE, IPLRules.T_X_IMPLIES_Y_NOT_Y);
+        addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.RIGHT,
+                IPLSigns.TRUE, IPLRules.T_X_IMPLIES_Y_NOT_Y);
         
         return twoPremiseRules;
     }
@@ -228,7 +229,7 @@ public class IPLRuleStructures {
     }
 
     protected void setTwoPremiseRules(ConnectiveRoleSignRuleList list) {
-        twoPremiseRules = list;
+        twoPremiseRules = (IPLConnectiveRoleSignRuleList) list;
     }
 
 }

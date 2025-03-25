@@ -87,8 +87,22 @@ public class TwoLevelCompositeBinaryFormulaPattern implements IBinarySignedFormu
     @Override
     public SignedFormulaList getAuxiliaryCandidates(LabelledFormulaFactory lff, SignedFormulaFactory sff,
             FormulaFactory ff, SignedFormula sfMain) {
-        // TODO Auto-generated method stub
-        return null;
+    	
+    	// we go down one level
+    	Formula mainFormula = sfMain.getFormula();
+    	Formula subFormula = mainFormula.getImmediateSubformulas().get(0);
+    	
+		List<Formula> formulas = auxRole.getFormulas(subFormula);
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        for (int i = 0; i < formulas.size(); i++) {
+
+        	sfl.add(
+    			sff.createSignedFormula(auxiliarySign, (Formula) formulas.get(i))
+            );
+        }
+
+        return sfl;
     }
 
     @Override

@@ -18,7 +18,7 @@ import logicalSystems.c1.C1Signs;
 import logicalSystems.classicalLogic.ClassicalConnectives;
 import logicalSystems.classicalLogic.ClassicalSigns;
 import main.newstrategy.ipl.IPLOnePremiseRuleApplicator;
-import main.newstrategy.ipl.TwoPremiseRuleApplicator;
+import main.newstrategy.ipl.IPLTwoPremiseRuleApplicator;
 import main.newstrategy.mbc.simple.MBCSimpleStrategy;
 import main.proofTree.SignedFormulaNode;
 import main.proofTree.SignedFormulaNodeState;
@@ -49,7 +49,7 @@ public class TwoPremisesRuleApplicatorTest {
     Formula x_and_y;
     Method method;
     SignedFormulaCreator sfc;
-    TwoPremiseRuleApplicator app;
+    IPLTwoPremiseRuleApplicator app;
     
     @Before
     public void setUp() throws Exception {
@@ -69,7 +69,7 @@ public class TwoPremisesRuleApplicatorTest {
         tTopFormula = sfc.getSignedFormulaFactory().createSignedFormula(ClassicalSigns.TRUE,
                 sfc.getFormulaFactory().createCompositeFormula(ClassicalConnectives.TOP));
 
-        app = new TwoPremiseRuleApplicator(new MBCSimpleStrategy(method),
+        app = new IPLTwoPremiseRuleApplicator(new MBCSimpleStrategy(method),
                 IPLRuleStructures.TWO_PREMISE_RULE_LIST);
         
         
@@ -109,7 +109,7 @@ public class TwoPremisesRuleApplicatorTest {
         MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
         strategy.setCurrent(cpt);
        
-        app = new TwoPremiseRuleApplicator(strategy,
+        app = new IPLTwoPremiseRuleApplicator(strategy,
                 IPLRuleStructures.TWO_PREMISE_RULE_LIST);
         
         Iterator<SignedFormula> it = sfl.iterator();
@@ -160,7 +160,7 @@ public class TwoPremisesRuleApplicatorTest {
         MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
         strategy.setCurrent(cpt);
        
-        app = new TwoPremiseRuleApplicator(strategy,
+        app = new IPLTwoPremiseRuleApplicator(strategy,
                 IPLRuleStructures.TWO_PREMISE_RULE_LIST);
         
         Iterator<SignedFormula> it = sfl.iterator();
@@ -181,37 +181,448 @@ public class TwoPremisesRuleApplicatorTest {
 //    // Regla 6
 //    addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.T_A_OR_B);
+    @Test
+    public void testRule06() {
+    	Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, x, y);
+    	Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+    	
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x_or_y));
+        LabelledFormula aux = lff.createLabelledFormula(mainLabel.getNextFormulaLabel(), 
+        		sff.createSignedFormula(C1Signs.TRUE, not_x));
+        
+        
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+
+    
+    
+    
 //    // Regla 7
 //    addToTwoPremiseRules(IPLConnectives.OR, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.T_A_OR_B_NOT_B);
 //    
-//    // Regla 8
+    @Test
+    public void testRule07() {
+    	Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, x, y);
+    	Formula not_y = ff.createCompositeFormula(IPLConnectives.NOT, y);
+    	
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x_or_y));
+        LabelledFormula aux = lff.createLabelledFormula(mainLabel.getNextFormulaLabel(), 
+        		sff.createSignedFormula(C1Signs.TRUE, not_y));
+        
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+
+    
+    //    // Regla 8
 //    addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.F_AND_LEFT);
-//    // Regla 9
+    @Test
+    public void testRule08() {
+    	Formula x_and_y = ff.createCompositeFormula(IPLConnectives.AND, x, y);
+    	Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+    	
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.FALSE, x_and_y));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x));
+        
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+
+    
+    
+    //    // Regla 9
 //    addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.X_AND_T_RIGHT);
+    
+    @Test
+    public void testRule09() {
+    	Formula x_and_y = ff.createCompositeFormula(IPLConnectives.AND, x, y);
+    	Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
+    	
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.FALSE, x_and_y));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, y));
+        
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+    
+    
 //    // Regla 10
 //    addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.T_NOT_A_AND_B);
+
+    @Test
+    public void testRule10() {
+    	Formula x_and_y = ff.createCompositeFormula(IPLConnectives.AND, x, y);
+    	Formula not_x_and_y = ff.createCompositeFormula(IPLConnectives.NOT, x_and_y);
+    	
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, not_x_and_y));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x));
+        
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+    
+    
+    
 //    // Regla 11
 //    addToTwoPremiseRules(IPLConnectives.AND, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.T_NOT_AND_LEFT);
-//    
+    @Test
+    public void testRule11() {
+    	Formula x_and_y = ff.createCompositeFormula(IPLConnectives.AND, x, y);
+    	Formula not_x_and_y = ff.createCompositeFormula(IPLConnectives.NOT, x_and_y);
+    	
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, not_x_and_y));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, y));
+        
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+    
+        
 //    
 //    // Regla 12
 //    addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.T_IMPLIES_LEFT);
-//    
+    @Test
+    public void testRule12() {
+    	Formula x_implies_y = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
+    	
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x_implies_y));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x));
+        
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+    
+    
+    //    
 //    // 13
 //    addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.X_IMPLIES_F_RIGHT);
 //    
-//    // Regla 16
+    @Test
+    public void testRule13() {
+    	Formula x_implies_y = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
+    	
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x_implies_y));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, 
+        		sff.createSignedFormula(C1Signs.FALSE, y));
+
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
+    //    // Regla 16
 //    addToTwoPremiseRules(IPLConnectives.IMPLIES, KERuleRole.LEFT,
 //            IPLSigns.FALSE, IPLRules.T_X_IMPLIES_Y_NOT_Y);
     
-    
+    @Test
+    public void testRule16() {
+    	Formula x_implies_y = ff.createCompositeFormula(IPLConnectives.IMPLIES, x, y);
+    	Formula not_y = ff.createCompositeFormula(IPLConnectives.NOT, y);
+    	
+        Context c = new Context();
+        FormulaLabel auxLabel = c.getNewFormulaLabel();
+        FormulaLabel mainLabel = c.getNewFormulaLabelGreaterThan(auxLabel);
+    	
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, x_implies_y));
+        LabelledFormula aux = lff.createLabelledFormula(auxLabel, 
+        		sff.createSignedFormula(C1Signs.TRUE, not_y));
+
+        SignedFormulaList sfl = new SignedFormulaList();
+
+        sfl.add(main);
+        sfl.add(aux);
+
+        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
+                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
+
+        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
+                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
+                new LabelledFormulaFactory(), sfc.getFormulaFactory());
+
+        MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+        strategy.setCurrent(cpt);
+       
+        app = new IPLTwoPremiseRuleApplicator(strategy,
+                IPLRuleStructures.TWO_PREMISE_RULE_LIST);
+        
+        Iterator<SignedFormula> it = sfl.iterator();
+
+        while (it.hasNext()) {
+            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
+        }
+        app.applyAll(cpt, sfb);
+        System.out.println(cpt);
+
+        System.out.println(cpt.getNumberOfNodes());
+        assertTrue(cpt.getNumberOfNodes() == 4);
+
+    }
     
     
     

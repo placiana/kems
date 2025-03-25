@@ -5,6 +5,7 @@
 package main.newstrategy.ipl;
 
 import java.util.Iterator;
+import java.util.List;
 
 import logic.formulas.CompositeFormula;
 import logic.formulas.Connective;
@@ -26,6 +27,7 @@ import rules.KERuleRole;
 import rules.Rule;
 import rules.ipl.TwoPremisesOneConclusionRule;
 import rules.structures.ConnectiveRoleSignRuleList;
+import rules.structures.IPLConnectiveRoleSignRuleList;
 
 /**
  * A two premise rule applicator
@@ -33,7 +35,7 @@ import rules.structures.ConnectiveRoleSignRuleList;
  * @author Adolfo Gustavo Serra Seca Neto
  * 
  */
-public class TwoPremiseRuleApplicator implements IRuleApplicator {
+public class IPLTwoPremiseRuleApplicator implements IRuleApplicator {
 
 	private ISimpleStrategy strategy;
 
@@ -43,7 +45,7 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 	 * @param strategy
 	 * @param sfb
 	 */
-	public TwoPremiseRuleApplicator(ISimpleStrategy strategy,
+	public IPLTwoPremiseRuleApplicator(ISimpleStrategy strategy,
 			String ruleListName) {
 		super();
 		this.strategy = strategy;
@@ -66,7 +68,7 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 		// se encontrar, entao aplicar
 		boolean hasApplied = false;
 
-		ConnectiveRoleSignRuleList twoPremiseRules = (ConnectiveRoleSignRuleList) strategy
+		IPLConnectiveRoleSignRuleList twoPremiseRules = (IPLConnectiveRoleSignRuleList) strategy
 				.getMethod().getRules().get(ruleListName);
 
 		SignedFormula mainCandidate;
@@ -82,17 +84,51 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 					.getFormula()).getConnective();
 			FormulaSign mainSign = mainCandidate.getSign();
 
-			// Por que?????
-			// // TODO only for mbc
-			// if (mainConnective == MBCConnectives.CONSISTENCY) {
-			// continue;
-			// }
 
+			/*
 			Rule left_rule = twoPremiseRules.get(mainConnective,
 					KERuleRole.LEFT, mainSign);
 			Rule right_rule = twoPremiseRules.get(mainConnective,
 					KERuleRole.RIGHT, mainSign);
+			*/
 			
+			List<Rule> leftRules = twoPremiseRules.getMany(mainConnective,
+					KERuleRole.LEFT, mainSign);
+			List<Rule> rightRules = twoPremiseRules.getMany(mainConnective,
+					KERuleRole.RIGHT, mainSign);
+
+			for (Iterator<Rule> it = leftRules.iterator(); it.hasNext();) {
+				if (hasApplied)
+					break;
+				Rule left_rule = it.next();
+				for (Iterator<Rule> it2 = rightRules.iterator(); it2.hasNext();) {
+					if (hasApplied)
+						break;
+
+
+					Rule right_rule = it2.next();
+					boolean appliedLeft = false;
+					// verifies if left rule can be applied. If it can apply it.
+					if (left_rule != null) {
+						appliedLeft = tryToApplyTwoPremiseRule(strategy
+								.getCurrent(), sfb, mainCandidate, left_rule);
+						hasApplied = hasApplied || appliedLeft;
+						if (appliedLeft)
+							counterMainCandidates--;
+					}
+
+					// verifies if right rule can be applied. If it can apply it.
+					if (right_rule != null) {
+						boolean appliedRight = tryToApplyTwoPremiseRule(strategy
+								.getCurrent(), sfb, mainCandidate, right_rule);
+						hasApplied = hasApplied || appliedRight;
+						if (appliedRight &!appliedLeft)
+							counterMainCandidates--;
+					}
+				}
+			}
+
+			/*
 			boolean appliedLeft = false;
 			// verifies if left rule can be applied. If it can apply it.
 			if (left_rule != null) {
@@ -102,8 +138,6 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 				if (appliedLeft)
 					counterMainCandidates--;
 			}
-//			 System.out.println("hasApplied1="+hasApplied);
-//			 System.out.println(counterMainCandidates + ": " +mainCandidates);
 
 			// verifies if right rule can be applied. If it can apply it.
 			if (right_rule != null) {
@@ -113,8 +147,7 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 				if (appliedRight &!appliedLeft)
 					counterMainCandidates--;
 			}
-//			 System.out.println("hasApplied2="+hasApplied);
-//			 System.out.println(counterMainCandidates + ": " +mainCandidates);
+			*/
 
 		}
 
@@ -146,34 +179,6 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 		return null;
 	}
 
-	// comentado em 22-06-2006
-	// /**
-	// * applies a two premise rule.
-	// *
-	// * @param proofTree
-	// * @param sfb
-	// * @param mainCandidate
-	// * @param auxCandidate
-	// * @param rule
-	// */
-	// private void applyTwoPremiseRule(ClassicalProofTree proofTree,
-	// SignedFormulaBuilder sfb, SignedFormula mainCandidate,
-	// SignedFormula auxCandidate, Rule rule) {
-	//
-	// TwoPremisesOneConclusionRule aRule = ((TwoPremisesOneConclusionRule)
-	// rule);
-	//
-	// SignedFormulaList sfl = aRule.getAuxiliaryCandidates(sfb
-	// .getSignedFormulaFactory(), sfb.getFormulaFactory(),
-	// mainCandidate);
-	//
-	// // TODO apenas considera uma conclus�o
-	// if (sfl.get(0) == auxCandidate) {
-	// applyTwoPremiseRule(proofTree, sfb, mainCandidate, aRule, sfl,
-	// auxCandidate);
-	// }
-	//
-	// }
 
 	/**
 	 * @param proofTree
@@ -190,7 +195,7 @@ public class TwoPremiseRuleApplicator implements IRuleApplicator {
 		TwoPremisesOneConclusionRule aRule = ((TwoPremisesOneConclusionRule) rule);
 
 		SignedFormulaList sfl = aRule.getAuxiliaryCandidates(
-				new LabelledFormulaFactory(),
+				(LabelledFormulaFactory) sfb.getSignedFormulaFactory(),
 				sfb.getSignedFormulaFactory(), 
 				sfb.getFormulaFactory(),
 				mainCandidate);

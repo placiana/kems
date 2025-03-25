@@ -15,7 +15,7 @@ public class KEDecoratedRuleRole extends KERuleRole {
     public KEDecoratedRuleRole(String name, Connective connective) {
         super(name);
         this.connective = connective;
-        // TODO Auto-generated constructor stub
+
     }
     public List<Formula> getFormulas(Formula f) {
         List<Formula> formulas = super.getFormulas(f);

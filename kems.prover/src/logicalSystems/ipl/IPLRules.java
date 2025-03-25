@@ -224,7 +224,8 @@ public class IPLRules {
         IPLConnectives.AND, 
         IPLSigns.TRUE,
         IPLSigns.TRUE, 
-        new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
+        //new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
+        KERuleRole.LEFT,
         new BinarySomeRelationLabelCondition());
 
     public static final rules.ipl.TwoPremisesOneConclusionRule T_NOT_A_AND_B = new rules.ipl.TwoPremisesOneConclusionRule(
@@ -233,8 +234,9 @@ public class IPLRules {
 
         new KELabelledAction(
             ActionType.ADD_NODE,
-            //new SubformulaRoleGetter(T_NOT_AND_B_PATTERN, KERuleRole.LEFT),
-            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Right", IPLConnectives.NOT) ),
+            
+            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Left", IPLConnectives.NOT) ),
+            //new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, KERuleRole.RIGHT ),
             new NewLabelGetter(NewLabelGetter.BOTH)
         )
     );
@@ -253,7 +255,8 @@ public class IPLRules {
             IPLConnectives.AND, 
             IPLSigns.TRUE,
             IPLSigns.TRUE, 
-            new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
+            KERuleRole.RIGHT,
+            //new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
             new BinarySomeRelationLabelCondition());
     
     public static final  rules.ipl.TwoPremisesOneConclusionRule T_NOT_AND_LEFT = new  rules.ipl.TwoPremisesOneConclusionRule(
@@ -261,7 +264,7 @@ public class IPLRules {
         pattern_T_NOT_AND_LEFT,
         new KELabelledAction(
             ActionType.ADD_NODE,
-            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Left", IPLConnectives.NOT) ),
+            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Right", IPLConnectives.NOT) ),
             new NewLabelGetter(NewLabelGetter.BOTH)
         )
     );
