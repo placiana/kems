@@ -355,8 +355,8 @@ public class IPLRules {
     T not B : cK
     cI <= cK
     */
-    public static final rules.ipl.OnePremiseTwoConclusionsRule F_NOT_A_IMPLIES_B_TA_FB = new rules.ipl.OnePremiseTwoConclusionsRule(
-            "F_NOT_A_IMPLIES_B_TA_FB",
+    public static final rules.ipl.OnePremiseTwoConclusionsRule T_NOT_A_IMPLIES_B_TA_FB = new rules.ipl.OnePremiseTwoConclusionsRule(
+            "T_NOT_A_IMPLIES_B_TA_FB",
             //new rules.patterns.ipl.SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.IMPLIES),
             new TwoLevelCompositeFormulaPattern(IPLConnectives.NOT, IPLConnectives.IMPLIES),
             new KELabelledAction(

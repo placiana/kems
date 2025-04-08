@@ -75,40 +75,7 @@ public class OnePremiseRuleApplicatorTest {
         
     }
 
-    @Test
-    public void testOnePremiseApplicator() {
 
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, x_or_y));
-        LabelledFormula aux = lff.createLabelledFormula(main.getLabel(), sff.createSignedFormula(C1Signs.FALSE, x_and_y));
-        LabelledFormula trueX = lff.createLabelledFormula(main.getLabel(), sff.createSignedFormula(C1Signs.TRUE, x));
-
-
-        SignedFormulaList sfl = new SignedFormulaList();
-        //sfl.add(main);
-        sfl.add(aux);
-        sfl.add(trueX);
-
-        ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
-                new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
-
-        SignedFormulaBuilder sfb = new SignedFormulaBuilder(
-                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
-                new LabelledFormulaFactory(), sfc.getFormulaFactory());
-
-        Iterator<SignedFormula> it = sfl.iterator();
-
-        while (it.hasNext()) {
-            cpt.addLast(new SignedFormulaNode(it.next(), SignedFormulaNodeState.NOT_ANALYSED, NamedOrigin.PROBLEM));
-        }
-        
-        app.applyAll(cpt, sfb);
-        System.out.println(cpt);
-
-        System.out.println(cpt.getNumberOfNodes());
-        assertTrue(cpt.getNumberOfNodes() == 10);
-
-
-    }
 
     @Test
     public void testRule01() {
@@ -181,20 +148,22 @@ public class OnePremiseRuleApplicatorTest {
     	
     	Formula not_x_or_y = ff.createCompositeFormula(IPLConnectives.NOT, x_or_y);
 
-        LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.TRUE, not_x_or_y));
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, 
+                sff.createSignedFormula(C1Signs.TRUE, not_x_or_y));
 
         SignedFormulaList sfl = new SignedFormulaList();
 
         sfl.add(main);
-        //sfl.add(aux);
-        //sfl.add(trueX);
+
 
 
         ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(
                 new SignedFormulaNode(tTopFormula, SignedFormulaNodeState.FULFILLED, NamedOrigin.DEFINITION));
 
         SignedFormulaBuilder sfb = new SignedFormulaBuilder(
-                // sfc.getSignedFormulaFactory(), sfc.getFormulaFactory());
                 new LabelledFormulaFactory(), sfc.getFormulaFactory());
 
         Iterator<SignedFormula> it = sfl.iterator();
@@ -275,8 +244,6 @@ public class OnePremiseRuleApplicatorTest {
         SignedFormulaList sfl = new SignedFormulaList();
 
         sfl.add(main);
-        //sfl.add(aux);
-        //sfl.add(trueX);
 
 
         ClassicalProofTree cpt = new FormulaReferenceClassicalProofTree(

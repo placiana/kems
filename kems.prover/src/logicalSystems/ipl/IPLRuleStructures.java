@@ -14,6 +14,7 @@ import rules.ipl.TwoPremisesOneConclusionRule;
 import rules.structures.ConnectiveRoleSignRuleList;
 import rules.structures.ConnectiveRuleStructureFactory;
 import rules.structures.IPLConnectiveRoleSignRuleList;
+import rules.structures.IPLOnePremiseRuleList;
 import rules.structures.OnePremiseRuleList;
 import rules.structures.PBRuleList;
 import rules.structures.RuleList;
@@ -31,7 +32,7 @@ public class IPLRuleStructures {
 
     private RulesStructure _rules;
 
-    private OnePremiseRuleList onePremiseRules;
+    private IPLOnePremiseRuleList onePremiseRules;
 
     private TopBottomRoleRuleList topAndBottomRulesNew;
 
@@ -161,8 +162,8 @@ public class IPLRuleStructures {
     /**
      * @return
      */
-    private OnePremiseRuleList initializeOnePremiseRuleList() {
-        onePremiseRules = new OnePremiseRuleList();
+    private IPLOnePremiseRuleList initializeOnePremiseRuleList() {
+        onePremiseRules = new IPLOnePremiseRuleList();
 
         // Regla 1
         addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.OR,
@@ -180,8 +181,8 @@ public class IPLRuleStructures {
         addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.IMPLIES,
                 IPLRules.F_A_IMPLIES_B_TA_FB);
         // Regla 15
-        addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.NOT,
-                IPLRules.F_NOT_A_IMPLIES_B_TA_FB);
+        addToOnePremiseRules(IPLSigns.TRUE, IPLConnectives.NOT,
+                IPLRules.T_NOT_A_IMPLIES_B_TA_FB);
         // Regla 17
         addToOnePremiseRules(IPLSigns.FALSE, IPLConnectives.NOT,
                 IPLRules.F_NOT);

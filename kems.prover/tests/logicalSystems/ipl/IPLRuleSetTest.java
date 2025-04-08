@@ -641,7 +641,7 @@ public class IPLRuleSetTest {
         T not B : cK
         cI <= cK
         */
-        IPLRule rule = IPLRules.F_NOT_A_IMPLIES_B_TA_FB; // Replace
+        IPLRule rule = IPLRules.T_NOT_A_IMPLIES_B_TA_FB; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");

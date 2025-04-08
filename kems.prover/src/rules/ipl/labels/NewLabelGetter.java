@@ -15,6 +15,7 @@ public class NewLabelGetter extends LabelGetter {
 	
 
 	private String getterType;
+	private FormulaLabel computedLabel = null;
 	
 	// Constructor
 	public NewLabelGetter(String getterType) {
@@ -27,8 +28,12 @@ public class NewLabelGetter extends LabelGetter {
 
 		@Override
 	public FormulaLabel getLabel(SignedFormulaList lfl) {
+		if (this.computedLabel != null)
+		    return this.computedLabel;
+		    
 		if (this.getterType == "MAIN") {
-			return lfl.get(0).getLabel().getGreaterFormulaLabel();
+			this.computedLabel = lfl.get(0).getLabel().getGreaterFormulaLabel();
+			return this.computedLabel;
 		} else if (this.getterType == "AUX") {
 			return lfl.get(1).getLabel().getGreaterFormulaLabel();
 		} else if (this.getterType == "BOTH") {

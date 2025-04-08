@@ -4,6 +4,10 @@
  */
 package main.newstrategy.ipl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import logic.formulas.CompositeFormula;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaBuilder;
@@ -15,6 +19,7 @@ import main.strategy.ClassicalProofTree;
 import main.strategy.applicator.IRuleApplicator;
 import rules.NullRule;
 import rules.Rule;
+import rules.structures.IPLOnePremiseRuleList;
 import rules.structures.OnePremiseRuleList;
 
 /**
@@ -25,96 +30,123 @@ import rules.structures.OnePremiseRuleList;
  */
 public class IPLOnePremiseRuleApplicator implements IRuleApplicator {
 
-	private ISimpleStrategy strategy;
+    private ISimpleStrategy strategy;
 
-	private String ruleListName;
+    private String ruleListName;
 
-	/**
-	 * @param strategy
-	 * @param sfb
-	 */
-	public IPLOnePremiseRuleApplicator(ISimpleStrategy strategy,
-			String ruleListName) {
-		super();
-		this.strategy = strategy;
-		this.ruleListName = ruleListName;
-	}
+    /**
+     * @param strategy
+     * @param sfb
+     */
+    public IPLOnePremiseRuleApplicator(ISimpleStrategy strategy, String ruleListName) {
+        super();
+        this.strategy = strategy;
+        this.ruleListName = ruleListName;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see main.strategy.applicator.IRuleApplicator#applyAll(main.strategy.ClassicalProofTree,
-	 *      logic.signedFormulas.SignedFormulaBuilder)
-	 */
-	public boolean applyAll(ClassicalProofTree proofTree,
-			SignedFormulaBuilder sfb) {
-		boolean hasApplied = false;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see main.strategy.applicator.IRuleApplicator#applyAll(main.strategy.
+     * ClassicalProofTree, logic.signedFormulas.SignedFormulaBuilder)
+     */
+    public boolean applyAll(ClassicalProofTree proofTree, SignedFormulaBuilder sfb) {
+        boolean hasApplied = false;
 
-		int i = 0;
-		// notice that I am using a non-recommended "i--"
-		while (i < proofTree.getPBCandidates().size() && !proofTree.isClosed()) {
+        int i = 0;
+        // notice that I am using a non-recommended "i--"
+        while (i < proofTree.getPBCandidates().size() && !proofTree.isClosed()) {
 
-			// for each signed formula not used, if it accepts a one premise
-			// rule, apply the rule and remove it form the list of candidates.
+            // for each signed formula not used, if it accepts a one premise
+            // rule, apply the rule and remove it form the list of candidates.
 
-			SignedFormula sf = (SignedFormula) proofTree.getPBCandidates().get(
-					i);
+            SignedFormula sf = (SignedFormula) proofTree.getPBCandidates().get(i);
 
-			// System.err.println(sf);
-			if (chooseAndApplyOnePremiseRule(proofTree, sfb, sf)) {
-				hasApplied = true;
-				i--;
-			}
-			i++;
-		}
+            // System.err.println(sf);
+            if (chooseAndApplyOnePremiseRule(proofTree, sfb, sf)) {
+                hasApplied = true;
+                i--;
+            }
+            i++;
+        }
 
-		return hasApplied;
-	}
+        return hasApplied;
+    }
 
-	private boolean chooseAndApplyOnePremiseRule(ClassicalProofTree proofTree,
-			SignedFormulaBuilder sfb, SignedFormula sf) {
-		boolean hasApplied = false;
-		Rule r = chooseOnePremiseRule(proofTree, sf);
+    private boolean chooseAndApplyOnePremiseRule(ClassicalProofTree proofTree, SignedFormulaBuilder sfb,
+            SignedFormula sf) {
+        boolean hasApplied = false;
+        // Rule r = chooseOnePremiseRule(proofTree, sf);
+        List<Rule> rules = getOnePremiseRuleList(proofTree, sf);
 
-		if (r != NullRule.INSTANCE) {
-			hasApplied = true;
+        System.out.println("hey");
 
-			SignedFormulaList sfl = r.getPossibleConclusions(sfb
-					.getSignedFormulaFactory(), sfb.getFormulaFactory(),
-					new SignedFormulaList(sf));
+        for (Iterator<Rule> it = rules.iterator(); it.hasNext();) {
+            if (hasApplied)
+                break;
+            // hasApplied = true;
+            Rule r = it.next();
 
-			// TODO Translate: "Modificacao (ver se sfl!=null) necessaria PARA MCI
-			// pois MCIRules.T_NOT_CONS não garantido ser aplicada" 
-			if (sfl != null) {
+            SignedFormulaList sfl = r.getPossibleConclusions(sfb.getSignedFormulaFactory(), sfb.getFormulaFactory(),
+                    new SignedFormulaList(sf));
 
-				proofTree.removeFromPBCandidates(sf,
-						SignedFormulaNodeState.ANALYSED);
+            // TODO Translate: "Modificacao (ver se sfl!=null) necessaria PARA MCI
+            // pois MCIRules.T_NOT_CONS não garantido ser aplicada"
+            if (sfl != null) {
+                hasApplied = true;
 
-				for (int j = 0; j < sfl.size(); j++) {
-					proofTree.addLast(new SignedFormulaNode(sfl.get(j),
-							SignedFormulaNodeState.NOT_ANALYSED, strategy
-									.createOrigin(r, proofTree.getNode(sf),
-											null)));
-				}
-			} else {
-				return false;
-			}
-		}
-		return hasApplied;
-	}
+                proofTree.removeFromPBCandidates(sf, SignedFormulaNodeState.ANALYSED);
 
-	private Rule chooseOnePremiseRule(ClassicalProofTree cpt, SignedFormula sf) {
+                for (int j = 0; j < sfl.size(); j++) {
+                    proofTree.addLast(new SignedFormulaNode(sfl.get(j), SignedFormulaNodeState.NOT_ANALYSED,
+                            strategy.createOrigin(r, proofTree.getNode(sf), null)));
+                }
+            }
 
-		OnePremiseRuleList onePremiseRules = (OnePremiseRuleList) strategy
-				.getMethod().getRules().get(ruleListName);
+        }
 
-		if (sf.getFormula() instanceof CompositeFormula) {
-			return onePremiseRules.get(sf.getSign(), ((CompositeFormula) sf
-					.getFormula()).getConnective());
-		}
+        /*
+         * if (r != NullRule.INSTANCE) { hasApplied = true;
+         * 
+         * SignedFormulaList sfl = r.getPossibleConclusions(sfb
+         * .getSignedFormulaFactory(), sfb.getFormulaFactory(), new
+         * SignedFormulaList(sf));
+         * 
+         * // TODO Translate: "Modificacao (ver se sfl!=null) necessaria PARA MCI //
+         * pois MCIRules.T_NOT_CONS não garantido ser aplicada" if (sfl != null) {
+         * 
+         * proofTree.removeFromPBCandidates(sf, SignedFormulaNodeState.ANALYSED);
+         * 
+         * for (int j = 0; j < sfl.size(); j++) { proofTree.addLast(new
+         * SignedFormulaNode(sfl.get(j), SignedFormulaNodeState.NOT_ANALYSED, strategy
+         * .createOrigin(r, proofTree.getNode(sf), null))); } } else { return false; } }
+         */
+        return hasApplied;
+    }
 
-		return NullRule.INSTANCE;
+    private Rule chooseOnePremiseRule(ClassicalProofTree cpt, SignedFormula sf) {
 
-	}
+        OnePremiseRuleList onePremiseRules = (OnePremiseRuleList) strategy.getMethod().getRules().get(ruleListName);
+
+        if (sf.getFormula() instanceof CompositeFormula) {
+            return onePremiseRules.get(sf.getSign(), ((CompositeFormula) sf.getFormula()).getConnective());
+        }
+
+        return NullRule.INSTANCE;
+
+    }
+
+    private List<Rule> getOnePremiseRuleList(ClassicalProofTree cpt, SignedFormula sf) {
+
+        IPLOnePremiseRuleList onePremiseRules = (IPLOnePremiseRuleList) strategy.getMethod().getRules()
+                .get(ruleListName);
+
+        if (sf.getFormula() instanceof CompositeFormula) {
+            return onePremiseRules.getMany(((CompositeFormula) sf.getFormula()).getConnective(), sf.getSign());
+        }
+
+        return new ArrayList<Rule>();
+
+    }
 
 }
