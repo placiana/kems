@@ -3,8 +3,12 @@ package logicalSystems.ipl;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.Context;
+import logic.labelledFormulas.FormulaLabel;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.problem.Problem;
@@ -24,6 +28,13 @@ import org.junit.Test;
 import proverinterface.RuleStructureFactory;
 
 public class ProblemTest {
+	LabelledFormulaFactory lff;
+
+    @Before
+    public void setUp() throws Exception {
+        lff = new LabelledFormulaFactory();
+    }
+	
 
 	@Test
 	public final void testClose_for_MBC() {
@@ -39,14 +50,19 @@ public class ProblemTest {
 		Formula y = ff.createAtomicFormula("Y");
 		Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, x, y);
 		
-		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, x_or_y));
-
-		sfl.add(sfc.parseString("T A1->B1"));
-		sfl.add(sfc.parseString("T A2->B2"));
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+        
+		
+		sfl.add(lff.createLabelledFormula(
+				mainLabel, sfc.parseString("T A1->B1")));
+		sfl.add(lff.createLabelledFormula(
+				mainLabel, sfc.parseString("T A2->B2")));
 		Problem p = new Problem("satlfiinconsdef");
+		p.setSignedFormulaFactory(new LabelledFormulaFactory());
 		p.setSignedFormulaList(sfl);
 
-		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.MBC));
+		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.IPL));
 		MBCSimpleStrategy str = new MBCSimpleStrategy(method);
 		str.setComparator(new InsertionOrderSignedFormulaComparator());
 		prover.setMethod(method);
@@ -54,8 +70,8 @@ public class ProblemTest {
 
 		Proof result = prover.prove(p);
 
-		// System.out.println(result);
-		// System.out.println(result.getProofTree().getNumberOfNodes());
+		System.out.println(result);
+		System.out.println(result.getProofTree().getNumberOfNodes());
 		assertTrue(result.getProofTree().getNumberOfNodes() == 10);
 		assertFalse(result.isClosed());
 	}
@@ -67,6 +83,10 @@ public class ProblemTest {
 		SignedFormulaCreator sfc = new SignedFormulaCreator("satlfiinconsdef");
 		SignedFormulaList sfl = new SignedFormulaList();
 
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+		
+		
 		sfl.add(sfc.parseString("T A1->B1"));
 		sfl.add(sfc.parseString("T A2->B2"));
 
@@ -88,23 +108,34 @@ public class ProblemTest {
 	}
 
 	@Test
-	public final void testClose_for_C1_v2() {
+	public final void testIPLClose_for_C1_v2() {
 		Prover prover = new Prover();
+		
+
+		lff =  new LabelledFormulaFactory();
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
 
 		SignedFormulaCreator sfc = new SignedFormulaCreator("satlfiinconsdef");
 		SignedFormulaList sfl = new SignedFormulaList();
 
-		sfl.add(sfc.parseString("T !(A1->B1)"));
-		// sfl.add(sfc.parseString("T A2->B2"));
+		sfl.add(lff.createLabelledFormula(
+				mainLabel,
+				sfc.parseString("T !(A1->B1)"))
+		);
+
 
 		Problem p = new Problem("satlfiinconsdef");
 		p.setSignedFormulaList(sfl);
 
-		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.C1));
-		C1SimpleStrategy str = new C1SimpleStrategy(method);
-		str.setComparator(new InsertionOrderSignedFormulaComparator());
+		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.IPL));
+		MBCSimpleStrategy strategy = new MBCSimpleStrategy(method);
+		strategy.setComparator(new InsertionOrderSignedFormulaComparator());
+		
 		prover.setMethod(method);
-		prover.setStrategy(str);
+		prover.setStrategy(strategy);
+		
+		p.setSignedFormulaFactory(new LabelledFormulaFactory());
 
 		Proof result = prover.prove(p);
 

@@ -46,7 +46,7 @@ public class IPLRuleStructures {
 
     public static final String TOP_BOTTOM_ONE_PREMISE_RULE_LIST = "topAndBottomRulesNew";
 
-    public static final String TWO_PREMISE_RULE_LIST = "twoPremiseRulesNewII";
+    public static final String TWO_PREMISE_RULE_LIST = "twoPremiseRules";
 
     public static final String PB_RULE_LIST = "PBRules";
 

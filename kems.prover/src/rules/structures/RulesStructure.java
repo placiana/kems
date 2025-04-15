@@ -48,7 +48,7 @@ public class RulesStructure implements IRulesStructure {
         if (_structure.containsKey(ruleListName)) {
             return (RuleList) _structure.get(ruleListName);
         } else
-            throw new RuntimeException("N�o existe conjunto de regras com o nome: "
+            throw new RuntimeException("No existe conjunto de regras com o nome: "
                     + ruleListName);
     }
 
