@@ -235,7 +235,7 @@ public class IPLRules {
         new KELabelledAction(
             ActionType.ADD_NODE,
             
-            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Left", IPLConnectives.NOT) ),
+            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Right", IPLConnectives.NOT) ),
             //new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, KERuleRole.RIGHT ),
             new NewLabelGetter(NewLabelGetter.BOTH)
         )
@@ -264,7 +264,7 @@ public class IPLRules {
         pattern_T_NOT_AND_LEFT,
         new KELabelledAction(
             ActionType.ADD_NODE,
-            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Right", IPLConnectives.NOT) ),
+            new rules.ipl.SubformulaRoleGetter(T_NOT_AND_B_PATTERN, new KEDecoratedRuleRole("Left", IPLConnectives.NOT) ),
             new NewLabelGetter(NewLabelGetter.BOTH)
         )
     );
@@ -390,7 +390,8 @@ public class IPLRules {
         new KELabelledAction(
             ActionType.ADD_NODE, 
             new NotSubformulaGetter(KERuleRole.LEFT, IPLSigns.TRUE),
-            LabelGetter.NEW)
+            new NewLabelGetter()
+        )
     );
     
     // 17

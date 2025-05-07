@@ -77,7 +77,7 @@ public class ProblemTest {
 	}
 
 	@Test
-	public final void testClose_for_C1() {
+	public final void testIPLClose_for_C1() {
 		Prover prover = new Prover();
 
 		SignedFormulaCreator sfc = new SignedFormulaCreator("satlfiinconsdef");
@@ -87,22 +87,22 @@ public class ProblemTest {
         FormulaLabel mainLabel = c.getNewFormulaLabel();
 		
 		
-		sfl.add(sfc.parseString("T A1->B1"));
-		sfl.add(sfc.parseString("T A2->B2"));
+		sfl.add(lff.createLabelledFormula(mainLabel, sfc.parseString("T A1->B1")));
+		sfl.add(lff.createLabelledFormula(mainLabel, sfc.parseString("T A2->B2")));
 
 		Problem p = new Problem("satlfiinconsdef");
 		p.setSignedFormulaList(sfl);
 
-		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.C1));
-		C1SimpleStrategy str = new C1SimpleStrategy(method);
+		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.IPL));
+		MBCSimpleStrategy str = new MBCSimpleStrategy(method);
 		str.setComparator(new InsertionOrderSignedFormulaComparator());
 		prover.setMethod(method);
 		prover.setStrategy(str);
 
 		Proof result = prover.prove(p);
 
-		// System.out.println(result);
-		// System.out.println(result.getProofTree().getNumberOfNodes());
+		System.out.println(result);
+		System.out.println(result.getProofTree().getNumberOfNodes());
 		assertTrue(result.getProofTree().getNumberOfNodes() == 10);
 		assertFalse(result.isClosed());
 	}

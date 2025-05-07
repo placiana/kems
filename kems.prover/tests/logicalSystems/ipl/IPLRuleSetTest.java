@@ -503,6 +503,7 @@ public class IPLRuleSetTest {
         SignedFormulaList conclusions = rule.getPossibleConclusions(lff,  ff, lfl);
         
         assertTrue(conclusions.size() >= 1);
+        System.out.println(conclusions);
 
         Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
         assertTrue(conclusions.get(0).getSign().equals(C1Signs.TRUE));
@@ -691,10 +692,12 @@ public class IPLRuleSetTest {
         
         Context c = new Context();
         FormulaLabel mainLabel = c.getNewFormulaLabel();
-        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.TRUE, implies));
+        LabelledFormula main = lff.createLabelledFormula(
+        		mainLabel, sff.createSignedFormula(C1Signs.TRUE, implies));
         LabelledFormula aux = lff.createLabelledFormula(
-                main.getLabel().getNextFormulaLabel(),
-                sff.createSignedFormula(C1Signs.TRUE, not_y));
+            main.getLabel().getNextFormulaLabel(),
+            sff.createSignedFormula(C1Signs.TRUE, not_y)
+        );
 
         SignedFormulaList lfl = new SignedFormulaList();
         lfl.add(main);
@@ -702,6 +705,9 @@ public class IPLRuleSetTest {
 
         SignedFormulaList conclusions;
         conclusions = rule.getPossibleConclusions(lff,  ff, lfl);
+        
+        System.out.println(conclusions);
+        
         assertTrue(conclusions.size() == 1);
         assertTrue(conclusions.get(0).getSign().equals(C1Signs.TRUE));
         
