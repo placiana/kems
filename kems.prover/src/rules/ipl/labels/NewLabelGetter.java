@@ -28,8 +28,8 @@ public class NewLabelGetter extends LabelGetter {
 
 		@Override
 	public FormulaLabel getLabel(SignedFormulaList lfl) {
-		if (this.computedLabel != null)
-		    return this.computedLabel;
+		//if (this.computedLabel != null)
+		//    return this.computedLabel;
 		    
 		if (this.getterType == "MAIN") {
 			this.computedLabel = lfl.get(0).getLabel().getGreaterFormulaLabel();

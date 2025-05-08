@@ -1,4 +1,3 @@
-# encoding: utf-8
 /*
  * Created on 15/10/2004
  *

@@ -798,21 +798,61 @@ public class IPLRuleSetTest {
     }
 
     @Test
-    public void testRule19() {
-        // Regla 19
+    public void testRule17ManyConclussions() {
+
         /*
-        T A : cI.
-        T F : cJ
-        cI <= cJ
-        -----------------
-        x
+         * Regla 17
+         * F not A : cI
+         * ------------
+         *  T A : cJ
+         *  cI <= cJ
+         * 
+         * 
+         */
+        Rule rule = IPLRules.F_NOT;
 
-        */
-    }
-    @Test
-    public void testRule20() {
-
-    }
+        x = ff.createAtomicFormula("X");
+        Formula y = ff.createAtomicFormula("Y");
+        Formula not_x = ff.createCompositeFormula(IPLConnectives.NOT, x);
         
+        Context c = new Context();
+        FormulaLabel mainLabel = c.getNewFormulaLabel();
+
+        LabelledFormula main = lff.createLabelledFormula(mainLabel, sff.createSignedFormula(C1Signs.FALSE, not_x));
+        
+        // First phase
+        SignedFormulaList lfl = new SignedFormulaList();
+        lfl.add(main);
+        
+        SignedFormulaList conclusions;
+        conclusions = rule.getPossibleConclusions((SignedFormulaFactory) lff, ff, lfl);
+        assertTrue(conclusions.size() == 1);
+
+        assertTrue(conclusions.get(0).getSign().equals(C1Signs.TRUE));
+        assertTrue(conclusions.get(0).getFormula().equals(x));
+
+        assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));
+
+        // Second phase
+        LabelledFormula anotherMain = lff.createLabelledFormula(c.getNewFormulaLabel(), sff.createSignedFormula(C1Signs.FALSE, not_x));
+        lfl = new SignedFormulaList();
+        lfl.add(anotherMain);
+        
+        conclusions = rule.getPossibleConclusions((SignedFormulaFactory) lff, ff, lfl);
+        assertTrue(conclusions.size() == 1);
+
+        assertTrue(conclusions.get(0).getSign().equals(C1Signs.TRUE));
+        assertTrue(conclusions.get(0).getFormula().equals(x));
+
+        assertTrue(anotherMain.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+
+        assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(anotherMain.getLabel()));
+
+        
+        
+    }
+    
 	    
 }
