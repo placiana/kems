@@ -139,8 +139,8 @@ public class ProblemTest {
 
 		Proof result = prover.prove(p);
 
-		// System.out.println(result);
-		// System.out.println(result.getProofTree().getNumberOfNodes());
+		System.out.println(result);
+		System.out.println(result.getProofTree().getNumberOfNodes());
 		// assertTrue(result.getProofTree().getNumberOfNodes() == 10);
 		assertFalse(result.isClosed());
 	}
@@ -156,12 +156,14 @@ public class ProblemTest {
 
 		Problem p = new Problem("satlfiinconsdef");
 		p.setSignedFormulaList(sfl);
+		p.setSignedFormulaFactory(new LabelledFormulaFactory());
 
-		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.C1));
+		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.IPL));
 		C1SimpleStrategy str = new C1SimpleStrategy(method);
 		str.setComparator(new InsertionOrderSignedFormulaComparator());
 		prover.setMethod(method);
-		prover.setStrategy(str);
+		//prover.setStrategy(str);
+		prover.setStrategy(new MockSimpleStrategy(method));
 
 		Proof result = prover.prove(p);
 

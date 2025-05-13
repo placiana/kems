@@ -30,7 +30,7 @@ public class TwoPremisesOneConclusionRule extends OneConclusionRule {
 		_premise = premise;
 	}
 
-	public final SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
+	public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
 			FormulaFactory ff, SignedFormulaList sfl) {
 
 		SignedFormula mainPremise = sfl.get(0);

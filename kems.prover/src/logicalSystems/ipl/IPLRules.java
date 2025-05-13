@@ -19,6 +19,7 @@ import rules.ipl.labels.GreaterThanLabelCondition;
 import rules.ipl.labels.LabelGetter;
 import rules.ipl.labels.NewLabelGetter;
 import rules.ipl.labels.NoLabelCondition;
+import rules.patterns.IPLTwoSignsConnectiveRolePattern;
 import rules.patterns.ipl.TwoLevelCompositeBinaryFormulaPattern;
 import rules.patterns.ipl.TwoLevelCompositeFormulaPattern;
 
@@ -286,7 +287,8 @@ public class IPLRules {
             KERuleRole.LEFT,
             new NoLabelCondition());
     
-    public static final rules.ipl.TwoPremisesOneConclusionRule T_IMPLIES_LEFT = new rules.ipl.TwoPremisesOneConclusionRule(
+    //public static final rules.TwoPremisesOneConclusionRuleIPL T_IMPLIES_LEFT = new rules.TwoPremisesOneConclusionRuleIPL(
+    public static final rules.ipl.TwoPremisesOneConclusionRule T_IMPLIES_LEFT_BAK = new rules.ipl.TwoPremisesOneConclusionRule(
         "T_IMPLIES_LEFT",
         new rules.patterns.ipl.TwoSignsConnectiveRolePattern(
                 IPLSigns.TRUE, 
@@ -300,6 +302,19 @@ public class IPLRules {
             )
     );
 
+    public static final rules.TwoPremisesOneConclusionRuleIPL T_IMPLIES_LEFT = new rules.TwoPremisesOneConclusionRuleIPL(
+            "T_IMPLIES_LEFT",
+            new IPLTwoSignsConnectiveRolePattern(
+                    IPLSigns.TRUE, 
+                    IPLConnectives.IMPLIES,
+                    IPLSigns.TRUE, 
+                    KERuleRole.LEFT,
+                    new NoLabelCondition()), 
+            new KELabelledAction(ActionType.ADD_NODE,
+                    new rules.ipl.SubformulaRoleGetter(pattern_X_IMPLIES_T_LEFT, KERuleRole.RIGHT),
+                    new NewLabelGetter(NewLabelGetter.BOTH)
+                )
+        );    
 
     // Regla 13
     /*
