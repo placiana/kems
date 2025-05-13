@@ -92,6 +92,7 @@ public class ProblemTest {
 
 		Problem p = new Problem("satlfiinconsdef");
 		p.setSignedFormulaList(sfl);
+		p.setSignedFormulaFactory(new LabelledFormulaFactory());
 
 		Method method = new Method(RuleStructureFactory.createRulesStructure(RuleStructureFactory.IPL));
 		MBCSimpleStrategy str = new MBCSimpleStrategy(method);

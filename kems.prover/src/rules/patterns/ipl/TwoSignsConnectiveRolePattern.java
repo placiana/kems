@@ -109,8 +109,7 @@ public class TwoSignsConnectiveRolePattern implements
 
         List<Formula> l = _auxiliaryRole.getFormulas(sfMain.getFormula());
         for (int i = 0; i < l.size(); i++) {
-            sfl
-                    .add(sff.createSignedFormula(_auxiliarySign, (Formula) l
+            sfl.add(sff.createSignedFormula(_auxiliarySign, (Formula) l
                             .get(i)));
         }
 

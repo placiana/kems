@@ -79,7 +79,7 @@ public class PBRuleApplicator implements IProofTransformation {
 			ruleChosen = choosePBRule(PBRules, candidateChosen);
 //			 System.out.println("rule chosen:"+ruleChosen);
 			if (ruleChosen != NullRule.INSTANCE) {
-				aux = ((rules.ipl.TwoPremisesOneConclusionRule) ruleChosen).getAuxiliaryCandidates(
+				aux = ((TwoPremisesOneConclusionRule) ruleChosen).getAuxiliaryCandidates(
 						sfb.getSignedFormulaFactory(), sfb.getFormulaFactory(), candidateChosen).get(0);
 				if ((strategy.getCurrent().contains(aux) || strategy.getCurrent().contains(
 						sfb.createOppositeSignedFormula(aux)))) {

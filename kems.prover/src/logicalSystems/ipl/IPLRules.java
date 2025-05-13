@@ -11,6 +11,7 @@ import rules.getters.BinaryTwoPremisesConnectiveGetter;
 import rules.getters.SubformulaRoleGetter;
 import rules.getters.UnaryConnectiveGetter;
 import rules.ipl.CompositeLabelledAction;
+import rules.ipl.IPLSubformulaRoleGetter;
 import rules.ipl.KEDecoratedRuleRole;
 import rules.ipl.KELabelledAction;
 import rules.ipl.SimpleSubformulaRoleGetter;
@@ -19,6 +20,7 @@ import rules.ipl.labels.GreaterThanLabelCondition;
 import rules.ipl.labels.LabelGetter;
 import rules.ipl.labels.NewLabelGetter;
 import rules.ipl.labels.NoLabelCondition;
+import rules.patterns.IPLSignConnectiveRoleSubformulaPattern;
 import rules.patterns.IPLTwoSignsConnectiveRolePattern;
 import rules.patterns.ipl.TwoLevelCompositeBinaryFormulaPattern;
 import rules.patterns.ipl.TwoLevelCompositeFormulaPattern;
@@ -324,18 +326,18 @@ public class IPLRules {
     -----------------
     F A : cJ
     */
-    static final rules.patterns.ipl.SignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_F_RIGHT = new rules.patterns.ipl.SignConnectiveRoleSubformulaPattern(
+    static final IPLSignConnectiveRoleSubformulaPattern pattern_X_IMPLIES_F_RIGHT = new IPLSignConnectiveRoleSubformulaPattern(
         IPLConnectives.IMPLIES, 
         IPLSigns.FALSE, 
         KERuleRole.RIGHT,
         new BinarySomeRelationLabelCondition());
 
-    public static final rules.ipl.TwoPremisesOneConclusionRule X_IMPLIES_F_RIGHT = new rules.ipl.TwoPremisesOneConclusionRule(
+    public static final rules.TwoPremisesOneConclusionRuleIPL X_IMPLIES_F_RIGHT = new rules.TwoPremisesOneConclusionRuleIPL(
         "X_IMPLIES_F_RIGHT", 
         pattern_X_IMPLIES_F_RIGHT,
         new KELabelledAction(
             ActionType.ADD_NODE, 
-            new rules.ipl.SubformulaRoleGetter(pattern_X_IMPLIES_F_RIGHT, KERuleRole.LEFT, IPLSigns.FALSE),
+            new IPLSubformulaRoleGetter(pattern_X_IMPLIES_F_RIGHT, KERuleRole.LEFT, IPLSigns.FALSE),
             LabelGetter.MAIN
         )
     );

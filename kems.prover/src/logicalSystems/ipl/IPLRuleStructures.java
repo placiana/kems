@@ -10,6 +10,7 @@ import logic.signedFormulas.FormulaSign;
 import rules.KERuleRole;
 import rules.ipl.OnePremiseOneConclusionRule;
 import rules.Rule;
+import rules.TwoPremisesOneConclusionRuleIPL;
 import rules.ipl.TwoPremisesOneConclusionRule;
 import rules.structures.ConnectiveRoleSignRuleList;
 import rules.structures.ConnectiveRuleStructureFactory;
@@ -159,7 +160,8 @@ public class IPLRuleStructures {
 
   
 
-    /**
+
+	/**
      * @return
      */
     private IPLOnePremiseRuleList initializeOnePremiseRuleList() {
@@ -207,6 +209,16 @@ public class IPLRuleStructures {
             twoPremiseRules.add(conn, role, sign, r);
         }
     }
+    
+    private void addToTwoPremiseRules(Connective conn, KERuleRole role,
+            FormulaSign sign, 
+			TwoPremisesOneConclusionRuleIPL r) {
+        if (signature.contains(conn)) {
+            addConnectiveRuleType(conn, r, RuleType.SUBSTITUTION_2P);
+            twoPremiseRules.add(conn, role, sign, r);
+        }
+    	
+	}
 
 
 
