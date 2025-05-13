@@ -29,7 +29,6 @@ public class Context {
         labels = new LinkedList<FormulaLabel>();
         this.greaterThanMap = new HashMap<>();
         this.lessThanMap = new HashMap<>();
-
     }
 
     // Add an element to the set
@@ -49,7 +48,7 @@ public class Context {
 
     // Compare two elements in the partial order
     public int compare(FormulaLabel a, FormulaLabel b) {
-        if (isLessThan(a, b)) {
+        if (isLowerThan(a, b)) {
             return -1; // a < b
         } else if (isGreaterThan(a, b)) {
             return 1; // a > b
@@ -59,7 +58,7 @@ public class Context {
     }
 
     // Check if a < b
-    public boolean isLessThan(FormulaLabel a, FormulaLabel b) {
+    public boolean isLowerThan(FormulaLabel a, FormulaLabel b) {
         return greaterThanMap.get(a).contains(b);
     }
 
@@ -70,16 +69,36 @@ public class Context {
 
     // Check if a == b (i.e., a and b are comparable and equal)
     public boolean isEqual(FormulaLabel a, FormulaLabel b) {
-        return !isLessThan(a, b) && !isGreaterThan(a, b);
+        
+        if (a == b) {
+            return true; // Same object reference
+        }
+        if (greaterThanMap.get(a).contains(b) || lessThanMap.get(a).contains(b)) {
+            return false; // They are comparable but not equal
+        }
+        return false; // They are incomparable, thus not equal 
+
     }
 
+    /**
+     * Checks if two FormulaLabels are comparable.
+     * 
+     * @param label1 the first FormulaLabel
+     * @param label2 the second FormulaLabel
+     * @return true if the labels are comparable, false otherwise
+     */
+    public boolean areComparable(FormulaLabel label1, FormulaLabel label2) {
+        // Implement the logic to determine if the labels are comparable
+        return isGreaterThan(label1, label2) || isGreaterThan(label2, label1) || isEqual(label1, label2);
+    }
+    
     // Check if a <= b (a is less than or equal to b)
-    public boolean isLessThanOrEqualTo(FormulaLabel a, FormulaLabel b) {
-        return isLessThan(a, b) || isEqual(a, b);
+    public boolean isLowerOrEqualTo(FormulaLabel a, FormulaLabel b) {
+        return isLowerThan(a, b) || isEqual(a, b);
     }
 
     // Check if a >= b (a is greater than or equal to b)
-    public boolean isGreaterThanOrEqualTo(FormulaLabel a, FormulaLabel b) {
+    public boolean isGreaterOrEqualTo(FormulaLabel a, FormulaLabel b) {
         return isGreaterThan(a, b) || isEqual(a, b);
     }
 
@@ -138,6 +157,7 @@ public class Context {
         setAsGreaterThan(label, newFormulaLabel);
         return newFormulaLabel;
     }
+
 
     /**
      * Generates a new FormulaLabel that is greater than all the labels in the provided collection.

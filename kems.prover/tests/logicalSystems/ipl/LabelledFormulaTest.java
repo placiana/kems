@@ -9,7 +9,9 @@ import org.junit.Test;
 
 import logic.formulas.Formula;
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.Context;
 import logic.labelledFormulas.ContextFactory;
+import logic.labelledFormulas.FormulaLabel;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.signedFormulas.SignedFormula;
@@ -83,10 +85,11 @@ public class LabelledFormulaTest {
 	@Test
 	public void testLabelledFormulaWithDifferentConstructorsAreEqual() {
 		
-		ContextFactory cf = new ContextFactory();
+		Context context = new Context();
+		FormulaLabel label = context.getNewFormulaLabel();
 		
-		LabelledFormula  lf = lff.createLabelledFormula(cf.getNewContext(), auxiliaryPremise);
-		LabelledFormula  lfd = lff.createLabelledFormula(cf.getNewContext(), sff.createSignedFormula(C1Signs.TRUE, not_x));
+		LabelledFormula  lf = lff.createLabelledFormula(label, auxiliaryPremise);
+		LabelledFormula  lfd = lff.createLabelledFormula(label, sff.createSignedFormula(C1Signs.TRUE, not_x));
 		
 		assertEquals(lf, lfd);
 	
@@ -97,8 +100,8 @@ public class LabelledFormulaTest {
 		String repr = auxiliaryPremise.toString();
 		System.out.println(repr);
 		
-		ContextFactory cf = new ContextFactory();
-		LabelledFormula  lf = lff.createLabelledFormula(cf.getNewContext(), auxiliaryPremise);
+		Context context = new Context();
+		LabelledFormula  lf = lff.createLabelledFormula(context.getNewFormulaLabel(), auxiliaryPremise);
 		
 		assertEquals(repr, "T !X ");
 		assertEquals(lf.toString(), "T !X  c0");

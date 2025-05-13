@@ -17,11 +17,11 @@ public class ContextFormulaLabel extends FormulaLabel {
     }
 
     public boolean lowerOrEqualThan(FormulaLabel aux) {
-        return this._context.isLessThanOrEqualTo(this, aux);
+        return this._context.isLowerOrEqualTo(this, aux);
     }
 
     public boolean lowerThan(FormulaLabel aux) {
-        return this._context.isLessThan(this, aux);
+        return this._context.isLowerThan(this, aux);
     }
 
     public FormulaLabel getNextFormulaLabel() {

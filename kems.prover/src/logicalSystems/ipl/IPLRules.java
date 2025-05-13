@@ -226,7 +226,9 @@ public class IPLRules {
         IPLSigns.TRUE, 
         //new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
         KERuleRole.LEFT,
-        new BinarySomeRelationLabelCondition());
+        //new BinarySomeRelationLabelCondition()
+        new NoLabelCondition()
+        );
 
     public static final rules.ipl.TwoPremisesOneConclusionRule T_NOT_A_AND_B = new rules.ipl.TwoPremisesOneConclusionRule(
         "T_NOT_A_AND_B",
@@ -257,7 +259,7 @@ public class IPLRules {
             IPLSigns.TRUE, 
             KERuleRole.RIGHT,
             //new KEDecoratedRuleRole("Right", IPLConnectives.NOT), 
-            new BinarySomeRelationLabelCondition());
+            new NoLabelCondition());
     
     public static final  rules.ipl.TwoPremisesOneConclusionRule T_NOT_AND_LEFT = new  rules.ipl.TwoPremisesOneConclusionRule(
         "T_NOT_AND_LEFT",
@@ -282,7 +284,7 @@ public class IPLRules {
             IPLConnectives.IMPLIES, 
             IPLSigns.TRUE, 
             KERuleRole.LEFT,
-            new GreaterThanLabelCondition());
+            new NoLabelCondition());
     
     public static final rules.ipl.TwoPremisesOneConclusionRule T_IMPLIES_LEFT = new rules.ipl.TwoPremisesOneConclusionRule(
         "T_IMPLIES_LEFT",
@@ -291,7 +293,7 @@ public class IPLRules {
                 IPLConnectives.IMPLIES,
                 IPLSigns.TRUE, 
                 KERuleRole.LEFT,
-                new BinarySomeRelationLabelCondition()), 
+                new NoLabelCondition()), 
         new KELabelledAction(ActionType.ADD_NODE,
                 new rules.ipl.SubformulaRoleGetter(pattern_X_IMPLIES_T_LEFT, KERuleRole.RIGHT),
                 new NewLabelGetter(NewLabelGetter.BOTH)
@@ -331,19 +333,21 @@ public class IPLRules {
     F B: cJ
     cI <= cJ
     */    
-    public static final rules.ipl.OnePremiseTwoConclusionsRule F_A_IMPLIES_B_TA_FB = new rules.ipl.OnePremiseTwoConclusionsRule(
-        "F_A_IMPLIES_B_TA_FB",
-        new rules.patterns.ipl.SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.IMPLIES),
-        new KELabelledAction(
-            ActionType.ADD_NODE,
-            new SimpleSubformulaRoleGetter(KERuleRole.LEFT, IPLSigns.TRUE),
-            LabelGetter.NEW
-        ),
-        new KELabelledAction(
-            ActionType.ADD_NODE,
-            new SimpleSubformulaRoleGetter(KERuleRole.RIGHT, IPLSigns.FALSE),
-            LabelGetter.NEW
-        )
+    public static final rules.ipl.OnePremiseTwoConclusionsRule F_A_IMPLIES_B_TA_FB = 
+    	new rules.ipl.OnePremiseTwoConclusionsLabelOverrideRule(
+	        "F_A_IMPLIES_B_TA_FB",
+	        new rules.patterns.ipl.SignConnectivePattern(IPLSigns.FALSE, IPLConnectives.IMPLIES),
+	        new KELabelledAction(
+	            ActionType.ADD_NODE,
+	            new SimpleSubformulaRoleGetter(KERuleRole.LEFT, IPLSigns.TRUE),
+	            LabelGetter.NEW
+	        ),
+	        new KELabelledAction(
+	            ActionType.ADD_NODE,
+	            new SimpleSubformulaRoleGetter(KERuleRole.RIGHT, IPLSigns.FALSE),
+	            LabelGetter.NEW
+	        ),
+	        LabelGetter.NEW
     );
     
 
@@ -390,7 +394,7 @@ public class IPLRules {
         new KELabelledAction(
             ActionType.ADD_NODE, 
             new NotSubformulaGetter(KERuleRole.LEFT, IPLSigns.TRUE),
-            new NewLabelGetter()
+            LabelGetter.AUX
         )
     );
     

@@ -219,11 +219,11 @@ public class OnePremiseRuleApplicatorTest {
         LabelledFormula secondConclusion = (LabelledFormula)  nodes.get(nodes.size()-1).getContent();
         
         assertEquals(firstConclusion.getLabel(), secondConclusion.getLabel());
+        
+        assertTrue(c.isGreaterOrEqualTo(firstConclusion.getLabel(), mainLabel));
 
         System.out.println(cpt.getNumberOfNodes());
         assertTrue(cpt.getNumberOfNodes() == 4);
-        
-        // TODO: bien pero deberia ser c1 para las dos conclusiones
 
     }
     

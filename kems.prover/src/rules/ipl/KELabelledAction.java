@@ -5,6 +5,7 @@
 package rules.ipl;
 
 import logic.formulas.FormulaFactory;
+import logic.labelledFormulas.FormulaLabel;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
 import logic.signedFormulas.SignedFormula;
@@ -54,4 +55,11 @@ public class KELabelledAction extends rules.KEAction {
 		return lff.createLabelledFormula(this.labelGetter.getLabel(lfl), sf);
 	}
 
+	public LabelledFormula getLabelledFormula( SignedFormulaFactory sff, FormulaFactory ff,
+			SignedFormulaList lfl, FormulaLabel label) {
+		LabelledFormulaFactory lff = (LabelledFormulaFactory) sff;
+		SignedFormula sf = getContent().getSignedFormula(sff, ff, lfl);
+		return lff.createLabelledFormula(label, sf);
+	}
+	
 }

@@ -630,6 +630,8 @@ public class IPLRuleSetTest {
         assertTrue(conclusions.get(1).getSign().equals(C1Signs.FALSE));
         assertTrue(conclusions.get(1).getFormula().equals(y));
         assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(1).getLabel()));
+        
+        assertTrue(c.isEqual(conclusions.get(0).getLabel(), conclusions.get(1).getLabel()));
     }    
     
     @Test
@@ -695,7 +697,8 @@ public class IPLRuleSetTest {
         LabelledFormula main = lff.createLabelledFormula(
         		mainLabel, sff.createSignedFormula(C1Signs.TRUE, implies));
         LabelledFormula aux = lff.createLabelledFormula(
-            main.getLabel().getNextFormulaLabel(),
+        	c.getNewFormulaLabelGreaterThan(mainLabel),
+            //main.getLabel().getNextFormulaLabel(),
             sff.createSignedFormula(C1Signs.TRUE, not_y)
         );
 
@@ -715,6 +718,8 @@ public class IPLRuleSetTest {
         assertTrue(conclusions.get(0).getFormula().equals(not_x));
         
         assertTrue(main.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
+        assertTrue(c.isEqual(aux.getLabel(), conclusions.get(0).getLabel()));
+        
         assertTrue(aux.getLabel().lowerOrEqualThan(conclusions.get(0).getLabel()));
         
         assertFalse(conclusions.get(0).getLabel().lowerOrEqualThan(main.getLabel()));

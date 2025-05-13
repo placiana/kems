@@ -191,7 +191,7 @@ public class TwoPremisesRuleApplicatorTest {
     	
         LabelledFormula main = lff.createLabelledFormula(mainLabel, 
         		sff.createSignedFormula(C1Signs.TRUE, x_or_y));
-        LabelledFormula aux = lff.createLabelledFormula(mainLabel.getNextFormulaLabel(), 
+        LabelledFormula aux = lff.createLabelledFormula(c.getNewFormulaLabelGreaterThan(mainLabel), 
         		sff.createSignedFormula(C1Signs.TRUE, not_x));
         
         
@@ -243,7 +243,7 @@ public class TwoPremisesRuleApplicatorTest {
     	
         LabelledFormula main = lff.createLabelledFormula(mainLabel, 
         		sff.createSignedFormula(C1Signs.TRUE, x_or_y));
-        LabelledFormula aux = lff.createLabelledFormula(mainLabel.getNextFormulaLabel(), 
+        LabelledFormula aux = lff.createLabelledFormula(c.getNewFormulaLabelGreaterThan(mainLabel), 
         		sff.createSignedFormula(C1Signs.TRUE, not_y));
         
         SignedFormulaList sfl = new SignedFormulaList();
