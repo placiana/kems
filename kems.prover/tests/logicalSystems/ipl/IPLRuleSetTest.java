@@ -22,6 +22,7 @@ import org.junit.Test;
 
 
 import rules.Rule;
+import rules.IPLOnePremiseTwoConclusionsRule;
 import rules.OnePremiseTwoConclusionsRule;
 import rules.TwoPremisesOneConclusionRule;
 import rules.ipl.IPLRule;
@@ -74,13 +75,16 @@ public class IPLRuleSetTest {
 
 	@Test
 	public void testRule1FalseOR() {
-		rules.ipl.OnePremiseTwoConclusionsRule falseOrRule = IPLRules.F_OR;
+		IPLOnePremiseTwoConclusionsRule falseOrRule = IPLRules.F_OR;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
 		Formula x_or_y = ff.createCompositeFormula(IPLConnectives.OR, x, y);
+		
+		Context c = new Context();
+		
 
-		LabelledFormula main = lff.createLabelledFormula("c", sff.createSignedFormula(C1Signs.FALSE, x_or_y));
+		LabelledFormula main = lff.createLabelledFormula(c.getNewFormulaLabel(), sff.createSignedFormula(C1Signs.FALSE, x_or_y));
 		SignedFormulaList lfl = new SignedFormulaList();
 		lfl.add(main);
 
@@ -105,7 +109,7 @@ public class IPLRuleSetTest {
         T B : Ci
         
         */
-	    rules.ipl.OnePremiseTwoConclusionsRule rule = IPLRules.T_AND;
+		Rule rule = IPLRules.T_AND;
 
 		x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
@@ -193,7 +197,7 @@ public class IPLRuleSetTest {
 		T not B : Ci
 		
 		*/
-		IPLRule rule = IPLRules.T_NOT_A_OR_B;
+		Rule rule = IPLRules.T_NOT_A_OR_B;
 		Formula x = ff.createAtomicFormula("X");
 		Formula y = ff.createAtomicFormula("Y");
 		Formula or = ff.createCompositeFormula(IPLConnectives.OR, x, y);
@@ -604,7 +608,7 @@ public class IPLRuleSetTest {
         F B: cJ
         cI <= cJ
         */
-        IPLRule rule = IPLRules.F_A_IMPLIES_B_TA_FB; // Replace
+        Rule rule = IPLRules.F_A_IMPLIES_B_TA_FB; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");
@@ -644,7 +648,7 @@ public class IPLRuleSetTest {
         T not B : cK
         cI <= cK
         */
-        IPLRule rule = IPLRules.T_NOT_A_IMPLIES_B_TA_FB; // Replace
+        Rule rule = IPLRules.T_NOT_A_IMPLIES_B_TA_FB; // Replace
         
         x = ff.createAtomicFormula("X");
         Formula y = ff.createAtomicFormula("Y");

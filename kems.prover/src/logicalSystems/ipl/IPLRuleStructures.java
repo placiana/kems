@@ -7,16 +7,14 @@ package logicalSystems.ipl;
 import logic.formulas.Connective;
 import logic.logicalSystem.ISignature;
 import logic.signedFormulas.FormulaSign;
+import rules.IPLTwoPremisesOneConclusionRule;
 import rules.KERuleRole;
-import rules.ipl.OnePremiseOneConclusionRule;
 import rules.Rule;
-import rules.TwoPremisesOneConclusionRuleIPL;
 import rules.ipl.TwoPremisesOneConclusionRule;
 import rules.structures.ConnectiveRoleSignRuleList;
 import rules.structures.ConnectiveRuleStructureFactory;
 import rules.structures.IPLConnectiveRoleSignRuleList;
 import rules.structures.IPLOnePremiseRuleList;
-import rules.structures.OnePremiseRuleList;
 import rules.structures.PBRuleList;
 import rules.structures.RuleList;
 import rules.structures.RuleType;
@@ -212,7 +210,7 @@ public class IPLRuleStructures {
     
     private void addToTwoPremiseRules(Connective conn, KERuleRole role,
             FormulaSign sign, 
-			TwoPremisesOneConclusionRuleIPL r) {
+			IPLTwoPremisesOneConclusionRule r) {
         if (signature.contains(conn)) {
             addConnectiveRuleType(conn, r, RuleType.SUBSTITUTION_2P);
             twoPremiseRules.add(conn, role, sign, r);

@@ -48,7 +48,8 @@ public class BinaryConnectiveGetter implements  KELabelledFormulaGetter {
 
     public SignedFormula getSignedFormula(SignedFormulaFactory sff, FormulaFactory ff, 
             SignedFormulaList sfl) {
-        return sff.createSignedFormula(_sign, ((Formula) (_role.getFormulas(sfl.get(0).getFormula())).get(0)));
+        //return sff.createSignedFormula(_sign, ((Formula) (_role.getFormulas(sfl.get(0).getFormula())).get(0)));
+        return this.getLabelledFormula((LabelledFormulaFactory)sff, sff, ff, sfl);
     }
 
 

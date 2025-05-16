@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import logic.formulas.CompositeFormula;
+import logic.signedFormulas.PBCandidateList;
 import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaBuilder;
 import logic.signedFormulas.SignedFormulaList;
@@ -59,8 +60,10 @@ public class IPLOnePremiseRuleApplicator implements IRuleApplicator {
 
             // for each signed formula not used, if it accepts a one premise
             // rule, apply the rule and remove it form the list of candidates.
+        	
+        	PBCandidateList pbCandidates = proofTree.getPBCandidates();
 
-            SignedFormula sf = (SignedFormula) proofTree.getPBCandidates().get(i);
+            SignedFormula sf = (SignedFormula) pbCandidates.get(i);
 
             // System.err.println(sf);
             if (chooseAndApplyOnePremiseRule(proofTree, sfb, sf)) {

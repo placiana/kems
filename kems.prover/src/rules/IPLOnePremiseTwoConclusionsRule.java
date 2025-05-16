@@ -1,0 +1,50 @@
+package rules;
+
+import logic.formulas.FormulaFactory;
+import logic.signedFormulas.SignedFormula;
+import logic.signedFormulas.SignedFormulaFactory;
+import logic.signedFormulas.SignedFormulaList;
+import rules.getters.KESignedFormulaGetter;
+import rules.patterns.IUnarySignedFormulaPattern;
+import rules.patterns.ipl.IUnaryLabelledFormulaPattern;
+
+public class IPLOnePremiseTwoConclusionsRule extends Rule {
+    IUnarySignedFormulaPattern _premise;
+	//IUnaryLabelledFormulaPattern _premise;
+
+    KEAction _conclusion1, _conclusion2;
+
+    public IPLOnePremiseTwoConclusionsRule(String name,
+            IUnarySignedFormulaPattern premise, KEAction conclusion1,
+            KEAction conclusion2) {
+    	super(name);
+        _premise = premise;
+        _conclusion1 = conclusion1;
+        _conclusion2 = conclusion2;
+    }
+
+    public IPLOnePremiseTwoConclusionsRule(String name,
+            IUnaryLabelledFormulaPattern premise, KEAction conclusion1,
+            KEAction conclusion2) {
+    	super(name);
+        _premise = premise;
+        _conclusion1 = conclusion1;
+        _conclusion2 = conclusion2;
+    }
+    
+    public SignedFormulaList getPossibleConclusions(SignedFormulaFactory sff,
+            FormulaFactory ff, SignedFormulaList sfl) {
+        SignedFormula premise = sfl.get(0);
+        if (_premise.matches(premise)) {
+            SignedFormulaList l = new SignedFormulaList();
+            l.add(((KESignedFormulaGetter) _conclusion1.getContent())
+                    .getSignedFormula(sff, ff, sfl));
+
+            l.add(((KESignedFormulaGetter) _conclusion2.getContent())
+                    .getSignedFormula(sff, ff, sfl));
+            return l;
+        } else
+            return null;
+    }
+
+}

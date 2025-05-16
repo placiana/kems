@@ -12,14 +12,14 @@ import rules.ipl.KELabelledAction;
 import rules.patterns.IBinarySignedFormulaPattern;
 import rules.patterns.ISubformulaPattern;
 
-public class TwoPremisesOneConclusionRuleIPL extends TwoPremisesOneConclusionRule {
+public class IPLTwoPremisesOneConclusionRule extends TwoPremisesOneConclusionRule {
 
-	public TwoPremisesOneConclusionRuleIPL(String name, IBinarySignedFormulaPattern premise, KEAction conclusion) {
+	public IPLTwoPremisesOneConclusionRule(String name, IBinarySignedFormulaPattern premise, KEAction conclusion) {
 		super(name, premise, conclusion);
 		// TODO Auto-generated constructor stub
 	}
 
-	public TwoPremisesOneConclusionRuleIPL(String name, IBinarySignedFormulaPattern premise, KELabelledAction conclusion) {
+	public IPLTwoPremisesOneConclusionRule(String name, IBinarySignedFormulaPattern premise, KELabelledAction conclusion) {
 		super(name, premise, conclusion);
 		_premise = premise;
 	}

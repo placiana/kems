@@ -7,6 +7,7 @@ package rules.ipl;
 import logic.formulas.FormulaFactory;
 import logic.labelledFormulas.LabelledFormula;
 import logic.labelledFormulas.LabelledFormulaFactory;
+import logic.signedFormulas.SignedFormula;
 import logic.signedFormulas.SignedFormulaFactory;
 import logic.signedFormulas.SignedFormulaList;
 import rules.patterns.ipl.IUnaryLabelledFormulaPattern;
@@ -43,7 +44,8 @@ public class OnePremiseTwoConclusionsRule extends IPLRule {
 	public SignedFormulaList getPossibleConclusions(
 			LabelledFormulaFactory lff, SignedFormulaFactory sff, FormulaFactory ff,
 			SignedFormulaList lfl) {
-        LabelledFormula premise = (LabelledFormula) lfl.get(0);
+        //LabelledFormula premise = (LabelledFormula) lfl.get(0);
+        SignedFormula premise =  lfl.get(0);
         if (_premise.matches(premise)) {
             SignedFormulaList l = new SignedFormulaList();
             l.add((_conclusion1.getLabelledFormula(sff, ff, lfl)));
